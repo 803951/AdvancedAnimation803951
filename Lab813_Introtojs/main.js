@@ -39,7 +39,7 @@ function init(){
     context = canvas.getContext("2d");
     radius = 20;
     velocity = 7;
-    colors = ["orange","blue","red","green","yellow"];
+    colors = ["orange","blue","red","green","yellow","purple"];
     balls = [];
 
     createBalls(5);
