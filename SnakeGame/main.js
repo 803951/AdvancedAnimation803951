@@ -1,17 +1,19 @@
 var snake,canvas,context,direction;
 class Snake{
-  constructor(segments){
+  constructor(segments,length){
     this.segments = segments;
+    this.length = length;
   }
   move = function(){
     if(this.segments.length>0){
+      let length = this.segments[0].length;
       this.segments[0].x+=this.length*direction.x;
       this.segments[0].y+=this.length*direction.y;
 
-      if(this.segments[0].x<this.length){
+      if(this.segments[0].x<length){
         this.segments[0].x = canvas.width-this.length;
       }
-      else if(this.segments[0].x>canvas.width-this.length){
+      else if(this.segments[0].x>canvas.width-length){
         this.segments[0].x = this.length;
       }
       if(this.segments[0].yy<this.length){
