@@ -97,9 +97,9 @@ function update(){
   else{
       moveSnake();
   }
-  updateScore();
   drawSnake();
   drawApple();
+  updateScore();
 }
 function moveSnake(){
   for(var i = snakeSegments.length-1;i>0;i--){
