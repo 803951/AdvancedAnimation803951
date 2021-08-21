@@ -1,39 +1,26 @@
-var snakeSegments,canvas,context,direction,length,directionSet,snakeColor,apple,appleColor,score,gameover,timeInterval;
-class Vector2{
-  constructor(x,y){
-    this.x = x;
-    this.y = y;
-  }
-}
-class SnakeSegment{
-  constructor(x,y,length){
-      this.position = new Vector2(x,y);
-      this.length = length;
-  }
-}
+var canvas,context,restartButton;
+var snakeSegments,snakeColor,apple,appleColor,pixelSize;
+var score,gameover,timeInterval,direction,directionSet;
+
 window.addEventListener("load", init);
 document.addEventListener('keydown', function(event) {
     if(!directionSet){
       directionSet = true;
       //left
       if(event.keyCode == 37&&direction.x==0) {
-        direction.x = -1;
-        direction.y = 0;
+        direction = new Vector2(-1,0);
       }
-      //up
+      //down
       else if(event.keyCode == 38&&direction.y==0) {
-        direction.x = 0;
-        direction.y = -1;
+        direction = new Vector2(0,-1);
       }
       //right
       else if(event.keyCode == 39&&direction.x==0) {
-        direction.x = 1;
-        direction.y = 0;
+        direction = new Vector2(1,0);
       }
-      //down
+      //up
       else if(event.keyCode == 40&&direction.y==0) {
-        direction.x = 0;
-        direction.y = 1;
+        direction  = new Vector2(0,1);
       }
       else{
         directionSet = false;
@@ -42,15 +29,16 @@ document.addEventListener('keydown', function(event) {
 });
 
 function init(){
-    document.getElementById("restart").style.visibility = "hidden";
+    restartButton = document.getElementById("restart");
+    restartButton.style.visibility = "hidden";
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     score = 0;
     timeInterval = 50;
-    length = 10;
+    pixelSize = 10;
+    gameover = false;
     snakeColor = "blue";
     appleColor = "green";
-    gameover = false;
 
     let randomDirection = Math.floor(Math.random()*4)+1;
     var randomXVal = randomDirection%2*(randomDirection-2);
@@ -60,9 +48,9 @@ function init(){
     snakeSegments = [];
 
     for(var i = 0;i<10;i++){
-      let newX = -length*i*randomXVal+(canvas.width/2);
-      let newY = -length*i*randomYVal+(canvas.height/2);
-      let newSegment = new SnakeSegment(newX,newY,length);
+      let newX = -pixelSize*i*randomXVal+(canvas.width/2);
+      let newY = -pixelSize*i*randomYVal+(canvas.height/2);
+      let newSegment = new SnakeSegment(newX,newY,pixelSize);
       snakeSegments.push(newSegment);
     }
 
@@ -76,7 +64,7 @@ function animate() {
     for(var i = 0;i<snakeSegments.length-1;i++){
       for(var j = i+1;j<snakeSegments.length;j++){
         if(snakeSegments[i].position.x==snakeSegments[j].position.x&&snakeSegments[i].position.y==snakeSegments[j].position.y){
-          document.getElementById("restart").style.visibility = "visible";
+          restartButton.style.visibility = "visible";
           gameover = true
           return;
         }
@@ -87,20 +75,22 @@ function animate() {
       setTimeout(animate,timeInterval);
     }
 }
+
 function update(){
-  context.clearRect(0,0,canvas.width,canvas.height);
-  context.fillStyle = "black";
-  context.fillRect(0,0,canvas.width,canvas.height);
   if(checkForApplePickup()){
       generateNewApple();
   }
   else{
       moveSnake();
   }
+  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle = "black";
+  context.fillRect(0,0,canvas.width,canvas.height);
   drawSnake();
   drawApple();
   updateScore();
 }
+
 function moveSnake(){
 
   for(var i = snakeSegments.length-1;i>0;i--){
@@ -109,39 +99,39 @@ function moveSnake(){
     snakeSegments[i].position = new Vector2(x,y)
   }
 
-  let x = snakeSegments[0].position.x+direction.x*length;
-  let y = snakeSegments[0].position.y+direction.y*length;
+  let x = snakeSegments[0].position.x+direction.x*pixelSize;
+  let y = snakeSegments[0].position.y+direction.y*pixelSize;
 
   if(x<0){
-    x = canvas.width-length;
+    x = canvas.width-pixelSize;
   }
-  else if(x>canvas.width-length){
-    x = length;
+  else if(x>canvas.width-pixelSize){
+    x = pixelSize;
   }
   if(y<0){
-    y = canvas.height-length;
+    y = canvas.height-pixelSize;
   }
-  else if(y>canvas.height-length){
-    y = length;
+  else if(y>canvas.height-pixelSize){
+    y = pixelSize;
   }
   snakeSegments[0].position = new Vector2(x,y);
 }
 function drawSnake(){
   for(var i = 0;i<snakeSegments.length;i++){
     context.fillStyle = snakeColor;
-    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,length,length);
+    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize,pixelSize);
   }
 }
 function drawApple(){
   context.fillStyle = appleColor;
-  context.fillRect(apple.x,apple.y,length,length);
+  context.fillRect(apple.x,apple.y,pixelSize,pixelSize);
 }
 function generateNewApple(){
   let success = false;
   while(!success){
     success = true;
-    let x = Math.floor(Math.random()*((canvas.width-2*length)/length))*length+length;
-    let y = Math.floor(Math.random()*((canvas.height-2*length)/length))*length+length;
+    let x = Math.floor(Math.random()*((canvas.width-pixelSize)/pixelSize))*pixelSize;
+    let y = Math.floor(Math.random()*((canvas.height-pixelSize)/pixelSize))*pixelSize;
     for(var i = 0;i<snakeSegments.length;i++){
       if(snakeSegments[i].x==x&&snakeSegments[i].y==y){
         success = false;
@@ -152,9 +142,9 @@ function generateNewApple(){
 }
 function checkForApplePickup(){
   if(snakeSegments[0].position.x==apple.x&&snakeSegments[0].position.y==apple.y){
-    let newX = snakeSegments[0].position.x+direction.x*length;
-    let newY = snakeSegments[0].position.y+direction.y*length;
-    let newSegment = new SnakeSegment(newX,newY,length);
+    let newX = snakeSegments[0].position.x+direction.x*pixelSize;
+    let newY = snakeSegments[0].position.y+direction.y*pixelSize;
+    let newSegment = new SnakeSegment(newX,newY,pixelSize);
     snakeSegments.splice(0,0,newSegment);
     score++;
     return true;
