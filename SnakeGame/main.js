@@ -1,4 +1,4 @@
-var snakeSegments,canvas,context,direction,length,directionSet,color;
+var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor;
 class Vector{
   constructor(x,y){
     this.x = x;
@@ -47,6 +47,7 @@ function init(){
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     color = "blue";
+    appleColor = "green";
 
     let randomDirection = Math.floor(Math.random()*4)+1;
     var randomXVal = randomDirection%2*(randomDirection-2);
@@ -63,43 +64,88 @@ function init(){
       snakeSegments.push(newSegment);
     }
 
+    generateNewApple();
+
     animate();      // kick off the animation
 }
 
 function animate() {
     update();
+    for(var i = 0;i<snakeSegments.length-1;i++){
+      for(var j = i+1;j<snakeSegments.length;j++){
+        if(snakeSegments[i].x==snakeSegments[j].x&&snakeSegments[i].y==snakeSegments[j].y){
+          init();
+          return;
+        }
+      }
+    }
     setTimeout(animate,100);
     directionSet = false;
 }
 function update(){
-  moveSnake();
+  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle = "black";
+  context.fillRect(0,0,canvas.width,canvas.height);
+  if(checkForApplePickup()){
+      generateNewApple();
+  }
+  else{
+      moveSnake();
+  }
   drawSnake();
+  drawApple();
 }
 function moveSnake(){
   for(var i = snakeSegments.length-1;i>0;i--){
     snakeSegments[i].x = snakeSegments[i-1].x;
     snakeSegments[i].y = snakeSegments[i-1].y;
   }
-  snakeSegments[0].x+=direction.x*snakeSegments[0].length;
-  snakeSegments[0].y+=direction.y*snakeSegments[0].length;
+  snakeSegments[0].x+=direction.x*length;
+  snakeSegments[0].y+=direction.y*length;
 
-  if(snakeSegments[0].x<snakeSegments[0].length){
-    snakeSegments[0].x = canvas.width-snakeSegments[0].length;
+  if(snakeSegments[0].x<length){
+    snakeSegments[0].x = canvas.width-length;
   }
-  else if(snakeSegments[0].x>canvas.width-snakeSegments[0].length){
-    snakeSegments[0].x = snakeSegments[0].length;
+  else if(snakeSegments[0].x>canvas.width-length){
+    snakeSegments[0].x = length;
   }
-  if(snakeSegments[0].y<snakeSegments[0].length){
-    snakeSegments[0].y = canvas.height-snakeSegments[0].length;
+  if(snakeSegments[0].y<length){
+    snakeSegments[0].y = canvas.height-length;
   }
-  else if(snakeSegments[0].y>canvas.height-snakeSegments[0].length){
-    snakeSegments[0].y = snakeSegments[0].length;
+  else if(snakeSegments[0].y>canvas.height-length){
+    snakeSegments[0].y = length;
   }
 }
 function drawSnake(){
-  context.clearRect(0,0,canvas.width,canvas.height);
   for(var i = 0;i<snakeSegments.length;i++){
     context.fillStyle = color;
-    context.fillRect(snakeSegments[i].x,snakeSegments[i].y,snakeSegments[i].length,snakeSegments[i].length);
+    context.fillRect(snakeSegments[i].x,snakeSegments[i].y,length,length);
+  }
+}
+function drawApple(){
+  context.fillStyle = appleColor;
+  context.fillRect(apple.x,apple.y,length,length);
+}
+function generateNewApple(){
+  success = false;
+  while(!success){
+      let x = Math.floor(Math.random()*((canvas.width-2*length)/length))*length+length;
+      let y = Math.floor(Math.random()*((canvas.height-2*length)/length))*length+length;
+      for(var i = 0;i<snakeSegments.length;i++){
+        if(snakeSegments[i].x==x&&snakeSegments[i].y==y){
+          continue;
+        }
+      }
+      apple = new Vector(x,y);
+      success = true;
+  }
+}
+function checkForApplePickup(){
+  if(snakeSegments[0].x==apple.x&&snakeSegments[0].y==apple.y){
+    let newX = snakeSegments[0].x+direction.x*length;
+    let newY = snakeSegments[0].y+direction.y*length;
+    let newSegment = new SnakeSegment(newX,newY,length);
+    snakeSegments.splice(0,0,newSegment);
+    return true;
   }
 }
