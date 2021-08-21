@@ -1,4 +1,4 @@
-var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor;
+var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor,score;
 class Vector{
   constructor(x,y){
     this.x = x;
@@ -46,6 +46,7 @@ function init(){
 
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
+    score = 0;
     color = "blue";
     appleColor = "green";
 
@@ -79,7 +80,7 @@ function animate() {
         }
       }
     }
-    setTimeout(animate,100);
+    setTimeout(animate,90);
     directionSet = false;
 }
 function update(){
@@ -92,6 +93,7 @@ function update(){
   else{
       moveSnake();
   }
+  updateScore();
   drawSnake();
   drawApple();
 }
@@ -103,13 +105,13 @@ function moveSnake(){
   snakeSegments[0].x+=direction.x*length;
   snakeSegments[0].y+=direction.y*length;
 
-  if(snakeSegments[0].x<length){
+  if(snakeSegments[0].x<0){
     snakeSegments[0].x = canvas.width-length;
   }
   else if(snakeSegments[0].x>canvas.width-length){
     snakeSegments[0].x = length;
   }
-  if(snakeSegments[0].y<length){
+  if(snakeSegments[0].y<0){
     snakeSegments[0].y = canvas.height-length;
   }
   else if(snakeSegments[0].y>canvas.height-length){
@@ -127,17 +129,17 @@ function drawApple(){
   context.fillRect(apple.x,apple.y,length,length);
 }
 function generateNewApple(){
-  success = false;
+  let success = false;
   while(!success){
-      let x = Math.floor(Math.random()*((canvas.width-2*length)/length))*length+length;
-      let y = Math.floor(Math.random()*((canvas.height-2*length)/length))*length+length;
-      for(var i = 0;i<snakeSegments.length;i++){
-        if(snakeSegments[i].x==x&&snakeSegments[i].y==y){
-          continue;
-        }
+    success = true;
+    let x = Math.floor(Math.random()*((canvas.width-2*length)/length))*length+length;
+    let y = Math.floor(Math.random()*((canvas.height-2*length)/length))*length+length;
+    for(var i = 0;i<snakeSegments.length;i++){
+      if(snakeSegments[i].x==x&&snakeSegments[i].y==y){
+        success = false;
       }
-      apple = new Vector(x,y);
-      success = true;
+    }
+    if(success)apple = new Vector(x,y);
   }
 }
 function checkForApplePickup(){
@@ -146,6 +148,13 @@ function checkForApplePickup(){
     let newY = snakeSegments[0].y+direction.y*length;
     let newSegment = new SnakeSegment(newX,newY,length);
     snakeSegments.splice(0,0,newSegment);
+    score++;
     return true;
   }
+}
+function updateScore(){
+  context.font = "30px Comic Sans MS";
+  context.fillStyle = "white";
+  context.textAlign = "left";
+  context.fillText("Score: "+score, 20, 40);
 }
