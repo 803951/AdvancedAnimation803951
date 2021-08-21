@@ -57,8 +57,8 @@ function init(){
     snakeSegments = [];
 
     for(var i = 0;i<10;i++){
-      let newX = length*i*randomXVal+(canvas.width/2);
-      let newY = length*i*randomYVal+(canvas.height/2);
+      let newX = -length*i*randomXVal+(canvas.width/2);
+      let newY = -length*i*randomYVal+(canvas.height/2);
       let newSegment = new SnakeSegment(newX,newY,length);
       snakeSegments.push(newSegment);
     }
@@ -99,7 +99,7 @@ function moveSnake(){
 function drawSnake(){
   context.clearRect(0,0,canvas.width,canvas.height);
   for(var i = 0;i<snakeSegments.length;i++){
-    context.fillRect(snakeSegments[i].x,snakeSegments[i].y,snakeSegments[i].length,snakeSegments[i].length);
     context.fillStyle = color;
+    context.fillRect(snakeSegments[i].x,snakeSegments[i].y,snakeSegments[i].length,snakeSegments[i].length);
   }
 }
