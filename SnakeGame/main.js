@@ -1,4 +1,4 @@
-var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor,score;
+var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor,score,gameover;
 class Vector{
   constructor(x,y){
     this.x = x;
@@ -43,12 +43,13 @@ document.addEventListener('keydown', function(event) {
 });
 
 function init(){
-
+    document.getElementById("restart").style.visibility = "hidden";
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     score = 0;
     color = "blue";
     appleColor = "green";
+    gameover = false;
 
     let randomDirection = Math.floor(Math.random()*4)+1;
     var randomXVal = randomDirection%2*(randomDirection-2);
@@ -71,17 +72,20 @@ function init(){
 }
 
 function animate() {
-    update();
+    if(!gameover)update();
     for(var i = 0;i<snakeSegments.length-1;i++){
       for(var j = i+1;j<snakeSegments.length;j++){
         if(snakeSegments[i].x==snakeSegments[j].x&&snakeSegments[i].y==snakeSegments[j].y){
-          init();
+          gameover = true
+          document.getElementById("restart").style.visibility = "visible";
           return;
         }
       }
     }
-    setTimeout(animate,90);
-    directionSet = false;
+    if(!gameover){
+      directionSet = false;
+      setTimeout(animate,90);
+    }
 }
 function update(){
   context.clearRect(0,0,canvas.width,canvas.height);
