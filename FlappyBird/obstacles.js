@@ -5,5 +5,6 @@ class Obstacle{
     this.width = width;
     this.height = height;
     this.color = color;
+    this.scoreCounted = false;
   }
 }
