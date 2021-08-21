@@ -1,5 +1,20 @@
 window.addEventListener("load", init);
 
+var colors,balls,walls,canvas,context,velocity,radius;
+
+class Wall{
+  constructor(x,y,w,h){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+  draw = function(){
+    context.fillStyle = "gray";
+    context.fillRect(this.x,this.y,this.w,this.h);
+  }
+}
+
 class Ball{
   constructor(x,y,dx,dy,r,color){
     this.x = x;
@@ -8,10 +23,6 @@ class Ball{
     this.dy = dy;
     this.r = r;
     this.color = color;
-  }
-  update = function(){
-    this.x+=this.dx;
-    this.y+=this.dy;
   }
   draw = function(){
     context.beginPath();
@@ -28,10 +39,45 @@ class Ball{
     if(this.y<=this.r||this.y>=canvas.height-this.r){
       this.dy*=-1;
     }
+
+    for(var i = 0;i<walls.length;i++){
+      let distX = Math.abs(this.x-walls[i].x-walls[i].w/2);
+      let distY = Math.abs(this.y-walls[i].y-walls[i].h/2);
+
+      if (distX > (walls[i].w / 2 + this.r)) {
+        continue;
+      }
+      if (distY > (walls[i].h / 2 + this.r)) {
+        continue;
+      }
+
+      if (distX <= (walls[i].w / 2)) {
+        this.dx*=-1;
+        this.x+=this.dx;
+      }
+      if (distY <= (walls[i].h / 2)) {
+        this.dy*=-1;
+        this.y+=this.dy;
+      }
+
+      var dx = distX - walls[i].w / 2;
+      var dy = distY - walls[i].h / 2;
+
+      if (dx * dx + dy * dy <= (this.r * this.r)){
+        this.dx*=-1;
+        this.dy*=-1;
+        this.x+=this.dx;
+        this.y+=this.dy;
+      }
+    }
+  }
+  update = function(){
+    this.checkEdges();
+    this.x+=this.dx;
+    this.y+=this.dy;
+    this.draw();
   }
 }
-
-var colors,balls,canvas,context,velocity,radius;
 
 function init(){
 
@@ -42,7 +88,27 @@ function init(){
     colors = ["orange","blue","red","green","yellow","purple"];
     balls = [];
 
-    createBalls(5);
+    let x1 = canvas.width/2-30;
+    let y1 = 0;
+    let w1 = 40;
+    let h1 = 160;
+    let wall1 = new Wall(x1,y1,w1,h1);
+
+    let x2 = 70;
+    let y2 = canvas.height/5;
+    let w2 = 40;
+    let h2 = canvas.height*4/5;
+    let wall2 = new Wall(x2,y2,w2,h2);
+
+    let x3 = canvas.width-150;
+    let y3 = canvas.height/3;
+    let w3 = 40;
+    let h3 = canvas.height*2/3;
+    let wall3 = new Wall(x3,y3,w3,h3);
+
+    walls = [wall1,wall2,wall3];
+
+    createBalls(1);
     animate();      // kick off the animation
 }
 //creates a certain number of balls
@@ -75,8 +141,9 @@ function animate() {
 // move the circle to a new location
 function update() {
     for(var i = 0;i<balls.length;i++){
-      balls[i].checkEdges();
       balls[i].update();
-      balls[i].draw();
+    }
+    for(var i = 0;i<walls.length;i++){
+      walls[i].draw();
     }
 }
