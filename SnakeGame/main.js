@@ -149,6 +149,7 @@ function checkForApplePickup(){
     score++;
     return true;
   }
+  return false;
 }
 function updateScore(){
   context.font = "30px Comic Sans MS";
