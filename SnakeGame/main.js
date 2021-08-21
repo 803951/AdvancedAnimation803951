@@ -1,5 +1,5 @@
-var snakeSegments,canvas,context,direction,length,directionSet,color,apple,appleColor,score,gameover;
-class Vector{
+var snakeSegments,canvas,context,direction,length,directionSet,snakeColor,apple,appleColor,score,gameover,timeInterval;
+class Vector2{
   constructor(x,y){
     this.x = x;
     this.y = y;
@@ -7,8 +7,7 @@ class Vector{
 }
 class SnakeSegment{
   constructor(x,y,length){
-      this.x = x;
-      this.y = y;
+      this.position = new Vector2(x,y);
       this.length = length;
   }
 }
@@ -47,16 +46,17 @@ function init(){
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     score = 0;
-    color = "blue";
+    timeInterval = 50;
+    length = 10;
+    snakeColor = "blue";
     appleColor = "green";
     gameover = false;
 
     let randomDirection = Math.floor(Math.random()*4)+1;
     var randomXVal = randomDirection%2*(randomDirection-2);
     var randomYVal = (-1*randomDirection%2+1)*(randomDirection-3);
-    direction = new Vector(randomXVal,randomYVal);
+    direction = new Vector2(randomXVal,randomYVal);
     directionSet = true;
-    length = 20;
     snakeSegments = [];
 
     for(var i = 0;i<10;i++){
@@ -75,16 +75,16 @@ function animate() {
     if(!gameover)update();
     for(var i = 0;i<snakeSegments.length-1;i++){
       for(var j = i+1;j<snakeSegments.length;j++){
-        if(snakeSegments[i].x==snakeSegments[j].x&&snakeSegments[i].y==snakeSegments[j].y){
-          gameover = true
+        if(snakeSegments[i].position.x==snakeSegments[j].position.x&&snakeSegments[i].position.y==snakeSegments[j].position.y){
           document.getElementById("restart").style.visibility = "visible";
+          gameover = true
           return;
         }
       }
     }
     if(!gameover){
       directionSet = false;
-      setTimeout(animate,90);
+      setTimeout(animate,timeInterval);
     }
 }
 function update(){
@@ -102,30 +102,34 @@ function update(){
   updateScore();
 }
 function moveSnake(){
-  for(var i = snakeSegments.length-1;i>0;i--){
-    snakeSegments[i].x = snakeSegments[i-1].x;
-    snakeSegments[i].y = snakeSegments[i-1].y;
-  }
-  snakeSegments[0].x+=direction.x*length;
-  snakeSegments[0].y+=direction.y*length;
 
-  if(snakeSegments[0].x<0){
-    snakeSegments[0].x = canvas.width-length;
+  for(var i = snakeSegments.length-1;i>0;i--){
+    let x = snakeSegments[i-1].position.x;
+    let y = snakeSegments[i-1].position.y;
+    snakeSegments[i].position = new Vector2(x,y)
   }
-  else if(snakeSegments[0].x>canvas.width-length){
-    snakeSegments[0].x = length;
+
+  let x = snakeSegments[0].position.x+direction.x*length;
+  let y = snakeSegments[0].position.y+direction.y*length;
+
+  if(x<0){
+    x = canvas.width-length;
   }
-  if(snakeSegments[0].y<0){
-    snakeSegments[0].y = canvas.height-length;
+  else if(x>canvas.width-length){
+    x = length;
   }
-  else if(snakeSegments[0].y>canvas.height-length){
-    snakeSegments[0].y = length;
+  if(y<0){
+    y = canvas.height-length;
   }
+  else if(y>canvas.height-length){
+    y = length;
+  }
+  snakeSegments[0].position = new Vector2(x,y);
 }
 function drawSnake(){
   for(var i = 0;i<snakeSegments.length;i++){
-    context.fillStyle = color;
-    context.fillRect(snakeSegments[i].x,snakeSegments[i].y,length,length);
+    context.fillStyle = snakeColor;
+    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,length,length);
   }
 }
 function drawApple(){
@@ -143,13 +147,13 @@ function generateNewApple(){
         success = false;
       }
     }
-    if(success)apple = new Vector(x,y);
+    if(success)apple = new Vector2(x,y);
   }
 }
 function checkForApplePickup(){
-  if(snakeSegments[0].x==apple.x&&snakeSegments[0].y==apple.y){
-    let newX = snakeSegments[0].x+direction.x*length;
-    let newY = snakeSegments[0].y+direction.y*length;
+  if(snakeSegments[0].position.x==apple.x&&snakeSegments[0].position.y==apple.y){
+    let newX = snakeSegments[0].position.x+direction.x*length;
+    let newY = snakeSegments[0].position.y+direction.y*length;
     let newSegment = new SnakeSegment(newX,newY,length);
     snakeSegments.splice(0,0,newSegment);
     score++;
