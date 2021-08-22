@@ -23,6 +23,7 @@ class Ball{
     this.dy = dy;
     this.r = r;
     this.color = color;
+    this.isBouncingOffWall = false;
   }
   draw = function(){
     context.beginPath();
@@ -52,27 +53,38 @@ class Ball{
       }
 
       if (distX <= (walls[i].w / 2)) {
-        this.dx*=-1;
-        this.x+=this.dx;
+        if(!this.isBouncingOffWall){
+          this.isBouncingOffWall = true;
+          this.dy*=-1;
+        }
+        return true;
       }
       if (distY <= (walls[i].h / 2)) {
-        this.dy*=-1;
-        this.y+=this.dy;
+        if(!this.isBouncingOffWall){
+          this.isBouncingOffWall = true;
+          this.dx*=-1;
+        }
+        return true;
       }
 
       var dx = distX - walls[i].w / 2;
       var dy = distY - walls[i].h / 2;
 
       if (dx * dx + dy * dy <= (this.r * this.r)){
-        this.dx*=-1;
-        this.dy*=-1;
-        this.x+=this.dx;
-        this.y+=this.dy;
+        if(!this.isBouncingOffWall){
+          this.isBouncingOffWall = true;
+          this.dx*=-1;
+          this.dy*=-1;
+        }
+        return true;
       }
     }
+    return false;
   }
   update = function(){
-    this.checkEdges();
+    if(!this.checkEdges()){
+       this.isBouncingOffWall = false;
+    }
     this.x+=this.dx;
     this.y+=this.dy;
     this.draw();
@@ -108,7 +120,7 @@ function init(){
 
     walls = [wall1,wall2,wall3];
 
-    createBalls(1);
+    createBalls(10);
     animate();      // kick off the animation
 }
 //creates a certain number of balls
