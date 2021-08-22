@@ -35,7 +35,7 @@ function init(){
     context = canvas.getContext("2d");
     score = 0;
     timeInterval = 50;
-    pixelSize = 10;
+    pixelSize = 15;
     gameover = false;
     snakeColor = "blue";
     appleColor = "green";
@@ -119,12 +119,12 @@ function moveSnake(){
 function drawSnake(){
   for(var i = 0;i<snakeSegments.length;i++){
     context.fillStyle = snakeColor;
-    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize,pixelSize);
+    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize*0.9,pixelSize*0.9);
   }
 }
 function drawApple(){
   context.fillStyle = appleColor;
-  context.fillRect(apple.x,apple.y,pixelSize,pixelSize);
+  context.fillRect(apple.x,apple.y,pixelSize*0.9,pixelSize*0.9);
 }
 function generateNewApple(){
   let success = false;
