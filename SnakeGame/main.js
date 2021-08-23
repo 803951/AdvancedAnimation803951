@@ -37,8 +37,9 @@ function init(){
     timeInterval = 50;
     pixelSize = 15;
     gameover = false;
-    snakeColor = "blue";
-    appleColor = "green";
+    appleColor = "white";
+
+    snakeColor = {r:0,g:255,b:0};
 
     let randomDirection = Math.floor(Math.random()*4)+1;
     var randomXVal = randomDirection%2*(randomDirection-2);
@@ -106,19 +107,23 @@ function moveSnake(){
     x = canvas.width-pixelSize;
   }
   else if(x>canvas.width-pixelSize){
-    x = pixelSize;
+    x = 0;
   }
   if(y<0){
     y = canvas.height-pixelSize;
   }
   else if(y>canvas.height-pixelSize){
-    y = pixelSize;
+    y = 0;
   }
   snakeSegments[0].position = new Vector2(x,y);
 }
 function drawSnake(){
   for(var i = 0;i<snakeSegments.length;i++){
-    context.fillStyle = snakeColor;
+    let alpha = 1-i*1.0/(snakeSegments.length+1)
+
+    context.fillStyle = "rgb(255, 255, 255, 0.1)";
+    context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize*0.9,pixelSize*0.9);
+    context.fillStyle = "rgb("+snakeColor.r+", "+snakeColor.g+", "+snakeColor.b+", "+alpha+")";
     context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize*0.9,pixelSize*0.9);
   }
 }
@@ -126,19 +131,20 @@ function drawApple(){
   context.fillStyle = appleColor;
   context.fillRect(apple.x,apple.y,pixelSize*0.9,pixelSize*0.9);
 }
+function randomPosition(){
+  let x = Math.floor(Math.random()*((canvas.width-pixelSize)/pixelSize))*pixelSize;
+  let y = Math.floor(Math.random()*((canvas.height-pixelSize)/pixelSize))*pixelSize;
+  return new Vector2(x,y);
+}
 function generateNewApple(){
-  let success = false;
-  while(!success){
-    success = true;
-    let x = Math.floor(Math.random()*((canvas.width-pixelSize)/pixelSize))*pixelSize;
-    let y = Math.floor(Math.random()*((canvas.height-pixelSize)/pixelSize))*pixelSize;
+    let applePos = randomPosition();
     for(var i = 0;i<snakeSegments.length;i++){
-      if(snakeSegments[i].x==x&&snakeSegments[i].y==y){
-        success = false;
+      if(snakeSegments[i].position.x == applePos.x&&snakeSegments[i].position.y==applePos.y){
+        generateNewApple();
+        return;
       }
     }
-    if(success)apple = new Vector2(x,y);
-  }
+    apple = applePos;
 }
 function checkForApplePickup(){
   if(snakeSegments[0].position.x==apple.x&&snakeSegments[0].position.y==apple.y){
