@@ -28,10 +28,8 @@ class Ball{
   draw = function(){
     context.beginPath();
     context.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    context.strokeStyle = "black";  // color to fill
     context.fillStyle = this.color;     // color to stroke
     context.fill();     // render the fill
-    context.stroke();
   }
   checkEdges = function(){
     if(this.x<=this.r||this.x>=canvas.width-this.r){
@@ -97,7 +95,7 @@ function init(){
     context = canvas.getContext("2d");
     radius = 20;
     velocity = 7;
-    colors = ["orange","blue","red","green","yellow","purple"];
+    colors = ["#7FFFD4","#FF7F50","#D2691E","#9932CC","#E9967A","#FFD700","#FF69B4","#90EE90"];
     balls = [];
 
     let x1 = canvas.width/2-30;
@@ -107,9 +105,9 @@ function init(){
     let wall1 = new Wall(x1,y1,w1,h1);
 
     let x2 = 70;
-    let y2 = canvas.height/5;
+    let y2 = canvas.height/4;
     let w2 = 40;
-    let h2 = canvas.height*4/5;
+    let h2 = canvas.height*3/4;
     let wall2 = new Wall(x2,y2,w2,h2);
 
     let x3 = canvas.width-150;
