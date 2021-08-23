@@ -121,7 +121,7 @@ function drawSnake(){
   for(var i = 0;i<snakeSegments.length;i++){
     let alpha = 1-i*1.0/(snakeSegments.length+1)
 
-    context.fillStyle = "rgb(255, 255, 255, 0.1)";
+    context.fillStyle = "rgb(255, 255, 255, 0.5)";
     context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize*0.9,pixelSize*0.9);
     context.fillStyle = "rgb("+snakeColor.r+", "+snakeColor.g+", "+snakeColor.b+", "+alpha+")";
     context.fillRect(snakeSegments[i].position.x,snakeSegments[i].position.y,pixelSize*0.9,pixelSize*0.9);
