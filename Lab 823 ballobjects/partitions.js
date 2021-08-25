@@ -20,22 +20,22 @@ class Partition{
     context.stroke();
   }
   checkPartitionSize = function(){
-    if(this.x1-this.x2>this.minSize){
+    if(this.balls.length>this.maxObjects&&this.x2-this.x1>this.minSize){
       let newBalls = balls;
+
       this.partitions = [];
 
-      let newPartition = new Partition(this.x1,this.y1,this.x2/2,this.y2/2,newBalls,this.maxObjects,this.minSize);
-      console.log(newPartition);
-      this.partitions.push(newPartition);
+      let newPartition1 = new Partition(this.x1,this.y1,(this.x2+this.x1)/2,(this.y2+this.y1)/2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition1);
 
-      newPartition = new Partition((this.x1+this.x2)/2,this.y1,this.x2,this.y2/2,newBalls,this.maxObjects,this.minSize);
-      this.partitions.push(newPartition);
+      let newPartition2 = new Partition((this.x1+this.x2)/2,this.y1,this.x2,(this.y2+this.y1)/2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition2);
 
-      newPartition = new Partition(this.x1,(this.y1+this.y2)/2,this.x2/2,this.y2,newBalls,this.maxObjects,this.minSize);
-      this.partitions.push(newPartition);
+      let newPartition3 = new Partition(this.x1,(this.y1+this.y2)/2,(this.x2+this.x1)/2,this.y2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition3);
 
-      newPartition = new Partition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2,newBalls,this.maxObjects,this.minSize);
-      this.partitions.push(newPartition);
+      let newPartition4 = new Partition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition4);
     }
   }
   update = function(){
