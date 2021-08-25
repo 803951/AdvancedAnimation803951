@@ -28,14 +28,14 @@ class Partition{
       console.log(newPartition);
       this.partitions.push(newPartition);
 
-      /*newPartition = new Partition((this.x1+this.x2)/2,this.y1,this.x2,this.y2/2,newBalls,this.maxObjects,this.minSize);
+      newPartition = new Partition((this.x1+this.x2)/2,this.y1,this.x2,this.y2/2,newBalls,this.maxObjects,this.minSize);
       this.partitions.push(newPartition);
 
       newPartition = new Partition(this.x1,(this.y1+this.y2)/2,this.x2/2,this.y2,newBalls,this.maxObjects,this.minSize);
       this.partitions.push(newPartition);
 
       newPartition = new Partition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2,newBalls,this.maxObjects,this.minSize);
-      this.partitions.push(newPartition);*/
+      this.partitions.push(newPartition);
     }
   }
   update = function(){
