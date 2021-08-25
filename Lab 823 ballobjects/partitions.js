@@ -10,9 +10,9 @@ class Partition{
   draw = function(){
     context.strokeStyle = "black";
     context.beginPath();
-    context.moveTo(x2,y1);
-    context.lineTo(x2,y2);
-    context.lineTo(x1,y2);
+    context.moveTo(this.x2,this.y1);
+    context.lineTo(this.x2,this.y2);
+    context.lineTo(this.x1,this.y2);
     context.stroke();
   }
 }
