@@ -2,50 +2,6 @@ window.addEventListener("load", init);
 
 var balls,canvas,context,velocity,radius;
 
-class Ball{
-  constructor(x,y,dx,dy,r,color1,color2){
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-    this.r = r;
-    this.color1 = color1;
-    this.color2 = color2;
-    this.color = color1;
-    this.colorUpdated = false;
-  }
-  setOverlapping = function(isOverlapping){
-    if(isOverlapping){
-      this.color = this.color2;
-      this.colorUpdated = true;
-    }
-    else{
-      this.color = this.color1;
-    }
-  }
-  draw = function(){
-    context.beginPath();
-    context.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    context.fillStyle = this.color;     // color to stroke
-    context.fill();     // render the fill
-    this.colorUpdated = false;
-  }
-  checkEdges = function(){
-    if(this.x<=this.r||this.x>=canvas.width-this.r){
-      this.dx*=-1;
-    }
-    if(this.y<=this.r||this.y>=canvas.height-this.r){
-      this.dy*=-1;
-    }
-  }
-  update = function(){
-    this.x+=this.dx;
-    this.y+=this.dy;
-    this.checkEdges();
-    this.draw();
-  }
-}
-
 function init(){
 
     canvas = document.getElementById("cnv");
@@ -67,7 +23,7 @@ function createBalls(ballAmount){
     let dxVal = (1-2*Math.round(Math.random()))*randomVal(velocity);
     let dyVal = (1-2*Math.round(Math.random()))*randomVal(velocity);
 
-    let newBall = new Ball(xPos,yPos,dxVal,dyVal,randomVal(radius),"blue","orange");
+    let newBall = new Ball(xPos,yPos,dxVal,dyVal,radius,"blue","orange");
     balls.push(newBall);
 
   }
