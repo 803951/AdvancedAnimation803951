@@ -95,12 +95,13 @@ function update() {
   while(uncheckedBalls.length>0){
     let ballIndex = uncheckedBalls[0];
     let isOverlapping = false;
-    for(var i = 0;i<balls.length;i++){
-      if(i==ballIndex) continue;
-      if(ballsIntersecting(balls[i],balls[ballIndex])){
+    for(var i = 1;i<uncheckedBalls.length;i++){
+      let otherBallIndex = uncheckedBalls[i];
+      if(otherBallIndex==ballIndex) continue;
+      if(ballsIntersecting(balls[otherBallIndex],balls[ballIndex])){
         isOverlapping = true;
-        balls[i].setOverlapping(isOverlapping);
-        uncheckedBalls.splice(uncheckedBalls.indexOf(i),1);
+        balls[otherBallIndex].setOverlapping(isOverlapping);
+        uncheckedBalls.splice(i,1);
         break;
       }
     }
