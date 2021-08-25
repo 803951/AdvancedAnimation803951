@@ -19,7 +19,27 @@ class Partition{
     context.lineTo(this.x1,this.y2);
     context.stroke();
   }
+  checkPartitionSize = function(){
+    if(this.x1-this.x2>this.minSize){
+      let newBalls = balls;
+      this.partitions = [];
+
+      let newPartition = new Partition(this.x1,this.y1,this.x2/2,this.y2/2,newBalls,this.maxObjects,this.minSize);
+      console.log(newPartition);
+      this.partitions.push(newPartition);
+
+      /*newPartition = new Partition((this.x1+this.x2)/2,this.y1,this.x2,this.y2/2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition);
+
+      newPartition = new Partition(this.x1,(this.y1+this.y2)/2,this.x2/2,this.y2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition);
+
+      newPartition = new Partition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2,newBalls,this.maxObjects,this.minSize);
+      this.partitions.push(newPartition);*/
+    }
+  }
   update = function(){
+    this.checkPartitionSize();
     this.draw();
     for(var i = 0;i<this.partitions.length;i++){
       this.partitions[i].update();

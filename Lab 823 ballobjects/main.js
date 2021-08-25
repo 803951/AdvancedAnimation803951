@@ -26,7 +26,7 @@ function createBalls(ballAmount){
     let dxVal = (1-2*Math.round(Math.random()))*randomVal(velocity);
     let dyVal = (1-2*Math.round(Math.random()))*randomVal(velocity);
 
-    let newBall = new Ball(xPos,yPos,dxVal,dyVal,radius,"blue","orange");
+    let newBall = new Ball(xPos,yPos,dxVal,dyVal,randomVal(radius),"blue","orange");
     balls.push(newBall);
 
   }
