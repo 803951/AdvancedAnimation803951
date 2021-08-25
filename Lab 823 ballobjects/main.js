@@ -93,7 +93,7 @@ function ballsIntersecting(ball1,ball2){
 function update() {
   for(var i = 0;i<balls.length;i++){
     let isOverlapping = false;
-    for(var k = i+1;k<bal.ls.length;k++){
+    for(var k = i+1;k<balls.length;k++){
       if(k==i) continue;
       if(ballsIntersecting(balls[i],balls[k])){
         isOverlapping = true;
