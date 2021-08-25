@@ -13,4 +13,7 @@ class Ball{
     this.context.fillStyle = this.color;
     this.context.fill();
   }
+  move = function(curve){
+
+  }
 }

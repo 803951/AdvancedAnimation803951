@@ -8,7 +8,7 @@ function init(){
   balls = [];
   curves = [];
 
-  let coefficients1 = [5,0.1,0.01];
+  let coefficients1 = [5,0,0,0,0.0000001];
   let curve1 = new Curve(coefficients1,1,"black");
   curves.push(curve1);
 
