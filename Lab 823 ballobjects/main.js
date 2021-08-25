@@ -1,6 +1,6 @@
 window.addEventListener("load", init);
 
-var balls,canvas,context,velocity,radius,partitions;
+var balls,canvas,context,velocity,radius,partition;
 
 function init(){
 
@@ -9,7 +9,6 @@ function init(){
     radius = 20;
     velocity = 2;
     balls = [];
-    partitions = [];
 
     createBalls(10);
     animate();      // kick off the animation
@@ -33,19 +32,9 @@ function createBalls(ballAmount){
   }
 
 }
-function partition(){
-  partitions = [];
-  let minPartitionSize = balls.length;//one partition so initial partition has all the balls
-
-  let partition1 = new Partition(0,0,canvas.width/2,canvas.height/2);
-  let partition2 = new Partition(canvas.width/2,0,canvas.width,canvas.height/2);
-  let partition3 = new Partition(0,canvas.height/2,canvas.width/2,canvas.height);
-  let partition4 = new Partition(canvas.width/2,canvas.height/2,canvas.width,canvas.height);
-
-  partitions.push(partition1);
-  partitions.push(partition2);
-  partitions.push(partition3);
-  partitions.push(partition4);
+function partitionBalls(){
+  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
+  partition.update();
 }
 // every animation cycle
 function animate() {
@@ -75,8 +64,5 @@ function update() {
     if(!balls[i].colorUpdated)balls[i].setOverlapping(isOverlapping);
     balls[i].update();
   }
-  partition();
-  for(var i = 0;i<partitions.length;i++){
-    partitions[i].draw();
-  }
+  partitionBalls();
 }
