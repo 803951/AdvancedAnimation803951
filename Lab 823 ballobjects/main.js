@@ -12,10 +12,12 @@ class Ball{
     this.color1 = color1;
     this.color2 = color2;
     this.color = color1;
+    this.colorUpdated = false;
   }
   setOverlapping = function(isOverlapping){
     if(isOverlapping){
       this.color = this.color2;
+      this.colorUpdated = true;
     }
     else{
       this.color = this.color1;
@@ -26,6 +28,7 @@ class Ball{
     context.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     context.fillStyle = this.color;     // color to stroke
     context.fill();     // render the fill
+    this.colorUpdated = false;
   }
   checkEdges = function(){
     if(this.x<=this.r||this.x>=canvas.width-this.r){
@@ -86,27 +89,19 @@ function ballsIntersecting(ball1,ball2){
   dist = Math.sqrt(distX*distX+distY*distY);
   return (dist <= ball1.r + ball2.r);
 }
-function range(start, end) {
-  return Array(end - start + 1).fill().map((_, idx) => start + idx)
-}
 // move the circle to a new location
 function update() {
-  var uncheckedBalls = range(0,balls.length-1);
-  while(uncheckedBalls.length>0){
-    let ballIndex = uncheckedBalls[0];
+  for(var i = 0;i<balls.length;i++){
     let isOverlapping = false;
-    for(var i = 1;i<uncheckedBalls.length;i++){
-      let otherBallIndex = uncheckedBalls[i];
-      if(otherBallIndex==ballIndex) continue;
-      if(ballsIntersecting(balls[otherBallIndex],balls[ballIndex])){
+    for(var k = i+1;k<balls.length;k++){
+      if(k==i) continue;
+      if(ballsIntersecting(balls[i],balls[k])){
         isOverlapping = true;
-        balls[otherBallIndex].setOverlapping(isOverlapping);
-        uncheckedBalls.splice(i,1);
+        balls[k].setOverlapping(true);
         break;
       }
     }
-    uncheckedBalls.splice(0,1);
-    balls[ballIndex].setOverlapping(isOverlapping);
+    if(!balls[i].colorUpdated)balls[i].setOverlapping(isOverlapping);
   }
 
   for(var i = 0;i<balls.length;i++){
