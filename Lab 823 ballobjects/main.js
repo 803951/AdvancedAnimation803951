@@ -86,18 +86,26 @@ function ballsIntersecting(ball1,ball2){
   dist = Math.sqrt(distX*distX+distY*distY);
   return (dist <= ball1.r + ball2.r);
 }
+function range(start, end) {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
 // move the circle to a new location
 function update() {
-  for(var k = 0;k<balls.length;k++){
+  var uncheckedBalls = range(0,balls.length-1);
+  while(uncheckedBalls.length>0){
+    let ballIndex = uncheckedBalls[0];
     let isOverlapping = false;
     for(var i = 0;i<balls.length;i++){
-      if(i==k) continue;
-      if(ballsIntersecting(balls[i],balls[k])){
+      if(i==ballIndex) continue;
+      if(ballsIntersecting(balls[i],balls[ballIndex])){
         isOverlapping = true;
+        balls[i].setOverlapping(isOverlapping);
+        uncheckedBalls.splice(uncheckedBalls.indexOf(i),1);
         break;
       }
     }
-    balls[k].setOverlapping(isOverlapping);
+    uncheckedBalls.splice(0,1);
+    balls[ballIndex].setOverlapping(isOverlapping);
   }
 
   for(var i = 0;i<balls.length;i++){
