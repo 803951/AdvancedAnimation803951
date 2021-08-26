@@ -16,16 +16,20 @@ class Ball{
     this.context.fillStyle = this.color;
     this.context.fill();
   }
-  updateVelocity = function(){
+  updateVelocity = function(constraints){
     this.dy-=this.gravity;
 
-    if(this.y<=this.radius){
+    for(var i = 0;i<constraints.length;i++){
+      let slope = constraints[i].derivative(this.x);
+      console.log(slope);
+    }
+
+    if(this.y<this.radius){
       this.y = this.radius;
       this.dy = 0;
     }
   }
-  move = function(curve){
-    this.updateVelocity();
+  move = function(){
     this.x+=this.dx;
     this.y+=this.dy;
   }

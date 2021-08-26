@@ -21,6 +21,7 @@ function init(){
 function update(){
   context.clearRect(0,0,canvas.width,canvas.height);
   for(var i = 0;i<balls.length;i++){
+    balls[i].updateVelocity(curves);
     balls[i].move();
     balls[i].draw();
   }
