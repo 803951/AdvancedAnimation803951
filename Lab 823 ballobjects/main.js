@@ -32,10 +32,6 @@ function createBalls(ballAmount){
   }
 
 }
-function partitionBalls(){
-  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
-  partition.update();
-}
 // every animation cycle
 function animate() {
     // erase the HTMLCanvasElement
@@ -43,26 +39,8 @@ function animate() {
     update();   // update location   // render
     requestAnimationFrame(animate); // next cycle
 }
-function ballsIntersecting(ball1,ball2){
-  distX = ball1.x-ball2.x;
-  distY = ball1.y-ball2.y;
-  dist = Math.sqrt(distX*distX+distY*distY);
-  return (dist <= ball1.r + ball2.r);
-}
 // move the circle to a new location
 function update() {
-  for(var i = 0;i<balls.length;i++){
-    let isOverlapping = false;
-    for(var k = i+1;k<balls.length;k++){
-      if(k==i) continue;
-      if(ballsIntersecting(balls[i],balls[k])){
-        isOverlapping = true;
-        balls[k].setOverlapping(true);
-        break;
-      }
-    }
-    if(!balls[i].colorUpdated)balls[i].setOverlapping(isOverlapping);
-    balls[i].update();
-  }
-  partitionBalls();
+  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,600);
+  partition.update();
 }
