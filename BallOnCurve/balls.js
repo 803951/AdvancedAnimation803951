@@ -1,11 +1,14 @@
 class Ball{
-  constructor(x,y,radius,color){
+  constructor(x,y,radius,gravity,color){
     this.canvas = document.getElementById("cnv");
     this.context = this.canvas.getContext("2d");
     this.x = x;
     this.y = y;
+    this.dx = 0;
+    this.dy = 0;
     this.radius = radius;
     this.color = color;
+    this.gravity = gravity;
   }
   draw = function(){
     this.context.beginPath();
@@ -13,7 +16,17 @@ class Ball{
     this.context.fillStyle = this.color;
     this.context.fill();
   }
-  move = function(curve){
+  updateVelocity = function(){
+    this.dy-=this.gravity;
 
+    if(this.y<=this.radius){
+      this.y = this.radius;
+      this.dy = 0;
+    }
+  }
+  move = function(curve){
+    this.updateVelocity();
+    this.x+=this.dx;
+    this.y+=this.dy;
   }
 }
