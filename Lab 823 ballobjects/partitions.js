@@ -22,8 +22,8 @@ class Partition{
   ballsIntersecting = function(ball1,ball2){
     let distX = ball1.x-ball2.x;
     let distY = ball1.y-ball2.y;
-    let dist = Math.sqrt(distX*distX+distY*distY);
-    return (dist <= ball1.r + ball2.r);
+    let distSqrd = distX*distX+distY*distY;
+    return (distSqrd <= ball1.r*ball1.r + ball2.r*ball2.r + 2*ball1.r*ball2.r); // efficient distance comparison since does not take sqrt
   }
   checkPartitionSize = function(){
     if(this.balls.length>this.maxObjects&&this.x2-this.x1>this.minSize){
