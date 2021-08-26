@@ -45,22 +45,29 @@ class Partition{
       }
     }
   }
+  createPartition = function(x1,y1,x2,y2){
+    let newBalls = [];
+
+    //put correct balls in the partition
+    for(var i = 0;i<this.balls.length;i++){ //TODO: move balls between partitions rather than reset ball positions in partitions
+      if(this.balls[i].x>=x1&&this.balls[i].x<=x2&&this.balls[i].y>=y1&&this.balls[i].y<=y2){
+        newBalls.push(this.balls[i]);
+      }
+    }
+
+    let newPartition = new Partition(x1,y1,x2,y2,newBalls,this.maxObjects,this.minSize);
+    this.partitions.push(newPartition);
+
+  }
   partition = function(){
-    let newBalls = balls;
 
-    this.partitions = [];
+    this.partitions = []; //reset partition array TODO: add and remove partitions as code runs rather than reset each frame
 
-    let newPartition1 = new Partition(this.x1,this.y1,(this.x2+this.x1)/2,(this.y2+this.y1)/2,newBalls,this.maxObjects,this.minSize);
-    this.partitions.push(newPartition1);
+    this.createPartition(this.x1,this.y1,(this.x1+this.x2)/2,(this.y1+this.y2)/2); //top left quadrant
+    this.createPartition((this.x1+this.x2)/2,this.y1,this.x2,(this.y2+this.y1)/2); //top right quadrant
+    this.createPartition(this.x1,(this.y1+this.y2)/2,(this.x2+this.x1)/2,this.y2); //bottom left quadrant
+    this.createPartition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2); //bottom right quadrant
 
-    let newPartition2 = new Partition((this.x1+this.x2)/2,this.y1,this.x2,(this.y2+this.y1)/2,newBalls,this.maxObjects,this.minSize);
-    this.partitions.push(newPartition2);
-
-    let newPartition3 = new Partition(this.x1,(this.y1+this.y2)/2,(this.x2+this.x1)/2,this.y2,newBalls,this.maxObjects,this.minSize);
-    this.partitions.push(newPartition3);
-
-    let newPartition4 = new Partition((this.x1+this.x2)/2,(this.y1+this.y2)/2,this.x2,this.y2,newBalls,this.maxObjects,this.minSize);
-    this.partitions.push(newPartition4);
   }
   update = function(){
     this.checkPartitionSize();

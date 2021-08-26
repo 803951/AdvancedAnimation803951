@@ -41,6 +41,6 @@ function animate() {
 }
 // move the circle to a new location
 function update() {
-  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,600);
+  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
   partition.update();
 }
