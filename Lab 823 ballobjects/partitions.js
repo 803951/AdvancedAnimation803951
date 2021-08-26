@@ -41,7 +41,6 @@ class Partition{
           }
         }
         if(!this.balls[i].colorUpdated) this.balls[i].setOverlapping(isOverlapping);
-        this.balls[i].update();
       }
     }
   }
@@ -50,7 +49,8 @@ class Partition{
 
     //put correct balls in the partition
     for(var i = 0;i<this.balls.length;i++){ //TODO: move balls between partitions rather than reset ball positions in partitions
-      if(this.balls[i].x>=x1&&this.balls[i].x<=x2&&this.balls[i].y>=y1&&this.balls[i].y<=y2){
+      if(this.balls[i].x>=x1-this.balls[i].r&&this.balls[i].x<=x2+this.balls[i].r&&this.balls[i].y>=y1-this.balls[i].r&&this.balls[i].y<=y2+this.balls[i].r){
+      //if(this.balls[i].x>=x1&&this.balls[i].x<=x2&&this.balls[i].y>=y1&&this.balls[i].y<=y2){
         newBalls.push(this.balls[i]);
       }
     }
