@@ -12,6 +12,7 @@ function init(){
     usePartitionAlgorithm = true;
 
     createBalls(10);
+    partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
     animate();      // kick off the animation
 }
 function randomVal(value){
@@ -52,7 +53,6 @@ function update() {
     for(var i = 0;i<balls.length;i++){
       balls[i].update();
     }
-    partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
     partition.update();
   }
   else{
