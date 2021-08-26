@@ -19,12 +19,6 @@ class Partition{
     context.lineTo(this.x1,this.y2);
     context.stroke();
   }
-  ballsIntersecting = function(ball1,ball2){
-    let distX = ball1.x-ball2.x;
-    let distY = ball1.y-ball2.y;
-    let distSqrd = distX*distX+distY*distY;
-    return (distSqrd <= ball1.r*ball1.r + ball2.r*ball2.r + 2*ball1.r*ball2.r); // efficient distance comparison since does not take sqrt
-  }
   checkPartitionSize = function(){
     if(this.balls.length>this.maxObjects&&this.x2-this.x1>this.minSize){
       this.partition();
@@ -34,7 +28,7 @@ class Partition{
         let isOverlapping = false;
         for(var k = i+1;k<this.balls.length;k++){
           if(k==i) continue;
-          if(this.ballsIntersecting(this.balls[i],this.balls[k])){
+          if(this.balls[i].ballsIntersecting(this.balls[k])){
             isOverlapping = true;
             this.balls[k].setOverlapping(true);
             break;

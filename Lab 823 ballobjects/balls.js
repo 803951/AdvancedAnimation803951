@@ -36,6 +36,13 @@ class Ball{
       this.dy*=-1;
     }
   }
+  ballsIntersecting = function(ball){
+    Counter.totalComparisons++;
+    let distX = this.x-ball.x;
+    let distY = this.y-ball.y;
+    let distSqrd = distX*distX+distY*distY;
+    return (distSqrd <= this.r*this.r + ball.r*ball.r + 2*this.r*ball.r); // efficient distance comparison since does not take sqrt
+  }
   update = function(){
     this.x+=this.dx;
     this.y+=this.dy;

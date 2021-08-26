@@ -1,6 +1,6 @@
 window.addEventListener("load", init);
 
-var balls,canvas,context,velocity,radius,partition;
+var balls,canvas,context,velocity,radius,partition,usePartitionAlgorithm;
 
 function init(){
 
@@ -9,6 +9,7 @@ function init(){
     radius = 20;
     velocity = 2;
     balls = [];
+    usePartitionAlgorithm = true;
 
     createBalls(10);
     animate();      // kick off the animation
@@ -32,6 +33,9 @@ function createBalls(ballAmount){
   }
 
 }
+function setPartition(bool){
+  usePartitionAlgorithm = bool;
+}
 // every animation cycle
 function animate() {
     // erase the HTMLCanvasElement
@@ -42,10 +46,33 @@ function animate() {
 // move the circle to a new location
 function update() {
 
-  for(var i = 0;i<balls.length;i++){
-    balls[i].update();
+  Counter.totalComparisons = 0;
+
+  if(usePartitionAlgorithm){
+    for(var i = 0;i<balls.length;i++){
+      balls[i].update();
+    }
+    partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
+    partition.update();
+  }
+  else{
+    for(var i = 0;i<balls.length;i++){
+      balls[i].update();
+    }
+    for(var i = 0;i<balls.length;i++){
+      let isOverlapping = false;
+      for(var k = i+1;k<balls.length;k++){
+        if(k==i) continue;
+        if(balls[i].ballsIntersecting(balls[k])){
+          isOverlapping = true;
+          balls[k].setOverlapping(true);
+          break;
+        }
+    }
+    if(!balls[i].colorUpdated) balls[i].setOverlapping(isOverlapping);
   }
 
-  partition = new Partition(0,0,canvas.width,canvas.height,balls,4,50);
-  partition.update();
+  }
+
+  console.log(Counter.totalComparisons);
 }
