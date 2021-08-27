@@ -48,6 +48,7 @@ function animate() {
 function update() {
 
   Counter.totalComparisons = 0;
+  let timeDifference = performance.now();
 
   if(usePartitionAlgorithm){
     for(var i = 0;i<balls.length;i++){
@@ -73,6 +74,7 @@ function update() {
   }
 
   }
-
+  timeDifference = performance.now()-timeDifference;
+  //console.log(timeDifference);
   console.log(Counter.totalComparisons);
 }
