@@ -49,12 +49,11 @@ function compareToPartition(ball_i,grid_i,action){
      return;
   }
   for(var i = 0;i<grid[grid_i].length;i++){
-    if(balls[ball_i]===grid[grid_i][i]) return;
+    if(balls[ball_i]===grid[grid_i][i]) continue;
     if(balls[ball_i].checkForCollision(grid[grid_i][i])){
       balls[ball_i].setOverlapping(true);
       grid[grid_i][i].setOverlapping(true);
       grid[grid_i][i].colorSet = true;
-      break;
     }
   }
 }
