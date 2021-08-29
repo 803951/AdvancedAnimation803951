@@ -5,14 +5,14 @@ var canvas,context,radius,balls,partition,grid;
 function init(){
   canvas = document.getElementById("cnv");
   context = canvas.getContext("2d");
-  radius = 20;
+  radius = 4;
   partition = document.getElementById("collisionHandler");
   partition.checked = true;
   totalComparisons = 0;
   balls = [];
 
   resetGrid();
-  createRandomBalls(10);
+  createRandomBalls(1000);
   animate();
 }
 
@@ -47,8 +47,7 @@ function gridIndex(x,y){
 
 function calculateCollisions(){
   if(partition.checked){
-    console.log(gridIndex(balls[0].x,balls[0].y));
-    balls[0].color = "black";
+
   }
   else{
     for(var i = 0;i<balls.length;i++){
