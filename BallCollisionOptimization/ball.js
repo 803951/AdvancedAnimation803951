@@ -25,6 +25,7 @@ Ball.prototype.checkEdges = function(){
 }
 
 Ball.prototype.checkForCollision = function(other){
+  Comparisons.totalComparisons++;
   let distX = this.x-other.x;
   let distY = this.y-other.y;
   let distSqrd = distX*distX+distY*distY;
