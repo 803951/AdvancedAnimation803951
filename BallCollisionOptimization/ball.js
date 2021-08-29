@@ -7,6 +7,7 @@ function Ball(x=0,y=0,dx=0,dy=0,r=20,color1="blue",color2="orange"){
   this.color1 = color1;
   this.color2 = color2;
   this.color = color1;
+  this.colorSet = false;
   this.canvas = document.getElementById("cnv");
   this.context = this.canvas.getContext("2d");
 }

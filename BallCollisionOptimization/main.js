@@ -8,23 +8,21 @@ function init(){
   radius = 4;
   partition = document.getElementById("collisionHandler");
   partition.checked = true;
-  totalComparisons = 0;
   balls = [];
-
-  resetGrid();
+  grid = [];
   createRandomBalls(1000);
   animate();
 }
 
 function resetGrid(){
-  grid = [];
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+  grid.splice(0, grid.length);
 
   let h = Math.floor(canvas.height/(radius*2));
   let w = Math.floor(canvas.width/(radius*2));
-  for(var j = 0;j<h;j++){
-    for(var i = 0;i<w;i++){
-      grid.push([]);
-    }
+  for(var i = 0;i<w*h;i++){
+    grid.push([]);
   }
 }
 
@@ -45,9 +43,53 @@ function gridIndex(x,y){
   return yIndex*canvas.width/(radius*2)+xIndex;
 }
 
+function compareToPartition(ball_i,grid_i,action){
+  if(grid[grid_i]===undefined){
+     console.log(action);
+     return;
+  }
+  for(var i = 0;i<grid[grid_i].length;i++){
+    if(balls[ball_i]===grid[grid_i][i]) return;
+    if(balls[ball_i].checkForCollision(grid[grid_i][i])){
+      balls[ball_i].setOverlapping(true);
+      grid[grid_i][i].setOverlapping(true);
+      grid[grid_i][i].colorSet = true;
+      break;
+    }
+  }
+}
+
+function assignBallBins(){
+  for(var i = 0;i<balls.length;i++){
+    grid[gridIndex(balls[i].x,balls[i].y)].push(balls[i]);
+  }
+}
+
 function calculateCollisions(){
   if(partition.checked){
+    assignBallBins();
+    let w = Math.floor(canvas.width/(radius*2));
+    for(var i = 0;i<balls.length;i++){
+      if(!balls[i].colorSet) balls[i].setOverlapping(false);
+      let grid_i = gridIndex(balls[i].x,balls[i].y);
 
+      compareToPartition(i,grid_i,"center"); //center
+
+      if(grid_i%w!=0){
+        compareToPartition(i,grid_i-1,"left"); //left
+        if(grid_i-w>=0)compareToPartition(i,grid_i-w-1,"top left"); //top left
+        if(grid_i+w-1<=grid.length-1) compareToPartition(i,grid_i+w-1,"bottom left"); //bottom left
+      }
+      if((grid_i+1)%w!=0){
+        compareToPartition(i,grid_i+1,"right"); //right
+        if(grid_i-w>=0) compareToPartition(i,grid_i-w+1,"top right"); //top right
+        if(grid_i+w+1<=grid.length-1)compareToPartition(i,grid_i+w+1,"bottom right"); //bottom right
+      }
+
+      if(grid_i+w<=grid.length-1) compareToPartition(i,grid_i+w,"bottom"); //bottom
+      if(grid_i-w>=0) compareToPartition(i,grid_i-w,"top"); //top
+      balls[i].colorSet = false;
+    }
   }
   else{
     for(var i = 0;i<balls.length;i++){
@@ -65,26 +107,30 @@ function calculateCollisions(){
   }
 }
 
+function displayInformation(time){
+  context.font = "20px Comic Sans MS";
+  context.fillStyle = "black";
+  context.textAlign = "left";
+  context.fillText("Calculation Time: "+(performance.now()-time).toFixed(5), 10, 30);
+  context.fillText("Comparisons: "+Comparisons.totalComparisons, 10, 60);
+}
+
 function animate(){
 
   update();
-
   requestAnimationFrame(animate);
 }
 
 function update(){
   Comparisons.totalComparisons = 0;
   let time = performance.now();
-  context.clearRect(0,0,canvas.width,canvas.height);
+
+  resetGrid();
+
   for(var i = 0;i<balls.length;i++){
     balls[i].update();
   }
 
-  calculateCollisions(); // sequential default
-
-  context.font = "20px Comic Sans MS";
-  context.fillStyle = "black";
-  context.textAlign = "left";
-  context.fillText("Calculation Time: "+(performance.now()-time).toFixed(5), 10, 30);
-  context.fillText("Comparisons: "+Comparisons.totalComparisons, 10, 60);
+  calculateCollisions();
+  displayInformation(time);
 }
