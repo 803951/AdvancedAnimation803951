@@ -70,6 +70,10 @@ function calculateCollisions(){
     let w = Math.floor(canvas.width/(radius*2));
     for(var i = 0;i<balls.length;i++){
       if(!balls[i].colorSet) balls[i].setOverlapping(false);
+      else{
+        balls[i].colorSet = false;
+        continue;
+      }
       let grid_i = gridIndex(balls[i].x,balls[i].y);
 
       compareToPartition(i,grid_i,"center"); //center
