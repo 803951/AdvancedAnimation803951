@@ -69,10 +69,9 @@ function update() {
           balls[k].setOverlapping(true);
           break;
         }
+      }
+      if(!balls[i].colorUpdated) balls[i].setOverlapping(isOverlapping);
     }
-    if(!balls[i].colorUpdated) balls[i].setOverlapping(isOverlapping);
-  }
-
   }
   timeDifference = performance.now()-timeDifference;
   console.log("Time Difference: "+timeDifference+" Comparisons: "+Counter.totalComparisons);
