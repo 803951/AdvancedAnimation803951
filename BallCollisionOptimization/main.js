@@ -11,19 +11,21 @@ function init(){
   totalComparisons = 0;
   balls = [];
 
+  resetGrid();
+  createRandomBalls(10);
+  animate();
+}
+
+function resetGrid(){
   grid = [];
-  let h = canvas.height/(radius*2);
-  let w = canvas.width/(radius*2);
+
+  let h = Math.floor(canvas.height/(radius*2));
+  let w = Math.floor(canvas.width/(radius*2));
   for(var j = 0;j<h;j++){
     for(var i = 0;i<w;i++){
       grid.push([]);
     }
   }
-  console.log(grid.length-w*h);
-
-  createRandomBalls(10);
-
-  animate();
 }
 
 function createRandomBalls(n){
@@ -37,9 +39,16 @@ function createRandomBalls(n){
   }
 }
 
+function gridIndex(x,y){
+  let xIndex = Math.floor(x/(radius*2));
+  let yIndex = Math.floor(y/(radius*2));
+  return yIndex*canvas.width/(radius*2)+xIndex;
+}
+
 function calculateCollisions(){
   if(partition.checked){
-
+    console.log(gridIndex(balls[0].x,balls[0].y));
+    balls[0].color = "black";
   }
   else{
     for(var i = 0;i<balls.length;i++){
@@ -71,7 +80,8 @@ function update(){
   for(var i = 0;i<balls.length;i++){
     balls[i].update();
   }
-  calculateCollisions(false); // sequential default
+
+  calculateCollisions(); // sequential default
 
   context.font = "20px Comic Sans MS";
   context.fillStyle = "black";
