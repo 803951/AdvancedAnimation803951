@@ -75,6 +75,5 @@ function update() {
 
   }
   timeDifference = performance.now()-timeDifference;
-  //console.log(timeDifference);
-  console.log(Counter.totalComparisons);
+  console.log("Time Difference: "+timeDifference+" Comparisons: "+Counter.totalComparisons);
 }
