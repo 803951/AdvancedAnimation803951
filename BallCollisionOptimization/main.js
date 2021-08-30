@@ -43,11 +43,7 @@ function gridIndex(x,y){
   return yIndex*canvas.width/(radius*2)+xIndex;
 }
 
-function compareToPartition(ball_i,grid_i,action){
-  if(grid[grid_i]===undefined){
-     console.log(action);
-     return;
-  }
+function compareToPartition(ball_i,grid_i){
   for(var i = 0;i<grid[grid_i].length;i++){
     if(balls[ball_i]===grid[grid_i][i]) continue;
     if(balls[ball_i].checkForCollision(grid[grid_i][i])){
@@ -76,21 +72,21 @@ function calculateCollisions(){
       }
       let grid_i = gridIndex(balls[i].x,balls[i].y);
 
-      compareToPartition(i,grid_i,"center"); //center
+      compareToPartition(i,grid_i); //center
 
       if(grid_i%w!=0){
-        compareToPartition(i,grid_i-1,"left"); //left
-        if(grid_i-w>=0)compareToPartition(i,grid_i-w-1,"top left"); //top left
-        if(grid_i+w-1<=grid.length-1) compareToPartition(i,grid_i+w-1,"bottom left"); //bottom left
+        compareToPartition(i,grid_i-1); //left
+        if(grid_i-w>=0)compareToPartition(i,grid_i-w-1); //top left
+        if(grid_i+w-1<=grid.length-1) compareToPartition(i,grid_i+w-1); //bottom left
       }
       if((grid_i+1)%w!=0){
-        compareToPartition(i,grid_i+1,"right"); //right
-        if(grid_i-w>=0) compareToPartition(i,grid_i-w+1,"top right"); //top right
-        if(grid_i+w+1<=grid.length-1)compareToPartition(i,grid_i+w+1,"bottom right"); //bottom right
+        compareToPartition(i,grid_i+1); //right
+        if(grid_i-w>=0) compareToPartition(i,grid_i-w+1); //top right
+        if(grid_i+w+1<=grid.length-1)compareToPartition(i,grid_i+w+1); //bottom right
       }
 
-      if(grid_i+w<=grid.length-1) compareToPartition(i,grid_i+w,"bottom"); //bottom
-      if(grid_i-w>=0) compareToPartition(i,grid_i-w,"top"); //top
+      if(grid_i+w<=grid.length-1) compareToPartition(i,grid_i+w); //bottom
+      if(grid_i-w>=0) compareToPartition(i,grid_i-w); //top
       balls[i].colorSet = false;
     }
   }
