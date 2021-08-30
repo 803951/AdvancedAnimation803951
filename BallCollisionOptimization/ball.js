@@ -30,7 +30,7 @@ Ball.prototype.checkForCollision = function(other){
   let distX = this.x-other.x;
   let distY = this.y-other.y;
   let distSqrd = distX*distX+distY*distY;
-  return (distSqrd <= this.r*this.r + other.r*other.r + 2*other.r*other.r);
+  return (distSqrd <= (this.r+other.r)*(this.r+other.r));
 }
 
 Ball.prototype.draw = function(){
