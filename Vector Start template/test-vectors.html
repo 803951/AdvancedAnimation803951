@@ -9,10 +9,10 @@
   <body style = "white-space:pre">
     <script>
 
-        var vec = new JSVector(3,3);   // no args
-        vec.setMagnitude(5);
-        console.log(vec);
-        var text = vec.toString();
+        var vec1 = new JSVector(3,3);   // no args
+        var vec2 = new JSVector(1,4);
+        vec1.add(vec2);
+        let text = vec1.toString();
         document.body.textContent = text;
 
     </script>

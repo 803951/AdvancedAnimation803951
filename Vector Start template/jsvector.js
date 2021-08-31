@@ -44,12 +44,14 @@ JSVector.prototype.getDirection = function(){
 JSVector.prototype.add = function(v2){
   this.x+=v2.x;
   this.y+=v2.y;
+  return this;
 }
 
 // Subtract another vector from this vector
 JSVector.prototype.sub = function(v2){
   this.x-=v2.x;
   this.y-=v2.y;
+  return this;
 }
 
 // Class method to return a new vector that is the sum of two vectors
