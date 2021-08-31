@@ -10,7 +10,7 @@ class Ball{
     this.color = color1;
     this.colorUpdated = false;
     this.canvas = document.getElementById("cnv");
-    this.context = this.canvas.getContext("2d");
+    this.context = canvas.getContext("2d");
   }
   setOverlapping = function(isOverlapping){
     if(isOverlapping){
