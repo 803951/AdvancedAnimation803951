@@ -5,26 +5,31 @@ function JSVector(x = 0,y = 0){
     this.x = x;
     this.y = y;
 }
-
-
 // Set the magnitude of the vector,
 // retaining the angle (direction).
 JSVector.prototype.setMagnitude = function(mag){
-  this.normalize();
-  this.x*=Math.sqrt(mag)/2;
-  this.y*=Math.sqrt(mag)/2;
+  let dir = this.getDirection();
+  this.x=mag*Math.cos(dir);
+  this.y=mag*Math.sin(dir);
 }
 
 // Get the magnitude of the vector using pythagorean theorem
 JSVector.prototype.getMagnitude = function(){
   return Math.sqrt(this.x*this.x+this.y*this.y);
+}
+
+ // Normalize this vector so that it has a magnitude of 1
+ JSVector.prototype.normalize = function(){
+    let dir = this.getDirection();
+    this.x = Math.cos(dir);
+    this.y = Math.sin(dir);
  }
 
 // Set the angle (direction) of the vector,
 // retaining the magnitude.
 JSVector.prototype.setDirection = function(angle){
-  let tempX = cos(angle)*this.getMagnitude();
-  let tempY = sin(angle)*this.getMagnitude();
+  let tempX = Math.cos(angle)*this.getMagnitude();
+  let tempY = Math.sin(angle)*this.getMagnitude();
 
   this.x = tempX;
   this.y = tempY;
@@ -32,7 +37,7 @@ JSVector.prototype.setDirection = function(angle){
 
 // Get the direction (angle) of the vector
 JSVector.prototype.getDirection = function(){
-  return Math.atan(this.y/this.x);
+  return Math.atan2(this.y,this.x);
 }
 
 // Add another vector to this vector
@@ -67,12 +72,6 @@ JSVector.prototype.multiply = function(scalar){
 JSVector.prototype.divide = function(scalar){
   this.x/=scalar;
   this.y/=scalar;
-}
-
-// Normalize this vector so that it has a magnitude of 1
-JSVector.prototype.normalize = function(){
-  this.x/=getMagnitude;
-  this.y/=getMagnitude;
 }
 
 // Limit the magnitude of this vector
@@ -114,5 +113,5 @@ JSVector.prototype.copy = function(){
 
 // Override inherited toString() to describe this instance
 JSVector.prototype.toString = function() {
-  return "x: "+this.x+" y: "+this.y;
+  return "x: "+this.x+" y: "+this.y+" mag: "+this.getMagnitude()+" dir: "+this.getDirection();
 }

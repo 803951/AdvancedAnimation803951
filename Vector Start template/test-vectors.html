@@ -8,7 +8,9 @@
 
   <body style = "white-space:pre">
     <script>
-        var vec = new JSVector();   // no args
+
+        var vec = new JSVector(3,3);   // no args
+        vec.setMagnitude(5);
         console.log(vec);
         var text = vec.toString();
         document.body.textContent = text;
