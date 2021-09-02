@@ -19,8 +19,8 @@ function resetGrid(){
 
   grid.splice(0, grid.length);
 
-  let h = Math.floor(canvas.height/(radius*2));
-  let w = Math.floor(canvas.width/(radius*2));
+  let h = Math.floor(canvas.height/(radius*Math.sqrt(2)));
+  let w = Math.floor(canvas.width/(radius*Math.sqrt(2)));
   for(var i = 0;i<w*h;i++){
     grid.push([]);
   }
@@ -40,7 +40,7 @@ function createRandomBalls(n){
 function gridIndex(x,y){
   let xIndex = Math.floor(x/(radius*2));
   let yIndex = Math.floor(y/(radius*2));
-  return yIndex*canvas.width/(radius*2)+xIndex;
+  return Math.floor(yIndex*canvas.width/(radius*Math.sqrt(2))+xIndex);
 }
 
 function compareToPartition(ball_i,grid_i){
@@ -63,7 +63,7 @@ function assignBallBins(){
 function calculateCollisions(){
   if(partition.checked){
     assignBallBins();
-    let w = Math.floor(canvas.width/(radius*2));
+    let w = Math.floor(canvas.width/(radius*Math.sqrt(2)));
     for(var i = 0;i<balls.length;i++){
       if(!balls[i].colorSet) balls[i].setOverlapping(false);
       else{
