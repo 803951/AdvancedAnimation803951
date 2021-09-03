@@ -11,11 +11,13 @@
 </head>
 
 <body>
+  <button onclick="setSD(1)" >SD = 1</button>
+  <button onclick="setSD(0.5)" >SD = 0.5</button>
+  <button onclick="setSD(0.25)" >SD = 0.25</button>
   <canvas id="cnv" width="600" height="600"></canvas>
   <div class="container">
     <div class="center">
       <button onclick="createRandomBalls(100)" style="font-size : 30px">Add 100 Balls</button>
-      <label for="collisionHandler" style="font-size : 20px">Partition</label><br>
     </div>
   </div>
 </body>

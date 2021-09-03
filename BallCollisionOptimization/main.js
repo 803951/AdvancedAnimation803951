@@ -1,11 +1,13 @@
 window.addEventListener("load", init);
 
-var canvas,context,radius,balls,grid;
+var canvas,context,radius,balls,grid,sd,reset;
 
 function init(){
   canvas = document.getElementById("cnv");
   context = canvas.getContext("2d");
   radius = 4;
+  sd = 1;
+  reset = false;
   balls = [];
   grid = [];
   createRandomBalls(1000);
@@ -23,7 +25,12 @@ function resetGrid(){
     grid.push([]);
   }
 }
-
+function setSD(val){
+  sd = val;
+  balls.splice(0,balls.length);
+  resetGrid();
+  createRandomBalls(1000);
+}
 //mu is mean, sigma^2 is variance
 function generateGaussianNoise(mu,sigma){
 
@@ -51,14 +58,15 @@ function constrain(val,min,max){
 function createRandomBalls(n){
   for(var i = 0;i<n;i++){
 
-    let pos = generateGaussianNoise(0,1);
+    //mean of 0 and standard deviation of 1
+    let pos = generateGaussianNoise(0,sd);
     //let x = ((pos.x+1)/2)*(canvas.width-2*radius)+radius;
     //let y = ((pos.y+1)/2)*(canvas.height-2*radius)+radius;
 
     //gaussian distribution
 
-    let x = constrain(Math.abs((pos.x/4)*canvas.width),radius,canvas.width-radius);
-    let y = constrain(Math.abs((pos.y/4)*canvas.height),radius,canvas.height-radius);
+    let x = constrain(Math.abs((pos.x/4+1/2)*canvas.width),radius,canvas.width-radius);
+    let y = constrain(Math.abs((pos.y/4+1/2)*canvas.height),radius,canvas.height-radius);
 
     //let x = canvas.width/2;
     //let y = canvas.height/2;
