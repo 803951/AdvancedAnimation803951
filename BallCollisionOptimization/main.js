@@ -65,14 +65,14 @@ function createRandomBalls(n){
 
     //gaussian distribution
 
-    let x = constrain(Math.abs((pos.x/4+1/2)*canvas.width),radius,canvas.width-radius);
-    let y = constrain(Math.abs((pos.y/4+1/2)*canvas.height),radius,canvas.height-radius);
+    let x = constrain(Math.abs((pos.x/4+1/2)*canvas.width),radius*2,canvas.width-2*radius);
+    let y = constrain(Math.abs((pos.y/4+1/2)*canvas.height),radius*2,canvas.height-2*radius);
 
     //let x = canvas.width/2;
     //let y = canvas.height/2;
     //let x = Math.random()*(canvas.width-2*radius)+radius;
     //let y = Math.random()*(canvas.height-2*radius)+radius;
-    let velocity = (Math.random()-1/2)*2;
+    let velocity = (pos.x*pos.y)/(2*sd);
 
     let direction = Math.random()*2*Math.PI;
     let ball = new Ball(x,y,velocity*Math.cos(direction),velocity*Math.sin(direction),r=radius,color1="blue",color2="orange");
@@ -104,9 +104,6 @@ function compareToPartition(ball_i,grid_i){
 function assignBallBins(){
   for(var i = 0;i<balls.length;i++){
     let index = gridIndex(balls[i].pos);
-    if(grid[index]===undefined){
-      console.log(index);
-    }
     grid[index].push(balls[i]);
   }
 }
