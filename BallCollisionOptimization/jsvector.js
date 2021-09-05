@@ -85,8 +85,7 @@ JSVector.prototype.limit = function(lim){
 
 // Get the distance between this vector and another one
 JSVector.prototype.distance = function(v2){
-  let temp = JSVector.subGetNew(this,v2);
-  return temp.getMagnitude;
+  return Math.sqrt(Math.pow(this.x-v2.x,2),Math.pow(this.y-v2.y,2));
 }
 
 // Get square of the distance between this vector and another one
