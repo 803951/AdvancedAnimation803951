@@ -44,12 +44,12 @@ Ball.prototype.checkForCollision = function(other){
 }
 
 Ball.prototype.draw = function(){
-  let maxDist = Math.sqrt(canvas.width*canvas.width/4+canvas.height*canvas.height/4);
-  let currentDist = this.pos.distance(new JSVector(canvas.width/2,canvas.height/2));
-  let lerpColor = this.color.lerp(currentDist, maxDist,0.2);
+  //let maxDist = Math.sqrt(canvas.width*canvas.width/4+canvas.height*canvas.height/4);
+  //let currentDist = this.pos.distance(new JSVector(canvas.width/2,canvas.height/2));
+  //let lerpColor = this.color.lerp(currentDist, maxDist,0.2);
   this.context.beginPath();
   this.context.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-  this.context.fillStyle = lerpColor;  // color to stroke
+  this.context.fillStyle = "rgb("+this.color.r+","+this.color.g+","+this.color.b+")";  // color to stroke
   this.context.fill();     // render the fill
   this.colorUpdated = false;
 }

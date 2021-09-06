@@ -65,13 +65,13 @@ function createRandomBalls(n){
 
     //gaussian distribution
 
-    let x = constrain(Math.abs((pos.x/4+1/2)*canvas.width),radius*2,canvas.width-2*radius);
-    let y = constrain(Math.abs((pos.y/4+1/2)*canvas.height),radius*2,canvas.height-2*radius);
+    //let x = constrain(Math.abs((pos.x/4+1/2)*canvas.width),radius*2,canvas.width-2*radius);
+    //let y = constrain(Math.abs((pos.y/4+1/2)*canvas.height),radius*2,canvas.height-2*radius);
 
     //let x = canvas.width/2;
     //let y = canvas.height/2;
-    //let x = Math.random()*(canvas.width-2*radius)+radius;
-    //let y = Math.random()*(canvas.height-2*radius)+radius;
+    let x = Math.random()*(canvas.width-2*radius)+radius;
+    let y = Math.random()*(canvas.height-2*radius)+radius;
     let velocity = (pos.x*pos.y)/(2*sd);
 
     let direction = Math.random()*2*Math.PI;
