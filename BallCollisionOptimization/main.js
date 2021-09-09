@@ -1,6 +1,6 @@
 window.addEventListener("load", init);
 
-var canvas,context,radius,balls,grid,sd,reset;
+var canvas,context,radius,balls,grid,sd,reset,gravity;
 
 function init(){
   canvas = document.getElementById("cnv");
@@ -10,6 +10,7 @@ function init(){
   reset = false;
   balls = [];
   grid = [];
+  gravity = 0;
   createRandomBalls(50);
   animate();
 }
@@ -77,7 +78,7 @@ function createRandomBalls(n){
     let direction = Math.random()*2*Math.PI;
     let color1 = new Color(200,50,50,1);
     let color2 = new Color(50,50,200,1);
-    let ball = new Ball(x,y,velocity*Math.cos(direction),velocity*Math.sin(direction),radius,color1,color2);
+    let ball = new Ball(x,y,velocity*Math.cos(direction),velocity*Math.sin(direction),radius,color1,color2,gravity);
     balls.push(ball);
   }
 }
@@ -88,6 +89,7 @@ function gridIndex(pos){
   let index = Math.floor(yIndex*canvas.width/(radius*Math.sqrt(2))+xIndex);
 
   if(index>=grid.length) return grid.length-1;
+  else if(index<0) return 0;
 
   return index;
 }

@@ -11,6 +11,7 @@ JSVector.prototype.setMagnitude = function(mag){
   let dir = this.getDirection();
   this.x=mag*Math.cos(dir);
   this.y=mag*Math.sin(dir);
+  return this;
 }
 
 // Get the magnitude of the vector using pythagorean theorem
@@ -20,9 +21,7 @@ JSVector.prototype.getMagnitude = function(){
 
  // Normalize this vector so that it has a magnitude of 1
  JSVector.prototype.normalize = function(){
-    let dir = this.getDirection();
-    this.x = Math.cos(dir);
-    this.y = Math.sin(dir);
+    return setMagnitude(1);
  }
 
 // Set the angle (direction) of the vector,
@@ -68,12 +67,14 @@ JSVector.subGetNew = function(v1,v2){
 JSVector.prototype.multiply = function(scalar){
   this.x*=scalar;
   this.y*=scalar;
+  return this;
 }
 
 // Divide this vector by a scalar
 JSVector.prototype.divide = function(scalar){
   this.x/=scalar;
   this.y/=scalar;
+  return this;
 }
 
 // Limit the magnitude of this vector
@@ -85,7 +86,9 @@ JSVector.prototype.limit = function(lim){
 
 // Get the distance between this vector and another one
 JSVector.prototype.distance = function(v2){
-  return Math.sqrt(Math.pow(this.x-v2.x,2),Math.pow(this.y-v2.y,2));
+  let temp = JSVector.subGetNew(this,v2);
+
+  return temp.magnitude;
 }
 
 // Get square of the distance between this vector and another one

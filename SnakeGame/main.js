@@ -34,7 +34,7 @@ function init(){
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
     score = 0;
-    timeInterval = 70;
+    timeInterval = 50;
     pixelSize = 25;
     gameover = false;
     appleColor = "white";

@@ -1,4 +1,4 @@
-function Ball(x=0,y=0,dx=0,dy=0,r=20,color1="blue",color2="orange"){
+function Ball(x=0,y=0,dx=0,dy=0,r=20,color1="blue",color2="orange",gravity){
   this.pos = new JSVector(x,y);
   this.delta = new JSVector(dx,dy);
   this.r = r;
@@ -8,6 +8,7 @@ function Ball(x=0,y=0,dx=0,dy=0,r=20,color1="blue",color2="orange"){
   this.colorSet = false;
   this.canvas = document.getElementById("cnv");
   this.context = this.canvas.getContext("2d");
+  this.gravity = gravity;
 }
 
 Ball.prototype.setOverlapping = function(isOverlapping){
@@ -34,8 +35,8 @@ Ball.prototype.checkForCollision = function(other){
   let r = this.pos.distance(other.pos);
   let lj_potential = 4*epsilon*(Math.pow(sigma/r,12)-Math.pow(sigma/r,6));
   let direction = JSVector.subGetNew(this.pos,other.pos).getDirection();
-  //if(lj_potential>Number.EPSILON){ //run if you want to so hilarious bug
-  if(lj_potential>Number.EPSILON&&lj_potential<=r/sigma){
+  //if(lj_potential>Number.EPSILON){ //run if you want to see hilarious bug
+  if(Math.abs(lj_potential)>Number.EPSILON&&Math.abs(lj_potential)<=r/sigma){
     this.delta.x+=Math.cos(direction)*lj_potential;
     this.delta.y+=Math.sin(direction)*lj_potential;
   }
@@ -57,6 +58,7 @@ Ball.prototype.draw = function(){
 }
 
 Ball.prototype.update = function(){
+  this.delta.y-=this.gravity;
   this.checkEdges();
 
   this.pos.x+=this.delta.x;
