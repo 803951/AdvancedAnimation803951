@@ -156,11 +156,11 @@ function update(){
   }
 
   //temporary sequential test for lennard jones potential working
-  for(var i = 0;i<balls.length;i++){
+  /*for(var i = 0;i<balls.length;i++){
     for(var k = 0;k<balls.length;k++){
       if(i==k) continue;
       balls[i].checkForCollision(balls[k]);
     }
-  }
-  //calculateCollisions();
+  }*/
+  calculateCollisions();
 }
