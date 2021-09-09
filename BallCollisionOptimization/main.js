@@ -30,7 +30,7 @@ function setSD(val){
   sd = val;
   balls.splice(0,balls.length);
   resetGrid();
-  createRandomBalls(1000);
+  createRandomBalls(50);
 }
 //mu is mean, sigma^2 is variance
 function generateGaussianNoise(mu,sigma){
