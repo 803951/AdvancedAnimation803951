@@ -29,14 +29,14 @@ Ball.prototype.checkForCollision = function(other){
   //r is distance between particles
   //sigma is distance where particle-particle potential energy V is 0 => sigma = 2*r1+2*r2
 
-  let sigma = 2*this.r+2*other.r;
+  let sigma = this.r+other.r;
   let epsilon = 1;
   let r = this.pos.distance(other.pos);
   let lj_potential = 4*epsilon*(Math.pow(sigma/r,12)-Math.pow(sigma/r,6));
   let direction = JSVector.subGetNew(this.pos,other.pos).getDirection();
   if(lj_potential>Number.EPSILON&&lj_potential<=r/sigma){
-    this.delta.x+=Math.cos(direction)*lj_potential;
-    this.delta.y+=Math.sin(direction)*lj_potential;
+    this.delta.x=Math.cos(direction)*lj_potential;
+    this.delta.y=Math.sin(direction)*lj_potential;
   }
 
   Comparisons.totalComparisons++;

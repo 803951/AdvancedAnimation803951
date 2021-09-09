@@ -5,12 +5,12 @@ var canvas,context,radius,balls,grid,sd,reset;
 function init(){
   canvas = document.getElementById("cnv");
   context = canvas.getContext("2d");
-  radius = 4;
+  radius = 10;
   sd = 1;
   reset = false;
   balls = [];
   grid = [];
-  createRandomBalls(1000);
+  createRandomBalls(50);
   animate();
 }
 
@@ -59,7 +59,7 @@ function createRandomBalls(n){
   for(var i = 0;i<n;i++){
 
     //mean of 0 and standard deviation of 1
-    let pos = generateGaussianNoise(0,sd);
+    let pos = generateGaussianNoise(1,sd);
     //let x = ((pos.x+1)/2)*(canvas.width-2*radius)+radius;
     //let y = ((pos.y+1)/2)*(canvas.height-2*radius)+radius;
 
@@ -155,5 +155,12 @@ function update(){
     balls[i].update();
   }
 
-  calculateCollisions();
+  //temporary sequential test for lennard jones potential working
+  for(var i = 0;i<balls.length;i++){
+    for(var k = 0;k<balls.length;k++){
+      if(i==k) continue;
+      balls[i].checkForCollision(balls[k]);
+    }
+  }
+  //calculateCollisions();
 }
