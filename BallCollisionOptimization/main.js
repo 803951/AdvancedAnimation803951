@@ -78,7 +78,7 @@ function createRandomBalls(n){
     let direction = Math.random()*2*Math.PI;
     let color1 = new Color(200,50,50,1);
     let color2 = new Color(50,50,200,1);
-    let ball = new Ball(x,y,velocity*Math.cos(direction),velocity*Math.sin(direction),radius,color1,color2,gravity);
+    let ball = new Ball(x,y,velocity*Math.cos(direction),velocity*Math.sin(direction),radius,color1,color2,gravity,0.001);
     balls.push(ball);
   }
 }
@@ -152,7 +152,7 @@ function update(){
   Comparisons.totalComparisons = 0;
 
   resetGrid();
-
+  calculateCollisions();
   for(var i = 0;i<balls.length;i++){
     balls[i].update();
   }
@@ -164,5 +164,4 @@ function update(){
       balls[i].checkForCollision(balls[k]);
     }
   }*/
-  calculateCollisions();
 }
