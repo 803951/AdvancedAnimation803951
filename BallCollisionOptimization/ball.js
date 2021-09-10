@@ -37,9 +37,18 @@ Ball.prototype.checkForCollision = function(other){
   let lj_potential = 4*epsilon*(Math.pow(sigma/r,12)-Math.pow(sigma/r,6));
   let direction = JSVector.subGetNew(this.pos,other.pos).getDirection();
   //if(lj_potential>Number.EPSILON){ //run if you want to see hilarious bug
-  if(Math.abs(lj_potential)>Number.EPSILON&&Math.abs(lj_potential)<=r/sigma&&r>=sigma){
-    this.delta.x+=Math.cos(direction)*lj_potential;
-    this.delta.y+=Math.sin(direction)*lj_potential;
+  if(Math.abs(lj_potential)>Number.EPSILON&&Math.abs(lj_potential)<=r/sigma){
+    if(r>=sigma){
+      this.delta.x+=Math.cos(direction)*lj_potential;
+      this.delta.y+=Math.sin(direction)*lj_potential;
+    }
+    else{
+      this.delta.x = Math.cos(direction)*lj_potential;
+      this.delta.y = Math.sin(direction)*lj_potential;
+
+      this.pos.x+=this.delta.x;
+      this.pos.y+=this.delta.y;
+    }
   }
 
   Comparisons.totalComparisons++;
