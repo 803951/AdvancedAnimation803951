@@ -4,5 +4,9 @@ function init(){
   animate();
 }
 function animate(){
+  update();
   requestAnimationFrame(animate);
+}
+function update(){
+
 }
