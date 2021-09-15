@@ -10,11 +10,11 @@ function init(){
   ctx.fillStyle = "black";
   ctx.fillRect(0,0,cnv.width,cnv.height);
 
-  repeller = generateRandomMolecule(new Color(255,0,0,1),15);
-  attractor = generateRandomMolecule(new Color(0,0,255,1),15);
+  repeller = generateRandomMolecule(new Color(255,0,0,1),15,2);
+  attractor = generateRandomMolecule(new Color(0,0,255,1),15,2);
 
-  for(var i = 0;i<100;i++){
-    molecules.push(generateRandomMolecule(new Color(0,255,0,1),13));
+  for(var i = 0;i<50;i++){
+    molecules.push(generateRandomMolecule(new Color(0,255,0,1),12,Math.random()+1));
   }
 
   animate();
@@ -32,16 +32,22 @@ function update(){
   attractor.update();
 
   for(var i = 0;i<molecules.length;i++){
-    molecules[i].interact(attractor,true);
-    molecules[i].interact(repeller,false);
+    molecules[i].interact(attractor,true,1);
+    molecules[i].interact(repeller,false,1);
+
+    for(var k = 0;k<molecules.length;k++){
+      if (i == k) continue;
+      if(molecules[i].pos.distance(molecules[k].pos)>2*molecules[i].radius+2*molecules[k].radius)continue;
+      molecules[i].interact(molecules[k],false,1);
+    }
+
     molecules[i].update();
   }
 }
-function generateRandomMolecule(color,radius){
+function generateRandomMolecule(color,radius,speed){
   let x = Math.random()*(cnv.width-2*radius)+radius;
   let y = Math.random()*(cnv.height-2*radius)+radius;
   let pos = new JSVector(x,y);
-  let speed = 2.5;
   let direction = Math.random()*2*Math.PI;
   let vel = new JSVector(speed*Math.cos(direction),speed*Math.sin(direction));
   let acc = new JSVector(0,0);

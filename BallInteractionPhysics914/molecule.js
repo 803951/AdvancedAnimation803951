@@ -15,8 +15,8 @@ Molecule.prototype.checkEdges = function(){
     this.pos.y = Math.abs(this.pos.y-this.cnv.height);
   }
 }
-Molecule.prototype.interact = function(other,attract){
-  let scale = (attract)?-1:1;
+Molecule.prototype.interact = function(other,attract,scale){
+  if(attract) scale*=-1;
   let force = JSVector.subGetNew(this.pos,other.pos);
   force.normalize();
   force.multiply(scale);
@@ -36,9 +36,7 @@ Molecule.prototype.draw = function(){
 }
 Molecule.prototype.update = function(){
   this.checkEdges();
-  let tempMag = this.vel.getMagnitude();
   this.vel.add(this.acc);
-  this.vel.setMagnitude(tempMag);
   this.move();
   this.draw();
 }
