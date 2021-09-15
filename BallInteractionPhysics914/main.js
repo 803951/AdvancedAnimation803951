@@ -10,11 +10,11 @@ function init(){
   ctx.fillStyle = "black";
   ctx.fillRect(0,0,cnv.width,cnv.height);
 
-  repeller = generateRandomMolecule(new Color(255,0,0,1),15,2);
-  attractor = generateRandomMolecule(new Color(0,0,255,1),15,2);
+  repeller = generateRandomMolecule(new Color(255,0,0,1),15,1.5);
+  attractor = generateRandomMolecule(new Color(0,0,255,1),15,1.5);
 
   for(var i = 0;i<50;i++){
-    molecules.push(generateRandomMolecule(new Color(0,255,0,1),12,Math.random()+1));
+    molecules.push(generateRandomMolecule(new Color(255,255,255,1),10,Math.random()*0.5+1));
   }
 
   animate();
@@ -24,7 +24,7 @@ function animate(){
   requestAnimationFrame(animate);
 }
 function update(){
-  let background = "rgb("+0+","+0+","+0+","+0.1+")";
+  let background = "rgb("+0+","+0+","+0+","+0.05+")";
   ctx.fillStyle = background;
   ctx.fillRect(0,0,cnv.width,cnv.height);
 
@@ -37,12 +37,15 @@ function update(){
 
     for(var k = 0;k<molecules.length;k++){
       if (i == k) continue;
-      if(molecules[i].pos.distance(molecules[k].pos)>2*molecules[i].radius+2*molecules[k].radius)continue;
-      molecules[i].interact(molecules[k],false,1);
+      if(molecules[i].pos.distance(molecules[k].pos)>2*molecules[i].radius+2*molecules[k].radius) continue;
+      molecules[i].interact(molecules[k],false,0.5);
     }
 
     molecules[i].update();
   }
+
+  attractor.interact(repeller,false,0.01);
+  repeller.interact(attractor,false,0.01);
 }
 function generateRandomMolecule(color,radius,speed){
   let x = Math.random()*(cnv.width-2*radius)+radius;

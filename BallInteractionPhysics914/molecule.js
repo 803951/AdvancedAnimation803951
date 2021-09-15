@@ -8,11 +8,17 @@ function Molecule(pos,vel,acc,radius,color){
   this.ctx = cnv.getContext("2d");
 }
 Molecule.prototype.checkEdges = function(){
-  if(this.pos.x<=-this.radius||this.pos.x>=this.cnv.width+this.radius){
-    this.pos.x = Math.abs(this.pos.x-this.cnv.width);
+  if(this.pos.x<=-this.radius){
+    this.pos.x = this.cnv.width+this.radius
   }
-  if(this.pos.y<=-this.radius||this.pos.y>=this.cnv.height+this.radius){
-    this.pos.y = Math.abs(this.pos.y-this.cnv.height);
+  else if(this.pos.x>=this.cnv.width+this.radius){
+    this.pos.x = -this.radius;
+  }
+  if(this.pos.y<=-this.radius){
+    this.pos.y = this.cnv.height+this.radius
+  }
+  else if(this.pos.y>=this.cnv.height+this.radius){
+    this.pos.y = -this.radius;
   }
 }
 Molecule.prototype.interact = function(other,attract,scale){
