@@ -32,13 +32,13 @@ function update(){
   attractor.update();
 
   for(var i = 0;i<molecules.length;i++){
-    molecules[i].interact(attractor,true,1);
-    molecules[i].interact(repeller,false,1);
+    molecules[i].interact(attractor,true,0.5);
+    molecules[i].interact(repeller,false,0.5);
 
     for(var k = 0;k<molecules.length;k++){
       if (i == k) continue;
       if(molecules[i].pos.distance(molecules[k].pos)>2*molecules[i].radius+2*molecules[k].radius) continue;
-      molecules[i].interact(molecules[k],false,0.5);
+      molecules[i].interact(molecules[k],false,0.25);
     }
 
     molecules[i].update();
@@ -54,6 +54,7 @@ function generateRandomMolecule(color,radius,speed){
   let direction = Math.random()*2*Math.PI;
   let vel = new JSVector(speed*Math.cos(direction),speed*Math.sin(direction));
   let acc = new JSVector(0,0);
-  let molecule = new Molecule(pos,vel,acc,radius,color);
+  let alpha = 0;
+  let molecule = new Molecule(pos,vel,acc,radius,color,alpha,1,5);
   return molecule;
 }

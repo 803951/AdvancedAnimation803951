@@ -1,24 +1,27 @@
-function Molecule(pos,vel,acc,radius,color){
+function Molecule(pos,vel,acc,radius,color,alpha,minSpeed,maxSpeed){
   this.pos = pos;
   this.vel = vel;
   this.acc = acc;
   this.radius = radius;
   this.color = color;
+  this.alpha = alpha;
+  this.minSpeed = minSpeed;
+  this.maxSpeed = maxSpeed;
   this.cnv = document.getElementById("cnv");
   this.ctx = cnv.getContext("2d");
 }
 Molecule.prototype.checkEdges = function(){
-  if(this.pos.x<=-this.radius){
-    this.pos.x = this.cnv.width+this.radius
+  if(this.pos.x<=-this.radius*2){
+    this.pos.x = this.cnv.width+this.radius*2
   }
-  else if(this.pos.x>=this.cnv.width+this.radius){
-    this.pos.x = -this.radius;
+  else if(this.pos.x>=this.cnv.width+this.radius*2){
+    this.pos.x = -this.radius*2;
   }
-  if(this.pos.y<=-this.radius){
-    this.pos.y = this.cnv.height+this.radius
+  if(this.pos.y<=-this.radius*2){
+    this.pos.y = this.cnv.height+this.radius*2
   }
-  else if(this.pos.y>=this.cnv.height+this.radius){
-    this.pos.y = -this.radius;
+  else if(this.pos.y>=this.cnv.height+this.radius*2){
+    this.pos.y = -this.radius*2;
   }
 }
 Molecule.prototype.interact = function(other,attract,scale){
@@ -43,6 +46,11 @@ Molecule.prototype.draw = function(){
 Molecule.prototype.update = function(){
   this.checkEdges();
   this.vel.add(this.acc);
+  if(this.vel.getMagnitude>this.maxSpeed) this.vel.setMagnitude(this.maxSpeed);
+  if(this.vel.getMagnitude<this.minSpeed) this.vel.setMagnitude(this.minSpeed);
+  let dir = this.vel.getDirection();
+  let friction = new JSVector(Math.cos(dir)*this.alpha,Math.sin(dir)*this.alpha);
+  this.vel.sub(friction);
   this.move();
   this.draw();
 }
