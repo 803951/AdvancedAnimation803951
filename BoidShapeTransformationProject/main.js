@@ -10,11 +10,11 @@ function init(){
   ctx.fillStyle = "black";
   ctx.fillRect(0,0,cnv.width,cnv.height);
 
-  repeller = generateRandomMolecule(new Color(255,0,0,1),15,1.5);
-  attractor = generateRandomMolecule(new Color(0,0,255,1),15,1.5);
+  repeller = generateRandomMolecule(new Color(255,0,0,1),25,1.5);
+  attractor = generateRandomMolecule(new Color(0,0,255,1),25,1.5);
 
   for(var i = 0;i<50;i++){
-    molecules.push(generateRandomMolecule(new Color(255,255,255,1),10,Math.random()*0.5+1));
+    molecules.push(generateRandomMolecule(new Color(100,170,50,1),20,Math.random()*0.5+1));
   }
 
   animate();
@@ -24,10 +24,11 @@ function animate(){
   requestAnimationFrame(animate);
 }
 function update(){
-  let background = "rgb("+0+","+0+","+0+","+0.05+")";
-  ctx.fillStyle = background;
-  ctx.fillRect(0,0,cnv.width,cnv.height);
 
+  let background = "rgb("+0+","+0+","+0+","+0.05+")";
+  //ctx.fillStyle = background;
+  //ctx.fillRect(0,0,cnv.width,cnv.height);
+  ctx.clearRect(0,0,cnv.width,cnv.height);
   repeller.update();
   attractor.update();
 
