@@ -10,7 +10,7 @@ function init(){
   ctx.fillStyle = "black";
   ctx.fillRect(0,0,cnv.width,cnv.height);
 
-  repeller = generateRandomMolecule(new Color(255,0,0,1),25,1.5);
+  repeller = generateRandomMolecule(new Color(255,0,0,1),25,2);
   attractor = generateRandomMolecule(new Color(0,0,255,1),25,1.5);
 
   for(var i = 0;i<50;i++){
@@ -39,7 +39,7 @@ function update(){
     for(var k = 0;k<molecules.length;k++){
       if (i == k) continue;
       if(molecules[i].pos.distance(molecules[k].pos)>2*molecules[i].radius+2*molecules[k].radius) continue;
-      molecules[i].interact(molecules[k],false,0.25);
+      //molecules[i].interact(molecules[k],false,0.25);
     }
 
     molecules[i].update();

@@ -42,14 +42,24 @@ Molecule.prototype.draw = function(){
   this.ctx.fillStyle = "rgb("+this.color.r+","+this.color.g+","+this.color.b+")";  // color to stroke
   this.ctx.fill();     // render the fill*/
   ctx.beginPath();
-  let dir = this.vel;
+
   this.ctx.lineWidth = 5;
   this.ctx.strokeStyle =  "rgb("+this.color.r+","+this.color.g+","+this.color.b+")";  // color to stroke
-  this.ctx.moveTo(this.pos.x-0.5*this.radius*dir.y,this.pos.y+0.5*this.radius*dir.x);
-  this.ctx.lineTo(this.pos.x+2*this.radius*dir.x,this.pos.y+2*this.radius*dir.y);
-  this.ctx.lineTo(this.pos.x+0.5*this.radius*dir.y,this.pos.y-0.5*this.radius*dir.x);
+  //this.ctx.moveTo(this.pos.x-0.5*this.radius*dir.y,this.pos.y+0.5*this.radius*dir.x);
+  //this.ctx.lineTo(this.pos.x+2*this.radius*dir.x,this.pos.y+2*this.radius*dir.y);
+  //this.ctx.lineTo(this.pos.x+0.5*this.radius*dir.y,this.pos.y-0.5*this.radius*dir.x);
+
+  this.ctx.save();
+  this.ctx.translate(this.pos.x,this.pos.y);
+  this.ctx.rotate(this.vel.getDirection());
+  this.ctx.moveTo(this.radius,0);
+  this.ctx.lineTo(-this.radius,-this.radius/2);
+  this.ctx.lineTo(-this.radius,this.radius/2);
+  this.ctx.closePath();
+
   this.ctx.closePath();
   this.ctx.stroke();
+  this.ctx.restore();
   this.colorUpdated = false;
 }
 Molecule.prototype.update = function(){
