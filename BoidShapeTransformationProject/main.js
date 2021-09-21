@@ -26,9 +26,9 @@ function animate(){
 function update(){
 
   let background = "rgb("+0+","+0+","+0+","+0.05+")";
-  //ctx.fillStyle = background;
-  //ctx.fillRect(0,0,cnv.width,cnv.height);
-  ctx.clearRect(0,0,cnv.width,cnv.height);
+  ctx.fillStyle = background;
+  ctx.fillRect(0,0,cnv.width,cnv.height);
+  //ctx.clearRect(0,0,cnv.width,cnv.height);
   repeller.update();
   attractor.update();
 
