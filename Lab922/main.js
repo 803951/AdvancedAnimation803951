@@ -28,7 +28,10 @@ function init(){
 function update(){
   ctx.clearRect(0,0,cnv.width,cnv.height);
 
-  ship.attract(planet);
+  let respawn = ship.attract(planet);
+  if(respawn){
+    planet.pos = new JSVector(Math.random()*cnv.width,Math.random()*cnv.height);
+  }
   ship.update();
   planet.draw();
 }

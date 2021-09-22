@@ -45,6 +45,8 @@ Ship.prototype.attract = function(planet){
   let mag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(mag);
+
+  return (this.pos.distance(planet.pos)<=5*this.radius);
 }
 
 Ship.prototype.update = function(){
