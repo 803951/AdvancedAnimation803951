@@ -6,5 +6,5 @@ function Color(r,g,b,a){
 }
 
 Color.prototype.toString = function(){
-  return "rgb("+this.r+","+this.g+","+this.b+")";  // color to stroke
+  return "rgb("+this.r+","+this.g+","+this.b+","+this.a+")";  // color to stroke
 }

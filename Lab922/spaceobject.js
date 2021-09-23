@@ -1,8 +1,9 @@
-function SpaceObject(pos,vel,radius){
+function SpaceObject(pos,vel,radius,cnv,alpha){
   this.pos = pos;
   this.vel = vel;
+  this.alpha = alpha;
   this.radius = radius;
-  this.cnv = document.getElementById("cnv");
+  this.cnv = cnv;
 }
 
 SpaceObject.prototype.checkEdges = function(){
@@ -20,20 +21,22 @@ SpaceObject.prototype.checkEdges = function(){
   }
 }
 
-SpaceObject.prototype.attract = function(other){
-  this.interact(other,1);
-}
-SpaceObject.prototype.repel = function(other){
-  this.ineract(other,-1);
-}
-SpaceObject.prototype.interact = function(other,scale){
-  let force = JSVector.subGetNew(this.pos,ship.pos);
+SpaceObject.prototype.interact = function(other,scale,constantMag){
+  let force = JSVector.subGetNew(this.pos,other.pos);
   force.normalize();
   force.multiply(scale);
   let mag = this.vel.getMagnitude();
   this.vel.add(force);
-  this.vel.setMagnitude(mag);
+  if(constantMag) this.vel.setMagnitude(mag);
 }
-SpaceObject.prototype.test = function(){
-  console.log("inheritance working");
+
+SpaceObject.prototype.update = function(){
+  let dir = this.vel.getDirection();
+  let friction = new JSVector(this.alpha*Math.cos(dir),this.alpha*Math.sin(dir));
+  this.vel.sub(friction);
+  if(dir!=this.vel.getDirection()){
+    vel = new JSVector(0,0);
+  }
+  this.pos.add(this.vel);
+  this.checkEdges();
 }

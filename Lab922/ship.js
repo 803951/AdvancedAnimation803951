@@ -1,28 +1,12 @@
-function Ship(x,y,dx,dy,radius,color){
-  this.pos = new JSVector(x,y);
-  this.vel = new JSVector(dx,dy);
-  this.radius = radius;
+function Ship(x,y,dx,dy,radius,color,cnv,ctx){
+  let pos = new JSVector(x,y);
+  let vel = new JSVector(dx,dy);
   this.color = color;
-  this.cnv = document.getElementById("cnv");
-  this.ctx = this.cnv.getContext("2d");
+  this.ctx = ctx;
+  SpaceObject.call(this,pos,vel,radius,cnv,0);
 }
 
 Ship.prototype = Object.create(SpaceObject.prototype);
-
-Ship.prototype.checkEdges = function(){
-  if(this.pos.x<=this.radius){
-    this.pos.x = this.cnv.width-this.radius;
-  }
-  else if(this.pos.x>=this.cnv.width-this.radius){
-    this.pos.x = this.radius;
-  }
-  if(this.pos.y<=this.radius){
-    this.pos.y = this.cnv.height-this.radius;
-  }
-  else if(this.pos.y>=this.cnv.height-this.radius){
-    this.pos.y = this.radius;
-  }
-}
 
 Ship.prototype.draw = function(){
   this.ctx.lineWidth = 5;
@@ -40,27 +24,4 @@ Ship.prototype.draw = function(){
   this.ctx.stroke();
   this.ctx.fill();
   this.ctx.restore();
-}
-
-Ship.prototype.attract = function(planet){
-  let force = JSVector.subGetNew(planet.pos,this.pos);
-  force.normalize();
-  force.divide(15);
-  let mag = this.vel.getMagnitude();
-  this.vel.add(force);
-  this.vel.setMagnitude(mag);
-
-  return (this.pos.distance(planet.pos)<=this.radius*5);
-}
-
-Ship.prototype.update = function(){
-  this.pos.add(this.vel);
-  ship.checkEdges();
-  this.draw();
-
-
-Object.defineProperty(Ship.prototype, 'constructor', {
-    value: Ship,
-    enumerable: false, // so that it does not appear in 'for in' loop
-    writable: true });
 }
