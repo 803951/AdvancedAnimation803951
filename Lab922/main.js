@@ -7,20 +7,21 @@ function init(){
 
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
-  let x = Math.random()*cnv.width;
-  let y = Math.random()*cnv.height;
-  let speed = Math.random()*2+2;
+  let radius = 25;
+  let x = Math.random()*(cnv.width-2*radius)+radius;
+  let y = Math.random()*(cnv.height-2*radius)+radius;
+  let speed = 2;
   let dir = Math.random()*Math.PI*2;
   let dx = Math.cos(dir)*speed;
   let dy = Math.sin(dir)*speed;
   let color = new Color(50,150,50,1);
-  ship = new Ship(x,y,dx,dy,5,color);
+  ship = new Ship(x,y,dx,dy,10,color);
 
   x = cnv.width - x;
   y = cnv.height - y;
 
   color = new Color(150,50,150,1);
-  planet = new Planet(x,y,15,color);
+  planet = new Planet(x,y,radius,color);
 
   animate();
 }
@@ -32,8 +33,8 @@ function update(){
   if(respawn){
     planet.pos = new JSVector(Math.random()*cnv.width,Math.random()*cnv.height);
   }
-  ship.update();
   planet.draw();
+  ship.update();
 }
 
 function animate(){

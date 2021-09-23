@@ -25,13 +25,14 @@ Ship.prototype.checkEdges = function(){
 Ship.prototype.draw = function(){
   this.ctx.lineWidth = 5;
   this.ctx.strokeStyle = this.color.toString();
+  this.ctx.fillStyle = this.color.toString();
   this.ctx.save();
   this.ctx.translate(this.pos.x,this.pos.y);
   this.ctx.rotate(this.vel.getDirection());
   this.ctx.beginPath();
   this.ctx.moveTo(this.radius,0);
   this.ctx.lineTo(-this.radius,this.radius);
-  this.ctx.lineTo(0,0);
+  this.ctx.lineTo(-this.radius/2,0);
   this.ctx.lineTo(-this.radius,-this.radius);
   this.ctx.closePath();
   this.ctx.stroke();
@@ -46,7 +47,7 @@ Ship.prototype.attract = function(planet){
   this.vel.add(force);
   this.vel.setMagnitude(mag);
 
-  return (this.pos.distance(planet.pos)<=5*this.radius);
+  return (this.pos.distance(planet.pos)<=this.radius*5);
 }
 
 Ship.prototype.update = function(){

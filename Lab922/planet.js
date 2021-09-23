@@ -7,7 +7,9 @@ function Planet(x,y,radius,color){
 }
 
 Planet.prototype.draw = function(){
+  this.ctx.beginPath();
   this.ctx.fillStyle = this.color.toString();
   this.ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI);
   this.ctx.fill();
+  this.ctx.closePath();
 }
