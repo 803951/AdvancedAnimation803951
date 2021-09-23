@@ -8,17 +8,17 @@ function Ship(x,y,dx,dy,radius,color){
 }
 
 Ship.prototype.checkEdges = function(){
-  if(this.pos.x<=0){
-    this.pos.x = this.cnv.width;
+  if(this.pos.x<=this.radius){
+    this.pos.x = this.cnv.width-this.radius;
   }
-  else if(this.pos.x>=this.cnv.width){
-    this.pos.x = 0;
+  else if(this.pos.x>=this.cnv.width-this.radius){
+    this.pos.x = this.radius;
   }
-  if(this.pos.y<=0){
-    this.pos.y = this.cnv.height;
+  if(this.pos.y<=this.radius){
+    this.pos.y = this.cnv.height-this.radius;
   }
-  else if(this.pos.y>=this.cnv.height){
-    this.pos.y = -this.radius*2;
+  else if(this.pos.y>=this.cnv.height-this.radius){
+    this.pos.y = this.radius;
   }
 }
 
