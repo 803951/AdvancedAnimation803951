@@ -7,6 +7,8 @@ function Ship(x,y,dx,dy,radius,color){
   this.ctx = this.cnv.getContext("2d");
 }
 
+Ship.prototype = Object.create(SpaceObject.prototype);
+
 Ship.prototype.checkEdges = function(){
   if(this.pos.x<=this.radius){
     this.pos.x = this.cnv.width-this.radius;
@@ -43,6 +45,7 @@ Ship.prototype.draw = function(){
 Ship.prototype.attract = function(planet){
   let force = JSVector.subGetNew(planet.pos,this.pos);
   force.normalize();
+  force.divide(15);
   let mag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(mag);
@@ -54,4 +57,10 @@ Ship.prototype.update = function(){
   this.pos.add(this.vel);
   ship.checkEdges();
   this.draw();
+
+
+Object.defineProperty(Ship.prototype, 'constructor', {
+    value: Ship,
+    enumerable: false, // so that it does not appear in 'for in' loop
+    writable: true });
 }

@@ -7,6 +7,8 @@ function Planet(x,y,radius,color){
   this.ctx = this.cnv.getContext("2d");
 }
 
+Planet.prototype = Object.create(SpaceObject.prototype);
+
 Planet.prototype.draw = function(){
   this.ctx.beginPath();
   this.ctx.fillStyle = this.color.toString();
@@ -15,7 +17,7 @@ Planet.prototype.draw = function(){
   this.ctx.closePath();
 }
 
-Planet.protoype.repel = function(ship){
+Planet.prototype.repel = function(ship){
   let force = JSVector.subGetNew(this.pos,ship.pos);
   force.normalize();
   let mag = this.vel.getMagnitude();
@@ -23,7 +25,7 @@ Planet.protoype.repel = function(ship){
   this.vel.setMagnitude(mag);
 }
 
-Planet.protoype.update = function(){
+Planet.prototype.update = function(){
   this.pos.add(this.vel);
   this.draw();
 }

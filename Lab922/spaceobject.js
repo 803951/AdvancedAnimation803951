@@ -1,10 +1,11 @@
-SpaceObject = function(pos,vel,radius){
+function SpaceObject(pos,vel,radius){
   this.pos = pos;
   this.vel = vel;
-  this.radius = radius
+  this.radius = radius;
   this.cnv = document.getElementById("cnv");
 }
-SpaceObject.prototype.checkEdges(){
+
+SpaceObject.prototype.checkEdges = function(){
   if(this.pos.x<=this.radius){
     this.pos.x = this.cnv.width-this.radius;
   }
@@ -18,17 +19,21 @@ SpaceObject.prototype.checkEdges(){
     this.pos.y = this.radius;
   }
 }
-Spaceobject.prototype.attract(other){
+
+SpaceObject.prototype.attract = function(other){
   this.interact(other,1);
 }
-SpaceObject.protoype.repel(other){
+SpaceObject.prototype.repel = function(other){
   this.ineract(other,-1);
 }
-SpaceObject.prototype.interact(other,scale){
+SpaceObject.prototype.interact = function(other,scale){
   let force = JSVector.subGetNew(this.pos,ship.pos);
   force.normalize();
   force.multiply(scale);
   let mag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(mag);
+}
+SpaceObject.prototype.test = function(){
+  console.log("inheritance working");
 }
