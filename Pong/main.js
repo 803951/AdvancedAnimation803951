@@ -26,7 +26,7 @@ function init(){
 
   let dir = 0;//(Math.random()*Math.PI*2);
   let velMag = 5;
-  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color);
+  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color,0.1);
 
   w = 5
   divider = new Divider(cnv.width/2-w/2,10,0,50,w,30,cnv.width,cnv.height,color);
@@ -52,6 +52,7 @@ function update(){
   ball.detectCollision(player1);
   ball.detectCollision(player2);
   ball.update();
+  ball.draw();
   player1.update();
   player2.update();
   ctx.closePath();

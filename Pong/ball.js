@@ -1,8 +1,9 @@
-function Ball(x,y,dx,dy,radius,color){
+function Ball(x,y,dx,dy,radius,color,acc){
   this.pos = new JSVector(x,y);
   this.vel = new JSVector(dx,dy);
   this.radius = radius;
   this.color = color;
+  this.acc = acc;
 }
 
 Ball.prototype.draw = function(){
@@ -13,9 +14,15 @@ Ball.prototype.draw = function(){
 
 Ball.prototype.checkEdges = function(){
   if(this.pos.x<this.radius){
+    //this.vel.x*=-1;
+    this.pos.x = cnv.width/2;
+    this.pos.y = cnv.height/2;
     this.vel.x*=-1;
   }
   else if(this.pos.x>cnv.width-this.radius){
+    //this.vel.x*=-1;
+    this.pos.x = cnv.width/2;
+    this.pos.y = cnv.height/2;
     this.vel.x*=-1;
   }
   if(this.pos.y<this.radius){
@@ -58,14 +65,13 @@ Ball.prototype.detectCollision = function(paddle){
     let dir = (this.pos.y-paddle.pos.y-paddle.size.y/2)/(paddle.size.y/2)*Math.PI/3;
     if(this.vel.x>0) dir+=Math.PI;
     this.vel.setDirection(dir);
+    let mag = this.vel.getMagnitude()+this.acc;
+    this.vel.setMagnitude(mag);
     this.pos.add(this.vel);
   }
 }
 
 Ball.prototype.update = function(){
-  this.checkEdges();
-
   this.pos.add(this.vel);
-
-  this.draw();
+  this.checkEdges();
 }
