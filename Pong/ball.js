@@ -28,6 +28,8 @@ Ball.prototype.checkEdges = function(){
 
 Ball.prototype.detectCollision = function(paddle){
 
+  let rebound = false;
+
   let distX = Math.abs(this.pos.x-paddle.pos.x-paddle.size.x/2);
   let distY = Math.abs(this.pos.y-paddle.pos.y-paddle.size.y/2);
 
@@ -39,19 +41,24 @@ Ball.prototype.detectCollision = function(paddle){
   }
 
   if (distX <= (paddle.size.x / 2)) {
-    this.vel.x*=-1;
-    return;
+    rebound = true;
   }
   if (distY <= (paddle.size.y / 2)) {
-    this.vel.x*=-1;
-    return;
+    reboung = true;
   }
 
   var dx = distX - paddle.size.x / 2;
   var dy = distY - paddle.size.y / 2;
 
   if(dx * dx + dy * dy <= (this.radius * this.radius)){
-    this.vel.x*=-1;
+    rebound = true;
+  }
+
+  if(rebound){
+    let dir = (this.pos.y-paddle.pos.y-paddle.size.y/2)/(paddle.size.y/2)*Math.PI/3;
+    if(this.vel.x>0) dir+=Math.PI;
+    this.vel.setDirection(dir);
+    this.pos.add(this.vel);
   }
 }
 

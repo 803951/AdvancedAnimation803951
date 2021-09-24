@@ -24,7 +24,7 @@ function init(){
   player1 = new Paddle(offset,cnv.height/2-h/2,w,h,color,offset);
   player2 = new Paddle(cnv.width-w-offset,cnv.height/2-h/2,w,h,color,offset);
 
-  let dir = (Math.random()*Math.PI*2);
+  let dir = 0;//(Math.random()*Math.PI*2);
   let velMag = 5;
   ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color);
 
