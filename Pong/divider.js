@@ -7,7 +7,8 @@ function Divider(x,y,dx,dy,w,h,maxX,maxY,color){
 }
 
 Divider.prototype.draw = function(){
-  var rectPos = this.pos;
+
+  var rectPos = new JSVector(this.pos.x,this.pos.y);
 
   while(rectPos.x<this.max.x&&rectPos.y<this.max.y){
     ctx.fillStyle = this.color.toString();

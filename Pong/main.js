@@ -26,9 +26,10 @@ function init(){
 
   let dir = (Math.random()*Math.PI*2);
   let velMag = 5;
-  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,new Color(255,255,255,1));
+  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color);
 
-  divider = new Divider(cnv.width/2-w,0,0,50,w,30,cnv.width,cnv.height,color);
+  w = 5
+  divider = new Divider(cnv.width/2-w/2,10,0,50,w,30,cnv.width,cnv.height,color);
 
   background = new Color(0,0,0,1);
 
