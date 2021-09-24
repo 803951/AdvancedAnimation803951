@@ -3,7 +3,7 @@ function Planet(x,y,dx,dy,radius,color,orbitDist){
   this.vel = new JSVector(dx,dy);
   this.radius = radius;
   this.color = color;
-  this.orbiters = Orbiter.generateRandomOrbiters(this.pos,radius,7,28);
+  this.orbiters = Orbiter.generateRandomOrbiters(this.pos,radius,14,28);
   this.orbitDist = 70;
 }
 

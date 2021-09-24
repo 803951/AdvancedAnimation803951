@@ -13,7 +13,7 @@ Orbiter.generateRandomOrbiters = function(pos,radius,min,max){
   for(var i = 0;i<n;i++){
       let color = Color.generateRandomColor();
       let dir = Math.random()*Math.PI*2;
-      let r = Math.random()*radius/5+radius/4;
+      let r = Math.random()*radius/6+radius/5;
       let x = pos.x+Math.cos(dir)*r*6;
       let y = pos.y+Math.sin(dir)*r*6;
       let omega = Math.random()/25+0.02;
@@ -26,8 +26,16 @@ Orbiter.generateRandomOrbiters = function(pos,radius,min,max){
 Orbiter.prototype.orbit = function(planet,dist){
   this.theta+=this.omega;
 
+  ctx.beginPath();
+
   this.pos.x = planet.pos.x+Math.cos(this.theta)*dist;
   this.pos.y = planet.pos.y+Math.sin(this.theta)*dist;
+  ctx.moveTo(this.pos.x,this.pos.y);
+  ctx.lineTo(planet.pos.x,planet.pos.y);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "white";
+  ctx.stroke();
+  ctx.closePath();
 }
 
 Orbiter.prototype.draw = function(){
