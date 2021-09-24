@@ -1,7 +1,7 @@
-function Orbiter(x,y,omega,radius,color){
+function Orbiter(x,y,omega,theta,radius,color){
   this.pos = new JSVector(x,y);
   this.omega = omega;
-  this.theta = Math.random()*Math.PI*2;
+  this.theta = theta;
   this.radius = radius;
   this.color = color;
 }
@@ -9,15 +9,14 @@ function Orbiter(x,y,omega,radius,color){
 Orbiter.generateRandomOrbiters = function(pos,radius,min,max){
   let n = Math.round(Math.random(max-min)+min);
   let orbiters = [];
-
+  let omega = Math.random()/25+0.02;
   for(var i = 0;i<n;i++){
-      let color = Color.generateRandomColor();
-      let dir = Math.random()*Math.PI*2;
-      let r = Math.random()*radius/6+radius/5;
-      let x = pos.x+Math.cos(dir)*r*6;
-      let y = pos.y+Math.sin(dir)*r*6;
-      let omega = Math.random()/25+0.02;
-      orbiters.push(new Orbiter(x,y,omega,r,color));
+    let color = Color.generateRandomColor();
+    let dir = Math.PI*2*i/n;
+    let r = Math.random()*radius/6+radius/5;
+    let x = pos.x+Math.cos(dir)*r*6;
+    let y = pos.y+Math.sin(dir)*r*6;
+    orbiters.push(new Orbiter(x,y,omega,dir,r,color));
   }
 
   return orbiters;
