@@ -6,11 +6,9 @@ function Ball(x,y,dx,dy,radius,color){
 }
 
 Ball.prototype.draw = function(){
-  ctx.beginPath();
   ctx.fillStyle = this.color.toString();
   ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI);
   ctx.fill();
-  ctx.closePath();
 }
 
 Ball.prototype.checkEdges = function(){
@@ -25,6 +23,35 @@ Ball.prototype.checkEdges = function(){
   }
   else if(this.pos.y>cnv.height-this.radius){
     this.vel.y*=-1;
+  }
+}
+
+Ball.prototype.detectCollision = function(paddle){
+
+  let distX = Math.abs(this.pos.x-paddle.pos.x-paddle.size.x/2);
+  let distY = Math.abs(this.pos.y-paddle.pos.y-paddle.size.y/2);
+
+  if (distX > (paddle.size.x / 2 + this.radius)) {
+    return;
+  }
+  if (distY > (paddle.size.y / 2 + this.radius)) {
+    return;
+  }
+
+  if (distX <= (paddle.size.x / 2)) {
+    this.vel.x*=-1;
+    return;
+  }
+  if (distY <= (paddle.size.y / 2)) {
+    this.vel.x*=-1;
+    return;
+  }
+
+  var dx = distX - paddle.size.x / 2;
+  var dy = distY - paddle.size.y / 2;
+
+  if(dx * dx + dy * dy <= (this.radius * this.radius)){
+    this.vel.x*=-1;
   }
 }
 

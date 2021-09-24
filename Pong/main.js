@@ -47,10 +47,14 @@ function animate(){
 function update(){
   processInput();
 
+  ctx.beginPath();
   divider.draw();
+  ball.detectCollision(player1);
+  ball.detectCollision(player2);
   ball.update();
   player1.update();
   player2.update();
+  ctx.closePath();
 }
 
 function processInput(){
