@@ -8,7 +8,7 @@ function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiter
   this.orbiters = [];
   this.orbitDist = 2.5*radius;
   if(orbits>0){
-    this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters*2,maxOrbiters*2,orbits-1);
+    this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters,maxOrbiters,orbits-1);
   }
 
 }
@@ -37,7 +37,7 @@ Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits){
     let r = Math.pow((Math.random()+1)/2,2)*radius/2;
     let x = pos.x+Math.cos(theta)*r*6;
     let y = pos.y+Math.sin(theta)*r*6;
-    let orbiter = new Planet(x,y,0,0,r,color,orbits,omega,theta,min,max);
+    let orbiter = new Planet(x,y,0,0,r,color,orbits,omega,theta,min*2,max*2);
 
     orbiter.draw();
     orbiters.push(orbiter);
@@ -46,7 +46,7 @@ Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits){
   return orbiters;
 }
 
-Planet.generateRandomPlanet = function(rMin,rMax,orbits,minOrbiters,maxOrbiters){
+Planet.generateRandomPlanet = function(rMin,rMax,minOrbiters,maxOrbiters,orbits){
   let radius = Math.random()*(rMax-rMin)+rMin;
   let x = Math.random()*(cnv.width-2*radius)+radius;
   let y = Math.random()*(cnv.height-2*radius)+radius;
