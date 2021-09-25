@@ -16,7 +16,9 @@ function init(){
     planets.push(planet);
   }
 
-  background = new Color(0,0,0,1);
+  background = new Color(0,0,0,0.06);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,cnv.width,cnv.height);
 
   animate();
 }

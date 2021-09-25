@@ -23,7 +23,7 @@ Planet.prototype.orbit = function(other,dist){
   ctx.lineTo(other.pos.x,other.pos.y);
   ctx.lineWidth = 2;
   ctx.strokeStyle = this.color.toString();
-  ctx.stroke();
+  //ctx.stroke();
   ctx.closePath();
 }
 
@@ -74,15 +74,22 @@ Planet.prototype.checkEdges = function(){
   }
 }
 
-Planet.prototype.draw = function(){
+Planet.prototype.draw = function(color){
   ctx.beginPath();
-  ctx.fillStyle = this.color.toString();
+  ctx.fillStyle = color;
   ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI);
   ctx.fill();
   ctx.closePath();
 }
 
 Planet.prototype.update = function(){
+
+  if(this.orbiters.length>0){
+    if(this.orbiters[0].orbiters.length>0&&this.omega!=0){
+      this.draw("black");
+    }
+  }
+
   this.pos.add(this.vel);
 
   if(this.vel.getMagnitude()>0) this.checkEdges(); //checks if it is initial planet
@@ -92,5 +99,5 @@ Planet.prototype.update = function(){
     this.orbiters[i].orbit(this,this.orbitDist);
   }
 
-  this.draw();
+  if(this.omega!=0)this.draw(this.color.toString());
 }
