@@ -84,12 +84,6 @@ Planet.prototype.draw = function(color){
 
 Planet.prototype.update = function(){
 
-  if(this.orbiters.length>0){
-    if(this.orbiters[0].orbiters.length>0&&this.omega!=0){
-      this.draw("black");
-    }
-  }
-
   this.pos.add(this.vel);
 
   if(this.vel.getMagnitude()>0) this.checkEdges(); //checks if it is initial planet
