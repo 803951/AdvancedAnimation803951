@@ -14,16 +14,12 @@ Ball.prototype.draw = function(){
 
 Ball.prototype.checkEdges = function(){
   if(this.pos.x<this.radius){
-    //this.vel.x*=-1;
-    this.pos.x = cnv.width/2;
-    this.pos.y = cnv.height/2;
-    this.vel.x*=-1;
+    this.reset(0);
+    score2.increaseScore();
   }
   else if(this.pos.x>cnv.width-this.radius){
-    //this.vel.x*=-1;
-    this.pos.x = cnv.width/2;
-    this.pos.y = cnv.height/2;
-    this.vel.x*=-1;
+    this.reset(1);
+    score1.increaseScore();
   }
   if(this.pos.y<this.radius){
     this.vel.y*=-1;
@@ -31,6 +27,16 @@ Ball.prototype.checkEdges = function(){
   else if(this.pos.y>cnv.height-this.radius){
     this.vel.y*=-1;
   }
+}
+
+Ball.prototype.reset = function(player){
+  this.pos.x = cnv.width/2;
+  this.pos.y = cnv.height/2;
+  this.vel.x = (1-player*2)*velMag;
+  this.vel.y = 0;
+
+  player1.pos.y = cnv.height/2-player2.size.y/2;
+  player2.pos.y = cnv.height/2-player2.size.y/2;
 }
 
 Ball.prototype.detectCollision = function(paddle){

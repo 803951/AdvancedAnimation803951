@@ -11,7 +11,7 @@ document.addEventListener('keyup', (event) => {
    delete keysPressed[event.key];
 });
 
-var cnv,ctx,player1,player2,ball,divider,speed,background;
+var cnv,ctx,player1,player2,score1,score2,ball,velMag,divider,speed,background;
 
 function init(){
   cnv = document.getElementById("cnv");
@@ -23,9 +23,11 @@ function init(){
   let color = new Color(255,255,255,1);
   player1 = new Paddle(offset,cnv.height/2-h/2,w,h,color,offset);
   player2 = new Paddle(cnv.width-w-offset,cnv.height/2-h/2,w,h,color,offset);
+  score1 = new ScoreHandler(0,1,cnv.width/2-50,50,"40px Comic Sans MS","center",color);
+  score2 = new ScoreHandler(0,1,cnv.width/2+50,50,"40px Comic Sans MS","center",color);
 
-  let dir = 0;//(Math.random()*Math.PI*2);
-  let velMag = 5;
+  let dir = 0;
+  velMag = 5;
   ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color,0.1);
 
   w = 5
@@ -56,6 +58,9 @@ function update(){
   player1.update();
   player2.update();
   ctx.closePath();
+
+  score1.display();
+  score2.display();
 }
 
 function processInput(){
