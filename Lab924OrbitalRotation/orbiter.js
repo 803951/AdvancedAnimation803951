@@ -10,8 +10,8 @@ Orbiter.generateRandomOrbiters = function(pos,radius,min,max){
   let n = Math.round(Math.random(max-min)+min);
   let orbiters = [];
   let omega = Math.random()/25+0.02;
+  let color = Color.generateRandomColor();
   for(var i = 0;i<n;i++){
-    let color = Color.generateRandomColor();
     let dir = Math.PI*2*i/n;
     let r = Math.random()*radius/6+radius/5;
     let x = pos.x+Math.cos(dir)*r*6;
@@ -32,7 +32,7 @@ Orbiter.prototype.orbit = function(planet,dist){
   ctx.moveTo(this.pos.x,this.pos.y);
   ctx.lineTo(planet.pos.x,planet.pos.y);
   ctx.lineWidth = 2;
-  ctx.strokeStyle = "white";
+  ctx.strokeStyle = this.color.toString();
   ctx.stroke();
   ctx.closePath();
 }

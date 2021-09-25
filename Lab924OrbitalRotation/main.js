@@ -9,7 +9,7 @@ function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
 
-  let totalPlanets = 5;
+  let totalPlanets = 7;
   for(var i = 0;i<totalPlanets;i++){
     planet = Planet.generateRandomPlanet(25,50);
     planets.push(planet);
