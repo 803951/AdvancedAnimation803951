@@ -11,7 +11,8 @@ function init(){
 
   let totalPlanets = 1;
   for(var i = 0;i<totalPlanets;i++){
-    planet = Planet.generateRandomPlanet(75,100,3,6,3);
+    let orbits = 3;
+    planet = Planet.generateRandomPlanet(75,100,4,6,orbits);
     planets.push(planet);
   }
 
