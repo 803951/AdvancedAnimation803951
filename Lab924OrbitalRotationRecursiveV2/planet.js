@@ -93,5 +93,5 @@ Planet.prototype.update = function(){
     this.orbiters[i].orbit(this,this.orbitDist);
   }
 
-  if(this.omega!=0)this.draw(this.color.toString());
+  if(this.orbiters.length==0)this.draw(this.color.toString());
 }
