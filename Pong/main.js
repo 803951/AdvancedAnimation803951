@@ -51,10 +51,7 @@ function update(){
 
   ctx.beginPath();
   divider.draw();
-  ball.detectCollision(player1);
-  ball.detectCollision(player2);
   ball.update();
-  ball.draw();
   player1.update();
   player2.update();
   ctx.closePath();

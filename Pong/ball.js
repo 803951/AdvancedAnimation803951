@@ -69,15 +69,24 @@ Ball.prototype.detectCollision = function(paddle){
 
   if(rebound){
     let dir = (this.pos.y-paddle.pos.y-paddle.size.y/2)/(paddle.size.y/2)*Math.PI/3;
-    if(this.vel.x>0) dir = Math.PI-dir;
+    if(this.vel.x>0){
+      dir = Math.PI-dir;
+      this.pos.x = paddle.pos.x-this.radius;
+    }
+    else{
+      this.pos.x = paddle.pos.x+paddle.size.x+this.radius;
+    }
+
     this.vel.setDirection(dir);
     let mag = this.vel.getMagnitude()+this.acc;
     this.vel.setMagnitude(mag);
-    this.pos.add(this.vel);
   }
 }
 
 Ball.prototype.update = function(){
   this.pos.add(this.vel);
+  this.detectCollision(player1);
+  this.detectCollision(player2);
   this.checkEdges();
+  this.draw()
 }
