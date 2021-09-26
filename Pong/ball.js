@@ -69,7 +69,7 @@ Ball.prototype.detectCollision = function(paddle){
 
   if(rebound){
     let dir = (this.pos.y-paddle.pos.y-paddle.size.y/2)/(paddle.size.y/2)*Math.PI/3;
-    if(this.vel.x>0) dir+=Math.PI;
+    if(this.vel.x>0) dir = Math.PI-dir;
     this.vel.setDirection(dir);
     let mag = this.vel.getMagnitude()+this.acc;
     this.vel.setMagnitude(mag);
