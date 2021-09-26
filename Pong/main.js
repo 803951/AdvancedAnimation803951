@@ -28,7 +28,7 @@ function init(){
 
   let dir = 0;
   velMag = 5;
-  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color,0.1);
+  ball = new Ball(cnv.width/2,cnv.height/2,Math.cos(dir)*velMag,Math.sin(dir)*velMag,10,color,0.2);
 
   w = 5
   divider = new Divider(cnv.width/2-w/2,10,0,50,w,30,cnv.width,cnv.height,color);
