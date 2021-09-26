@@ -5,8 +5,8 @@ function Color(r,g,b,a){
   this.a = a;
 }
 
-Color.generateRandomColor = function(){
-  return new Color(Math.random()*255,Math.random()*255,Math.random()*255,1);
+Color.generateRandomColor = function(scaleR,scaleG,scaleB){
+  return new Color(Math.random()*255*scaleR,Math.random()*255*scaleG,Math.random()*255*scaleB,1);
 }
 
 Color.prototype.toString = function(){

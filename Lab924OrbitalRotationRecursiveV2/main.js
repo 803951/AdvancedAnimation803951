@@ -9,10 +9,22 @@ function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
 
-  let totalPlanets = 1;
-  for(var i = 0;i<totalPlanets;i++){
-    let orbits = 3;
-    planet = Planet.generateRandomPlanet(75,100,4,6,orbits);
+  let totalPlanetsR = 1;
+  let totalPlanetsG = 1;
+  let totalPlanetsB = 1;
+  let minR = 40;
+  let maxR = 60;
+  let orbits = 3;
+  for(var i = 0;i<totalPlanetsR;i++){
+    var planet = Planet.generateRandomPlanet(minR,maxR,4,6,orbits,255,1,1);
+    planets.push(planet);
+  }
+  for(var i = 0;i<totalPlanetsG;i++){
+    var planet = Planet.generateRandomPlanet(minR,maxR,4,6,orbits,1,255,1);
+    planets.push(planet);
+  }
+  for(var i = 0;i<totalPlanetsB;i++){
+    var planet = Planet.generateRandomPlanet(minR,maxR,4,6,orbits,1,1,255);
     planets.push(planet);
   }
 

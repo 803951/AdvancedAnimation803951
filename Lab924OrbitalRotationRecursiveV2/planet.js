@@ -1,4 +1,4 @@
-function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiters){
+function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiters,scaleR,scaleG,scaleB){
   this.pos = new JSVector(x,y);
   this.vel = new JSVector(dx,dy);
   this.radius = radius;
@@ -8,7 +8,7 @@ function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiter
   this.orbiters = [];
   this.orbitDist = 2.5*radius;
   if(orbits>0){
-    this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters,maxOrbiters,orbits-1);
+    this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters,maxOrbiters,orbits-1,scaleR,scaleG,scaleB);
   }
 
 }
@@ -27,18 +27,18 @@ Planet.prototype.orbit = function(other,dist){
   ctx.closePath();
 }
 
-Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits){
+Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits,scaleR,scaleG,scaleB){
   let n = Math.round(Math.random(max-min)+min);
   let orbiters = [];
   let sign = (Math.random()>0.5)?1:-1;
   let omega = (Math.random()/50+0.005)*sign;
-  let color = Color.generateRandomColor();
+  let color = Color.generateRandomColor(scaleR,scaleG,scaleB);
   for(var i = 0;i<n;i++){
     let theta = Math.PI*2*i/n;
     let r = Math.pow((Math.random()+1)/2,2)*radius/2;
     let x = pos.x+Math.cos(theta)*r*6;
     let y = pos.y+Math.sin(theta)*r*6;
-    let orbiter = new Planet(x,y,0,0,r,color,orbits,omega,theta,min*2,max*2);
+    let orbiter = new Planet(x,y,0,0,r,color,orbits,omega,theta,min*2,max*2,scaleR,scaleG,scaleB);
 
     orbiter.draw();
     orbiters.push(orbiter);
@@ -47,7 +47,7 @@ Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits){
   return orbiters;
 }
 
-Planet.generateRandomPlanet = function(rMin,rMax,minOrbiters,maxOrbiters,orbits){
+Planet.generateRandomPlanet = function(rMin,rMax,minOrbiters,maxOrbiters,orbits,scaleR,scaleG,scaleB){
   let radius = Math.random()*(rMax-rMin)+rMin;
   let x = Math.random()*(cnv.width-2*radius)+radius;
   let y = Math.random()*(cnv.height-2*radius)+radius;
@@ -56,7 +56,7 @@ Planet.generateRandomPlanet = function(rMin,rMax,minOrbiters,maxOrbiters,orbits)
   let dx = Math.cos(dir)*speed;
   let dy = Math.sin(dir)*speed;
   let color = Color.generateRandomColor();
-  return new Planet(x,y,dx,dy,radius,color,orbits,0,0,minOrbiters,maxOrbiters);
+  return new Planet(x,y,dx,dy,radius,color,orbits,0,0,minOrbiters,maxOrbiters,scaleR,scaleG,scaleB);
 }
 
 Planet.prototype.checkEdges = function(){
