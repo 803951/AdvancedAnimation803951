@@ -36,7 +36,7 @@ Creature.prototype.checkEdges = function(){
 
 Creature.prototype.attract = function(other){
   let force = JSVector.subGetNew(other.pos,this.pos);
-  force.setMagnitude(0.5);
+  force.setMagnitude(0.1);
   let tempMag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(tempMag);
