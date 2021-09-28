@@ -1,4 +1,4 @@
-function Mouse(pos,radius,speed,id,matingProb){
+function Mouse(pos,radius,speed,id,matingProb,matingRad){
 
   this.color = new Color(100,100,100,1);
 
@@ -10,7 +10,7 @@ function Mouse(pos,radius,speed,id,matingProb){
   let predators = [];
   let prey = [];
 
-  Creature.call(this,pos,vel,radius,predators,prey,sex,id,matingProb);
+  Creature.call(this,pos,vel,radius,predators,prey,sex,id,matingProb,matingRad);
 }
 
 Mouse.prototype = new Creature();
