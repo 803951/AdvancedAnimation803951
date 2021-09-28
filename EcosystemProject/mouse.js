@@ -1,4 +1,4 @@
-function Mouse(pos,radius,speed,id){
+function Mouse(pos,radius,speed,id,matingProb){
 
   this.color = new Color(100,100,100,1);
 
@@ -10,7 +10,7 @@ function Mouse(pos,radius,speed,id){
   let predators = [];
   let prey = [];
 
-  Creature.call(this,pos,vel,radius,predators,prey,sex,id);
+  Creature.call(this,pos,vel,radius,predators,prey,sex,id,matingProb);
 }
 
 Mouse.prototype = new Creature();
@@ -19,6 +19,9 @@ Mouse.prototype.draw = function(){
   ctx.beginPath();
   ctx.arc(this.pos.x,this.pos.y,this.radius, 0, 2 * Math.PI);
   ctx.fillStyle = this.color.toString();
+  if(this.inHeat){
+    ctx.fillStyle = this.sex>0.5?"green":"blue";
+  }
   ctx.fill();
   ctx.closePath();
 }

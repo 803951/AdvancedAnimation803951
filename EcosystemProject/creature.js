@@ -1,4 +1,4 @@
-function Creature(pos,vel,radius,predators,prey,sex,id){
+function Creature(pos,vel,radius,predators,prey,sex,id,matingProb){
   this.pos = pos;
   this.vel = vel;
   this.radius = radius;
@@ -6,12 +6,16 @@ function Creature(pos,vel,radius,predators,prey,sex,id){
   this.prey = prey;
   this.sex = sex;
   this.id = id;
-  this.isMated = false;
+  this.matingProb = matingProb;
+  this.inHeat = false;
 }
 
 Creature.prototype.update = function(){
   this.pos.add(this.vel);
   this.checkEdges();
+  if(Math.random()>1-this.matingProb){
+    this.inHeat = true;
+  }
 }
 
 Creature.prototype.checkEdges = function(){
