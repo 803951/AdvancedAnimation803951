@@ -22,13 +22,13 @@ Orbiter.generateRandomOrbiters = function(pos,radius,min,max){
   return orbiters;
 }
 
-Orbiter.prototype.orbit = function(planet,dist){
-  this.theta+=this.omega;
+Orbiter.prototype.orbit = function(planet,orbital_radius){
+
+  this.theta+=this.omega; //add angular velocity to angle
+  this.pos.x = planet.pos.x+Math.cos(this.theta)*orbital_radius; //calculate x of rotated position around pivot point: planet
+  this.pos.y = planet.pos.y+Math.sin(this.theta)*orbital_radius; //calculate y of rotated position around pivot point: planet
 
   ctx.beginPath();
-
-  this.pos.x = planet.pos.x+Math.cos(this.theta)*dist;
-  this.pos.y = planet.pos.y+Math.sin(this.theta)*dist;
   ctx.moveTo(this.pos.x,this.pos.y);
   ctx.lineTo(planet.pos.x,planet.pos.y);
   ctx.lineWidth = 2;
