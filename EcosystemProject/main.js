@@ -19,7 +19,7 @@ function init(){
     let x = Math.random()*(cnv.width-2*radius)+radius;
     let y = Math.random()*(cnv.height-2*radius)+radius;
     let pos = new JSVector(x,y);
-    let mouse = new Mouse(pos,radius,1,0,matingProb,matingRad);
+    let mouse = new Mouse(pos,radius,1,0,matingProb,matingRad,10000);
     species.push(mouse);
   }
 
@@ -47,7 +47,7 @@ function update(){
           species[k].inHeat = false;
           let pos = JSVector.addGetNew(species[i].pos,species[k].pos);
           pos.divide(2);
-          let newMouse = new Mouse(pos,Math.random()*5+17.5,1,0,matingProb,matingRad);
+          let newMouse = new Mouse(pos,Math.random()*5+17.5,1,0,matingProb,matingRad,10000);
           species.unshift(newMouse);
           break;
         }
