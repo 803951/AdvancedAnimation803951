@@ -39,16 +39,34 @@ function update(){
     for(var k = 0;k<species.length;k++){
       if(i==k) continue;
       let dist = species[i].pos.distance(species[k].pos);
-      if(dist<=species[i].matingRad&&species[i].inHeat&&species[k].inHeat&&species[i].sex!=species[k].sex){ //checks if species within mating distance of eachother and if both in heat
-        species[i].attract(species[k]);
-        if(dist<=species[i].radius+species[k].radius){ //mates if touching
-          species[i].inHeat = false; //no longer in heat after mating
-          species[k].inHeat = false;
-          let pos = JSVector.addGetNew(species[i].pos,species[k].pos); //new mouse goes to position interpolation
-          pos.divide(2);
-          let newMouse = new Mouse(pos,Math.random()*5+17.5,1,0,matingProb,matingRad,10000);
-          species.push(newMouse); //adds mouse to list of species
-          break;
+      //mating
+      if(species[i].id == species[k].id){
+        if(dist<=species[i].matingRad&&species[i].inHeat&&species[k].inHeat&&species[i].sex!=species[k].sex){ //checks if species within mating distance of eachother and if both in heat
+          species[i].attract(species[k]);
+          if(dist<=species[i].radius+species[k].radius){ //mates if touching
+            species[i].inHeat = false; //no longer in heat after mating
+            species[k].inHeat = false;
+            let pos = JSVector.addGetNew(species[i].pos,species[k].pos); //new mouse goes to position interpolation
+            pos.divide(2);
+            let newMouse = new Mouse(pos,Math.random()*5+17.5,1,0,matingProb,matingRad,10000);
+            species.push(newMouse); //adds mouse to list of species
+            break;
+          }
+        }
+      }
+      //eating
+      else{
+        for(var w = 0;w<species[i].prey.length;w++){
+          if(species[i].prey[w]==species[k].id){
+            if(dist<=species[i].matingRad){ //checks if species within mating distance of eachother and if both in heat
+              species[i].attract(species[k]);
+              if(dist<=species[i].radius+species[k].radius){ //mates if touching
+                species[i].consume(species[k]);
+                species.splice(k,1);
+                k--;
+              }
+            }
+          }
         }
       }
     }

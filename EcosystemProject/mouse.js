@@ -7,9 +7,8 @@ function Mouse(pos,radius,speed,id,matingProb,matingRad,growthTime){
   let dy = Math.sin(dir)*speed;
   let vel = new JSVector(dx,dy);
   let sex = Math.random()>0.5;
-  let predators = [];
   let prey = [];
-  Creature.call(this,pos,vel,radius,predators,prey,sex,id,matingProb,matingRad,growthTime); //calls parent class constructor to initialize as a creature type object
+  Creature.call(this,pos,vel,radius,prey,sex,id,matingProb,matingRad,growthTime); //calls parent class constructor to initialize as a creature type object
 }
 
 Mouse.prototype = new Creature();

@@ -1,8 +1,7 @@
-function Creature(pos,vel,radius,predators,prey,sex,id,matingProb,matingRad,growthTime){
+function Creature(pos,vel,radius,prey,sex,id,matingProb,matingRad,growthTime){
   this.pos = pos;
   this.vel = vel;
   this.radius = radius;
-  this.predators = predators;
   this.prey = prey;
   this.sex = sex;
   this.id = id;
@@ -42,4 +41,9 @@ Creature.prototype.attract = function(other){
   let tempMag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(tempMag);
+}
+
+Creature.prototype.consume = funtion(other){
+  this.radius+=other.radius/2;
+  this.inHeat = true;
 }
