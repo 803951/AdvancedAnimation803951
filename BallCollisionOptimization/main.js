@@ -17,7 +17,7 @@ function init(){
 
 function resetGrid(){
   //ontext.clearRect(0,0,canvas.width,canvas.height);
-  let background = "rgb("+255+","+255+","+255+","+0.1+")";
+  let background = "rgb("+255+","+255+","+255+","+1+")";
   context.fillStyle = background;
   context.fillRect(0,0,canvas.width,canvas.height);
   grid.splice(0, grid.length);
