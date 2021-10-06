@@ -14,6 +14,10 @@ Color.generateRandomColor = function(scaleR,scaleG,scaleB,grayScale){
   return new Color(Math.random()*255*scaleR,Math.random()*255*scaleG,Math.random()*255*scaleB,1);
 }
 
+Color.prototype.opposite = function(){
+  return new Color(255-this.r,255-this.g,255-this.b,this.a);
+}
+
 Color.prototype.toString = function(){
   return "rgb("+this.r+","+this.g+","+this.b+","+this.a+")";  // color to stroke
 }
