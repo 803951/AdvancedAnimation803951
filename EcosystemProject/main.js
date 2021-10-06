@@ -10,6 +10,7 @@ function init(){
   species = [];
 
   let mice = 10; //id = 0
+  let viruses = 5; //id = 1
   matingProb = 0.002;//sets probability of being in heat to 0.1%
   matingRad = 300; //radius where species is attracted to other in heat species
   currentFrame = 0;
@@ -20,13 +21,23 @@ function init(){
   minY = cnv.height-boundY;
 
   for(var i = 0;i<mice;i++){ //initializes mice
-    let radius = Math.random()*5+17.5;
+    let radius = 20;
     let x = Math.random()*(boundX-2*radius)+radius;
     let y = Math.random()*(boundY-2*radius)+radius;
     let pos = new JSVector(x,y); //sets position to random position on the canvas
     let mouse = new Mouse(pos,radius,1,0,matingProb,matingRad,matingTime); //calls mouse constructor
     species.push(mouse);
   }
+
+  for(var i = 0;i<viruses;i++){
+    let radius = 10;
+    let x = Math.random()*(boundX-2*radius)+radius;
+    let y = Math.random()*(boundY-2*radius)+radius;
+    let pos = new JSVector(x,y);
+    let virus = new Virus(pos,radius,2,1);
+    species.push(virus);
+  }
+
   lastPopCheck = species.length;
   animate();
 }
