@@ -16,30 +16,33 @@ Mouse.prototype = new Creature();
 Mouse.prototype.draw = function(){ //draws mouse as a circle
   //tail
   let dir = this.vel.getDirection();
-  ctx.beginPath();
   let tailSegments = 3;
   let tailLength = this.radius*0.9
   let scale = (this.currentFrame<this.growthTime)? this.currentFrame/this.growthTime:1;
   tailLength*=scale;
-  let x = this.pos.x-Math.cos(dir)*tailLength;
-  let y = this.pos.y-Math.sin(dir)*tailLength;
+  let x = this.pos.x-Math.cos(dir)*tailLength*1.5;
+  let y = this.pos.y-Math.sin(dir)*tailLength*1.5;
   let tailAngle = Math.PI/12; //angle of tail zigZags
-  ctx.moveTo(x,y);
+  let tailColor = new Color(150,150,150,1);
   for(var i = 0;i<tailSegments;i++){
+    ctx.beginPath();
+    ctx.moveTo(x,y);
     tailAngle*=-(1+i%2);
     dir+=2*tailAngle; //zigzag tail
     x-=Math.cos(dir)*tailLength;
     y-=Math.sin(dir)*tailLength;
     ctx.lineTo(x,y);
+    ctx.strokeStyle = tailColor.toString();
+    ctx.lineWidth = 5-3*i/tailSegments;
+    ctx.stroke();
+    ctx.closePath();
+    tailAngle*=0.9;
   }
-  let tailColor = new Color(150,150,150,1);
-  ctx.strokeStyle = tailColor.toString();
-  ctx.lineWidth = 5;
-  ctx.stroke();
-  ctx.closePath();
+
   //body
   ctx.beginPath();
-  ctx.arc(this.pos.x,this.pos.y,this.radius*scale, 0, 2 * Math.PI);
+  //ctx.arc(this.pos.x,this.pos.y,this.radius*scale, 0, 2 * Math.PI);
+  ctx.ellipse(this.pos.x, this.pos.y, this.radius*scale*1.5, this.radius*scale, dir+Math.PI/8, 0, 2*Math.PI);
   ctx.fillStyle = this.color.toString();
   if(this.inHeat){
     if(this.sex) ctx.fillStyle = "red";
