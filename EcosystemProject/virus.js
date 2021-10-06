@@ -39,6 +39,7 @@ Virus.prototype.rotate = function(){
     ctx.moveTo(0,0);
     ctx.lineTo(x,y);
     ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
     ctx.beginPath();

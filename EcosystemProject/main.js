@@ -2,11 +2,16 @@ window.addEventListener("load",init);
 
 var cnv,ctx,species,matingProb,matingRad,currentFrame,matingTime,lastPopCheck,minX,minY,boundX,boundY;
 
+function resetCanvas(){
+  cnv.width = window.innerWidth*0.9;
+  cnv.height = window.innerHeight*0.9;
+}
+
 function init(){
 
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
-
+  resetCanvas();
   species = [];
 
   let mice = 10; //id = 0
@@ -43,6 +48,7 @@ function init(){
 }
 
 function animate(){
+  resetCanvas();
   ctx.clearRect(0,0,cnv.width,cnv.height);
   update();
 
