@@ -12,7 +12,7 @@ function init(){
   snakes = [];
   let n = 20;
   let r = 10;
-  let dist = 8;
+  let dist = 5;
   for(var i = 0;i<n;i++){
     let length = Math.random()*150+50;
     let snake = Snake.generateRandomSnake(r,length/dist,length);
