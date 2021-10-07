@@ -5,8 +5,12 @@ var cnv,ctx,snakes;
 function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
+
+  cnv.width = window.innerWidth*0.9;
+  cnv.height = window.innerHeight*0.9;
+
   snakes = [];
-  let n = 7;
+  let n = 20;
   let r = 10;
   let dist = 8;
   for(var i = 0;i<n;i++){
@@ -31,7 +35,7 @@ function update(){
     snakes[i].draw();
     for(var k = 0;k<snakes.length;k++){
       if(i==k) continue;
-      if(i%3!=k%3){
+      if(i%4!=k%4){
         snakes[i].attract(snakes[k]);
       }
       else{

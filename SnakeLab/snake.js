@@ -24,7 +24,7 @@ Snake.generateRandomSnake = function(r,segments,length){
   let dx = Math.cos(dir)*speed;
   let dy = Math.sin(dir)*speed;
   let vel = new JSVector(dx,dy)
-  let color = Color.generateRandomColor(1,1,1,false);
+  let color = Color.generateRandomColor(1,1,50,false);
   return new Snake(pos,r,vel,segments,length,color);
 }
 
