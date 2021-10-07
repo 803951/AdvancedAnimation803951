@@ -29,14 +29,14 @@ Snake.generateRandomSnake = function(r,segments,length){
 }
 
 Snake.prototype.draw = function(){
-  ctx.beginPath();
-  ctx.moveTo(this.segment.pos.x,this.segment.pos.y);
+  //ctx.beginPath();
+  //ctx.moveTo(this.segment.pos.x,this.segment.pos.y);
   this.segment.draw();
-  ctx.strokeStyle = this.color.toString();
-  ctx.lineCap = "round";
-  ctx.lineWidth = this.radius*2;
-  ctx.stroke();
-  ctx.closePath();
+  //ctx.strokeStyle = this.color.toString();
+  //ctx.lineCap = "round";
+  //ctx.lineWidth = this.radius*2;
+  //ctx.stroke();
+  //ctx.closePath();
 }
 
 Snake.prototype.move = function(){

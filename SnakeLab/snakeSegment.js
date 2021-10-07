@@ -7,11 +7,12 @@ function SnakeSegment(pos,radius,color,vel,nextSegment){
 }
 
 SnakeSegment.prototype.draw = function(){
-  ctx.lineTo(this.pos.x,this.pos.y);
-  //ctx.arc(this.pos.x,this.pos.y,this.radius, 0, 2 * Math.PI);
-  //ctx.fillStyle = this.color.toString();
-  //ctx.fill();
-  //ctx.closePath();
+  ctx.beginPath();
+  //ctx.lineTo(this.pos.x,this.pos.y);
+  ctx.arc(this.pos.x,this.pos.y,this.radius, 0, 2 * Math.PI);
+  ctx.fillStyle = this.color.toString();
+  ctx.fill();
+  ctx.closePath();
 
   if(this.nextSegment!=undefined){
     this.nextSegment.draw();

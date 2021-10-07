@@ -6,12 +6,12 @@ function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
   snakes = [];
-  let n = 3;
-  let r = 10
-  let segments = 10;
-  let length = 200;
+  let n = 7;
+  let r = 10;
+  let dist = 8;
   for(var i = 0;i<n;i++){
-    let snake = Snake.generateRandomSnake(r,segments,length);
+    let length = Math.random()*150+50;
+    let snake = Snake.generateRandomSnake(r,length/dist,length);
     snakes.push(snake);
   }
 
@@ -29,6 +29,14 @@ function update(){
   for(var i = 0;i<snakes.length;i++){
     snakes[i].move();
     snakes[i].draw();
-    if(i!=0) snakes[i].attract(snakes[0]);
+    for(var k = 0;k<snakes.length;k++){
+      if(i==k) continue;
+      if(i%3!=k%3){
+        snakes[i].attract(snakes[k]);
+      }
+      else{
+        snakes[i].repel(snakes[k]);
+      }
+    }
   }
 }
