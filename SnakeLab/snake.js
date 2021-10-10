@@ -40,7 +40,7 @@ Snake.prototype.draw = function(){
 
   this.segment.draw(); //calls draw method of tail of snake which triggers draw methods of all folowing snake segments
 
-  //******************************************//
+  //******************************************// Other Drawing Method through stroke, not fill
   //ctx.strokeStyle = this.color.toString();
   //ctx.lineCap = "round";
   //ctx.lineWidth = this.radius*2;
