@@ -10,8 +10,8 @@ function init(){
   cnv.height = window.innerHeight*0.9;
 
   snakes = [];
-  let n = 20;
-  let r = 10;
+  let n = 20; //number of snakes
+  let r = 10; //radius of snake segments
   let dist = 5;
   for(var i = 0;i<n;i++){
     let length = Math.random()*150+50;
@@ -24,6 +24,7 @@ function init(){
 
 function animate(){
   ctx.clearRect(0,0,cnv.width,cnv.height);
+
   update();
 
   requestAnimationFrame(animate);
