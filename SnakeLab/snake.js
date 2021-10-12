@@ -9,10 +9,10 @@ function Snake(pos,radius,vel,segments,length,color){
 
   this.segment = undefined;//sets segment to head of snake so the nextsegment will be undefined since head does not follow any other segment
   for(var i = 0;i<segments;i++){ //builds snake from head to tail with tail as the segment saved in the snake object
-    let x = pos.x-i*2*this.dist*Math.cos(dir);
-    let y = pos.y-i*2*this.dist*Math.sin(dir);
-    let tempPos = new JSVector(x,y); //sets position along direction of random velocity
-    this.segment = new SnakeSegment(tempPos,radius,color,this.vel,this.segment); //creates new segment pointing to segment in front of it
+    this.segment = new SnakeSegment(pos,radius,color,this.vel,this.segment); //creates new segment pointing to segment in front of it
+  }
+  for(var i = 0;i<segments;i++){ //makes sure all segments spawn at correct distances from eachother
+    this.segment.update(this.dist);
   }
 }
 
