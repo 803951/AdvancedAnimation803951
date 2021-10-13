@@ -13,7 +13,8 @@ function init(){
   emitters = [];
 
   let pos = new JSVector(cnv.width/2,cnv.height/2);
-  let speed = 1;
+  let minSpeed = 2;
+  let maxSpeed = 4;
   let lifeTime = 150;
   let minSize = 10;
   let maxSize = 25;
@@ -21,9 +22,8 @@ function init(){
   let gScale = 1;
   let bScale = 1;
   let spawnRate = 10;
-  let e = new Particle();
-  let emitter = new ParticleEmitter(particleTypes.CIRCLE,pos,speed,lifeTime,minSize,maxSize,rScale,gScale,bScale);
-
+  let emitter = new ParticleEmitter(particleTypes.CIRCLE,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,spawnRate);
+  console.log(emitter);
   animate();
 }
 
