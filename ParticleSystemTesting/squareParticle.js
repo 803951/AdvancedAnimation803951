@@ -1,12 +1,14 @@
 function SquareParticle(pos,vel,size,lifeTime,scaleR,scaleG,scaleB,isMonochrome){
   this.size = size;
-  Particle.call(this,pos,vel,lifeTime,scaleR,scaleG,scaleB,isMonochrome)
+  this.color = Color.generateRandomColor(scaleR,scaleG,scaleB,isMonochrome);
+  Particle.call(this,pos,vel,lifeTime);
 }
 
 SquareParticle.prototype = new Particle();
 
 SquareParticle.prototype.draw = function(){
   let dir = this.vel.getDirection();
+  ctx.beginPath();
   ctx.save();
   ctx.translate(this.pos.x,this.pos.y);
   ctx.rotate(dir);
@@ -14,4 +16,5 @@ SquareParticle.prototype.draw = function(){
   ctx.fillStyle = this.color.toString();
   ctx.fill();
   ctx.restore();
+  ctx.closePath();
 }

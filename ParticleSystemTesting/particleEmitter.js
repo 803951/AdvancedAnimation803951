@@ -1,5 +1,4 @@
-function ParticleEmitter(particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,spawnRate){
-  //rate is particles per frame
+function ParticleEmitter(particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate){
   this.particleType = particleType;
   this.pos = pos;
   this.minSpeed = minSpeed;
@@ -7,10 +6,11 @@ function ParticleEmitter(particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,max
   this.lifeTime = lifeTime;
   this.minSize = minSize;
   this.maxSize = maxSize;
-  this.rScale = rScale;
-  this.gScale = gScale;
-  this.bScale = bScale;
-  this.spawnRate = spawnRate;
+  this.scaleR = scaleR;
+  this.scaleG = scaleG;
+  this.scaleB = scaleB;
+  this.isMonochrome = isMonochrome;
+  this.spawnRate = spawnRate; //rate is particles per frame
   this.spawnCache = 0;
   this.particles = [];
 }
@@ -26,28 +26,28 @@ ParticleEmitter.prototype.generateNewParticles = function(){
   let n = this.spawnCache;
   for(var i = 0;i<n;i++){
 
+    let size = Math.random()*(this.maxSize-this.minSize)+this.minSize;
     let dir = Math.random()*2*Math.PI;
     let speed = Math.random()*(this.maxSpeed-this.minSpeed)+this.minSpeed;
     let vel = new JSVector(speed*Math.cos(dir),speed*Math.sin(dir));
 
     var newParticle;
 
-    switch(particleType){
+    switch(this.particleType){
       case particleTypes.CIRCLE:
-      //generate square particles
+        newParticle = new CircleParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
       case particleTypes.SQUARE:
-      //generate square particles
+        newParticle = new SquareParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
 
     this.particles.push(newParticle);
 
-    this.spawnCache -= 1;
+    this.spawnCach--;
   }
 }
 
 ParticleEmitter.prototype.updateParticles = function(){
   for(var i = 0;i<this.particles.length;i++){
-    this.particles[i].draw();
     if(this.particles[i].update()){//checks if past life time
       this.particles.splice(i,1);
       i--;
