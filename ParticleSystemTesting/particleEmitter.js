@@ -47,6 +47,7 @@ ParticleEmitter.prototype.generateNewParticles = function(){
 
 ParticleEmitter.prototype.updateParticles = function(){
   for(var i = 0;i<this.particles.length;i++){
+    this.particles[i].draw();
     if(this.particles[i].update()){//checks if past life time
       this.particles.splice(i,1);
       i--;
