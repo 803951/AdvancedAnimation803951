@@ -16,5 +16,16 @@
 
   <body>
     <canvas id="cnv" width="600" height="600"></canvas>
+    <div class="rangeslider">
+      <input type="range" min="1" max="100" value="50"
+        class="myslider" id="particleRateSlider">
+        <p>Rate: <span id="rate"></span></p>
+    </div>
+    <div class="radioButton">
+      <input class="radio" type="radio" id="circle" name="particle" value="HTML">
+      <label class="radio" for="circle">Circle Particle</label><br>
+      <input class="radio" type="radio" id="square" name="particle" value="HTML">
+      <label class="radio" for="square">Square Particle</label><br>
+    </div>
   </body>
 </html>

@@ -18,7 +18,6 @@ function ParticleEmitter(particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,max
 ParticleEmitter.prototype.update = function(){
   this.generateNewParticles();
   this.updateParticles();
-  console.log(this.particles.length);
 }
 
 ParticleEmitter.prototype.generateNewParticles = function(){
@@ -36,7 +35,7 @@ ParticleEmitter.prototype.generateNewParticles = function(){
     var newParticle;
 
     if(this.particleType == particleTypes.CIRCLE){
-      newParticle = new CircleParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+      newParticle = new CircleParticle(new JSVector(this.pos.x,this.pos.y),vel,size/2,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
     else if(this.particleType == particleTypes.SQUARE){
       newParticle = new SquareParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
