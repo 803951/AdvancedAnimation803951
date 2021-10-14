@@ -33,11 +33,11 @@ ParticleEmitter.prototype.generateNewParticles = function(){
 
     var newParticle;
 
-    switch(this.particleType){
-      case particleTypes.CIRCLE:
-        newParticle = new CircleParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
-      case particleTypes.SQUARE:
-        newParticle = new SquareParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+    if(this.particleType == particleTypes.CIRCLE){
+      newParticle = new CircleParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+    }
+    else if(this.particleType == particleTypes.SQUARE){
+      newParticle = new SquareParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
 
     this.particles.push(newParticle);
