@@ -29,13 +29,15 @@ function init(){
   let bScale = 255;
   let spawnRate = 1;
   emitter = new ParticleEmitter(particleTypes.SQUARE,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
-
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,cnv.width,cnv.height);
   animate();
 }
 
 function animate(){
   //ctx.clearRect(0,0,cnv.width,cnv.height);
-  ctx.fillStyle="black";
+  let background = new Color(0,0,0,0.05);
+  ctx.fillStyle=background.toString();
   ctx.fillRect(0,0,cnv.width,cnv.height);
   update();
 
