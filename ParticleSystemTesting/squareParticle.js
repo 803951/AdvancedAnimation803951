@@ -7,11 +7,10 @@ function SquareParticle(pos,vel,size,lifeTime,scaleR,scaleG,scaleB,isMonochrome)
 SquareParticle.prototype = new Particle();
 
 SquareParticle.prototype.draw = function(){
-  let dir = this.vel.getDirection();
   ctx.save();
   ctx.beginPath();
   ctx.translate(this.pos.x,this.pos.y);
-  ctx.rotate(dir);
+  ctx.rotate(this.vel.getDirection());
   ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size);
   ctx.closePath();
   ctx.restore();

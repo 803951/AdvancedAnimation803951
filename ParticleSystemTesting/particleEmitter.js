@@ -31,7 +31,6 @@ ParticleEmitter.prototype.generateNewParticles = function(){
     let dir = Math.random()*2*Math.PI;
     let speed = Math.random()*(this.maxSpeed-this.minSpeed)+this.minSpeed;
     let vel = new JSVector(speed*Math.cos(dir),speed*Math.sin(dir));
-
     var newParticle;
 
     if(this.particleType == particleTypes.CIRCLE){
@@ -40,7 +39,9 @@ ParticleEmitter.prototype.generateNewParticles = function(){
     else if(this.particleType == particleTypes.SQUARE){
       newParticle = new SquareParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
-
+    else if(this.particleType == particleTypes.TRIANGLE){
+      newParticle = new TriangleParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+    }
     this.particles.push(newParticle);
 
     this.spawnCache--;
