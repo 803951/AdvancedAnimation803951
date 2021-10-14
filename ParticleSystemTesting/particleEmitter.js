@@ -18,12 +18,14 @@ function ParticleEmitter(particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,max
 ParticleEmitter.prototype.update = function(){
   this.generateNewParticles();
   this.updateParticles();
+  console.log(this.particles.length);
 }
 
 ParticleEmitter.prototype.generateNewParticles = function(){
   this.spawnCache += this.spawnRate;
 
   let n = this.spawnCache;
+
   for(var i = 0;i<n;i++){
 
     let size = Math.random()*(this.maxSize-this.minSize)+this.minSize;
@@ -34,21 +36,23 @@ ParticleEmitter.prototype.generateNewParticles = function(){
     var newParticle;
 
     if(this.particleType == particleTypes.CIRCLE){
-      newParticle = new CircleParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+      newParticle = new CircleParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
     else if(this.particleType == particleTypes.SQUARE){
-      newParticle = new SquareParticle(this.pos,vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
+      newParticle = new SquareParticle(new JSVector(this.pos.x,this.pos.y),vel,size,this.lifeTime,this.scaleR,this.scaleG,this.scaleB,this.isMonochrome);
     }
 
     this.particles.push(newParticle);
 
-    this.spawnCach--;
+    this.spawnCache--;
   }
 }
 
 ParticleEmitter.prototype.updateParticles = function(){
   for(var i = 0;i<this.particles.length;i++){
-    if(this.particles[i].update()){//checks if past life time
+    let isAlive = this.particles[i].update();
+    this.particles[i].draw();
+    if(!isAlive){//checks if past life time
       this.particles.splice(i,1);
       i--;
     }

@@ -20,7 +20,7 @@ function init(){
   let gScale = 1;
   let bScale = 255;
   let spawnRate = 1;
-  emitter = new ParticleEmitter(particleTypes.CIRCLE,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
+  emitter = new ParticleEmitter(particleTypes.SQUARE,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
 
   animate();
 }

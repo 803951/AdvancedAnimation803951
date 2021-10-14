@@ -21,8 +21,8 @@ SnakeSegment.prototype.draw = function(){
 
 SnakeSegment.prototype.update = function(dist){
   if(this.nextSegment!=undefined){ //follows the next segment if it is not the head of the snake
+    this.nextSegment.update(dist); //calls update function of next segment
     this.follow(this.nextSegment,dist);
-    this.nextSegment.update(dist);
   }
   else{ //moves only if it is the head of the snake
     this.move();

@@ -8,13 +8,13 @@ SquareParticle.prototype = new Particle();
 
 SquareParticle.prototype.draw = function(){
   let dir = this.vel.getDirection();
-  ctx.beginPath();
   ctx.save();
+  ctx.beginPath();
   ctx.translate(this.pos.x,this.pos.y);
   ctx.rotate(dir);
-  ctx.fillRect(this.pos.x-this.size/2,this.pos.y-this.size/2,this.size,this.size);
+  ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size);
+  ctx.closePath();
+  ctx.restore();
   ctx.fillStyle = this.color.toString();
   ctx.fill();
-  ctx.restore();
-  ctx.closePath();
 }
