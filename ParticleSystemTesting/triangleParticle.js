@@ -18,4 +18,5 @@ TriangleParticle.prototype.draw = function(){
   ctx.restore();
   ctx.fillStyle = this.color.toString();
   ctx.fill();
+  this.color.a=this.currentLife/this.lifeTime;
 }

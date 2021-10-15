@@ -12,4 +12,5 @@ CircleParticle.prototype.draw = function(){
   ctx.fillStyle = this.color.toString();
   ctx.fill();
   ctx.closePath();
+  this.color.a=this.currentLife/this.lifeTime;
 }

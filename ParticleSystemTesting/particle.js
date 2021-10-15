@@ -2,10 +2,11 @@ function Particle(pos,vel,lifeTime){
   this.pos = pos;
   this.vel = vel;
   this.lifeTime = lifeTime;
+  this.currentLife = lifeTime;
 }
 
 Particle.prototype.update = function(){
   this.pos.add(this.vel);
-  this.lifeTime --;
-  return this.lifeTime>0;
+  this.currentLife --;
+  return this.currentLife>0;
 }

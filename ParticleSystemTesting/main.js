@@ -21,7 +21,7 @@ function init(){
   let pos = new JSVector(cnv.width/2,cnv.height/2);
   let minSpeed = 2;
   let maxSpeed = 4;
-  let lifeTime = 150;
+  let lifeTime = 80;
   let minSize = 10;
   let maxSize = 25;
   let rScale = 1.2;
