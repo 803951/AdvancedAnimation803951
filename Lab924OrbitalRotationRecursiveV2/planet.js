@@ -7,6 +7,12 @@ function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiter
   this.omega = omega;
   this.orbiters = [];
   this.orbitDist = 2.5*radius;
+  let minSpeed = 1;
+  let maxSpeed = 2;
+  let minSize = 2;
+  let maxSize = 4;
+  let spawnRate = 30;
+  this.emitter = new ParticleEmitter(particleTypes.CIRCLE,this.pos,minSpeed,maxSpeed,spawnRate,minSize,maxSize,scaleR,scaleG,scaleB,false,spawnRate);
   if(orbits>0){
     this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters,maxOrbiters,orbits-1,scaleR,scaleG,scaleB);
   }
@@ -15,16 +21,16 @@ function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiter
 
 Planet.prototype.orbit = function(other,dist){
   this.theta+=this.omega;
-
-  ctx.beginPath();
   this.pos.x = other.pos.x+Math.cos(this.theta)*dist;
   this.pos.y = other.pos.y+Math.sin(this.theta)*dist;
+
+  /*ctx.beginPath();
   ctx.moveTo(this.pos.x,this.pos.y);
   ctx.lineTo(other.pos.x,other.pos.y);
   ctx.lineWidth = 2;
   ctx.strokeStyle = this.color.toString();
-  //ctx.stroke();
-  ctx.closePath();
+  ctx.stroke();
+  ctx.closePath();*/
 }
 
 Planet.generateRandomOrbiters = function(pos,radius,min,max,orbits,scaleR,scaleG,scaleB){
@@ -75,11 +81,13 @@ Planet.prototype.checkEdges = function(){
 }
 
 Planet.prototype.draw = function(color){
-  ctx.beginPath();
+  /*ctx.beginPath();
   ctx.fillStyle = color;
   ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI);
   ctx.fill();
-  ctx.closePath();
+  ctx.closePath();*/
+  this.emitter.pos = this.pos;
+  this.emitter.update();
 }
 
 Planet.prototype.update = function(){
