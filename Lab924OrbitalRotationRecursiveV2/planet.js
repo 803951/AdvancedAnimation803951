@@ -11,7 +11,7 @@ function Planet(x,y,dx,dy,radius,color,orbits,omega,theta,minOrbiters,maxOrbiter
   let maxSpeed = 2;
   let minSize = 2;
   let maxSize = 4;
-  let spawnRate = 30;
+  let spawnRate = 10;
   this.emitter = new ParticleEmitter(particleTypes.CIRCLE,this.pos,minSpeed,maxSpeed,spawnRate,minSize,maxSize,scaleR,scaleG,scaleB,false,spawnRate);
   if(orbits>0){
     this.orbiters = Planet.generateRandomOrbiters(this.pos,radius,minOrbiters,maxOrbiters,orbits-1,scaleR,scaleG,scaleB);
