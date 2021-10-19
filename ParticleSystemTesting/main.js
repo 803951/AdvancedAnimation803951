@@ -1,6 +1,7 @@
 window.addEventListener("load",init);
+document.addEventListener("click", generateParticleSystem);
 
-var cnv,ctx,emitter;
+var cnv,ctx,emitters,currentEmitterType;
 var particleRateSlider,rateOutput,squareRadioButton,circleRadioButton,triangleRadioButton;
 
 const particleTypes = {
@@ -12,13 +13,24 @@ const particleTypes = {
 function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
+  emitters = [];
   particleRateSlider = document.getElementById("particleRateSlider");
   rateOutput = document.getElementById("rate");
   squareRadioButton = document.getElementById("square");
   circleRadioButton = document.getElementById("circle");
   triangleRadioButton = document.getElementById("triangle");
   squareRadioButton.checked = true;
-  let pos = new JSVector(cnv.width/2,cnv.height/2);
+  currentEmitterType = particleTypes.SQUARE;
+
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,cnv.width,cnv.height);
+  animate();
+}
+
+function generateParticleSystem(event){
+  if(event.clientX-cnv.width*3/4>cnv.width||event.clientX-cnv.width*3/4<0) return;
+  if(event.clientY>cnv.height||event.clientY<0) return;
+  let pos = new JSVector(event.clientX-cnv.width*3/4,event.clientY);
   let minSpeed = 2;
   let maxSpeed = 4;
   let lifeTime = 80;
@@ -28,10 +40,8 @@ function init(){
   let gScale = 1.2;
   let bScale = 255;
   let spawnRate = 1;
-  emitter = new ParticleEmitter(particleTypes.SQUARE,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
-  ctx.fillStyle = "black";
-  ctx.fillRect(0,0,cnv.width,cnv.height);
-  animate();
+  let emitter = new ParticleEmitter(currentEmitterType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
+  emitters.push(emitter);
 }
 
 function animate(){
@@ -47,16 +57,18 @@ function animate(){
 function update(){
 
   rateOutput.innerHTML = particleRateSlider.value;
-  emitter.spawnRate = particleRateSlider.value/30;
   if(circleRadioButton.checked){
-    emitter.particleType = particleTypes.CIRCLE;
+    currentEmitterType = particleTypes.CIRCLE;
   }
   else if(squareRadioButton.checked){
-    emitter.particleType = particleTypes.SQUARE;
+    currentEmitterType = particleTypes.SQUARE;
   }
   else if(triangleRadioButton.checked){
-    emitter.particleType = particleTypes.TRIANGLE;
+    currentEmitterType = particleTypes.TRIANGLE;
   }
-  emitter.update();
+  for(var i = 0;i<emitters.length;i++){
+    emitters[i].spawnRate = particleRateSlider.value/30;
+    emitters[i].update();
+  }
 
 }
