@@ -2,6 +2,12 @@ window.addEventListener("load",init);
 
 var cnv,ctx,species,matingProb,matingRad,currentFrame,matingTime,lastPopCheck,minX,minY,boundX,boundY;
 
+const particleTypes = {
+  SQUARE: "square",
+  CIRCLE: "circle",
+  TRIANGLE: "triangle"
+}
+
 function resetCanvas(){
   cnv.width = window.innerWidth*0.9;
   cnv.height = window.innerHeight*0.9;
@@ -36,10 +42,11 @@ function init(){
 
   for(var i = 0;i<viruses;i++){
     let radius = 10;
+    let transmissionRadius = 200;
     let x = Math.random()*(boundX-2*radius)+radius;
     let y = Math.random()*(boundY-2*radius)+radius;
     let pos = new JSVector(x,y);
-    let virus = new Virus(pos,radius,2,1);
+    let virus = new Virus(pos,radius,transmissionRadius,2,1);
     species.push(virus);
   }
 
@@ -60,7 +67,6 @@ function update(){
     if(!species[i].living){
       species.splice(i,1);
       i--
-      console.log(species.length);
       continue;
     }
     species[i].update(); //runs creature update method for movement
@@ -69,7 +75,7 @@ function update(){
       if(i==k) continue;
       let dist = species[i].pos.distance(species[k].pos);
       //mating
-      if(species[i].id == species[k].id){
+      if(species[i].id == 0){ //mouse
         if(dist<=species[i].matingRad&&species[i].inHeat&&species[k].inHeat&&species[i].sex!=species[k].sex){ //checks if species within mating distance of eachother and if both in heat
           species[i].attract(species[k]);
           if(dist<=species[i].radius+species[k].radius){ //mates if touching
@@ -95,6 +101,13 @@ function update(){
                 k--;
               }
             }
+          }
+        }
+      }
+      if(species[i].id == 1){ //virus
+        for(var m = 0;m<species[i].prey.length;m++){
+          if(species[i].prey[m]==species[k].id){
+            species[i].targetTransmission(species[k]);
           }
         }
       }

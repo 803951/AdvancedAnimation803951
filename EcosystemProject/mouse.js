@@ -14,7 +14,7 @@ function Mouse(pos,radius,speed,id,matingProb,matingRad,growthTime){
 Mouse.prototype = new Creature();
 
 Mouse.prototype.draw = function(){ //draws mouse as a circle
-  //tail
+
   let dir = this.vel.getDirection();
   let tailSegments = 3;
   let tailLength = this.radius*0.9
@@ -24,6 +24,19 @@ Mouse.prototype.draw = function(){ //draws mouse as a circle
   let y = this.pos.y-Math.sin(dir)*tailLength*1.5;
   let tailAngle = Math.PI/12; //angle of tail zigZags
   let tailColor = new Color(150,150,150,1);
+
+  //body
+  ctx.beginPath();
+  //ctx.arc(this.pos.x,this.pos.y,this.radius*scale, 0, 2 * Math.PI);
+  ctx.ellipse(this.pos.x, this.pos.y, this.radius*scale*1.5, this.radius*scale, dir, 0, 2*Math.PI);
+  ctx.fillStyle = this.color.toString();
+  if(this.inHeat){
+    if(this.sex) ctx.fillStyle = "red";
+    else ctx.fillStyle = "blue";
+  }
+  ctx.fill();
+  ctx.closePath();
+
   for(var i = 0;i<tailSegments;i++){
     ctx.beginPath();
     ctx.moveTo(x,y);
@@ -38,17 +51,5 @@ Mouse.prototype.draw = function(){ //draws mouse as a circle
     ctx.closePath();
     tailAngle*=0.9;
   }
-
-  //body
-  ctx.beginPath();
-  //ctx.arc(this.pos.x,this.pos.y,this.radius*scale, 0, 2 * Math.PI);
-  ctx.ellipse(this.pos.x, this.pos.y, this.radius*scale*1.5, this.radius*scale, dir+Math.PI/8, 0, 2*Math.PI);
-  ctx.fillStyle = this.color.toString();
-  if(this.inHeat){
-    if(this.sex) ctx.fillStyle = "red";
-    else ctx.fillStyle = "blue";
-  }
-  ctx.fill();
-  ctx.closePath();
 
 }

@@ -1,14 +1,28 @@
-function Virus(pos,radius,speed,id){
+function Virus(pos,radius,transmissionRadius,speed,id){
   let dir = Math.random()*Math.PI*2;//set random velocity direction
   let dx = Math.cos(dir)*speed;
   let dy = Math.sin(dir)*speed;
   let vel = new JSVector(dx,dy);
-  let prey = [];
+  let prey = [0];
   this.theta = Math.random()*2*Math.PI;
   this.nodes = Math.round(Math.random()*5+5);
   this.color = Color.generateRandomColor(255,0,1,false);
   this.theta = dir;
+  this.transmissionRadius = transmissionRadius;
+  //particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate,angleSpray)
   Creature.call(this,pos,vel,radius,prey,id,0,0,0,0,0);
+  let minSpeed = 4;
+  let maxSpeed = 6;
+  let lifeTime = 30;
+  let minSize = 5;
+  let maxSize = 10;
+  let scaleR = 255;
+  let scaleG = 1;
+  let scaleB = 1;
+  let isMonochrome = false;
+  let spawnRate = 5;
+  let angleSpray = Math.PI/12;
+  this.emitter = new ParticleEmitter(particleTypes.CIRCLE,this.pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate,angleSpray);
 }
 
 Virus.prototype = new Creature();
@@ -20,6 +34,15 @@ Virus.prototype.draw = function(){
   ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI);
   ctx.fill();
   ctx.closePath();
+  this.emitter.updateParticles();
+}
+
+Virus.prototype.targetTransmission = function(other){
+  let targetPointer = JSVector.subGetNew(other.pos,this.pos);
+  this.emitter.pos = this.pos;
+  if(targetPointer.getMagnitude()<=this.transmissionRadius){
+    this.emitter.generateNewParticles(targetPointer.getDirection());
+  }
 }
 
 Virus.prototype.rotate = function(){
