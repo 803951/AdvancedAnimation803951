@@ -11,16 +11,16 @@ function Virus(pos,radius,transmissionRadius,speed,id){
   this.transmissionRadius = transmissionRadius;
   //particleType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate,angleSpray)
   Creature.call(this,pos,vel,radius,prey,id,0,0,0,0,0);
-  let minSpeed = 4;
-  let maxSpeed = 6;
+  let minSpeed = 5;
+  let maxSpeed = 7;
   let lifeTime = 30;
-  let minSize = 5;
-  let maxSize = 10;
+  let minSize = 7;
+  let maxSize = 12;
   let scaleR = 255;
   let scaleG = 1;
   let scaleB = 1;
   let isMonochrome = false;
-  let spawnRate = 5;
+  let spawnRate = 0.5;
   let angleSpray = Math.PI/12;
   this.emitter = new ParticleEmitter(particleTypes.CIRCLE,this.pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate,angleSpray);
 }

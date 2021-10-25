@@ -105,10 +105,15 @@ function update(){
         }
       }
       if(species[i].id == 1){ //virus
+        var target;
         for(var m = 0;m<species[i].prey.length;m++){
           if(species[i].prey[m]==species[k].id){
-            species[i].targetTransmission(species[k]);
+            target = species[k];
+            break;
           }
+        }
+        if(target!=undefined){
+          species[i].targetTransmission(target);
         }
       }
     }
