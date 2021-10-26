@@ -8,13 +8,13 @@ function init(){
   flocks = [];
 
 
-  let n = 5;
-  let cohStrength = 0.2;
-  let sepStrength = 0.3;
+  let n = 3;
+  let cohStrength = 0.05;
+  let sepStrength = 0.1;
   let alignRange = 100;
-  let sepDist = 20;
-  let numBoids = 10;
-  let boidScale = 15;
+  let sepDist = 10;
+  let numBoids = 100;
+  let boidScale = 5;
 
   for(var i = 0;i<n;i++){
     let speed = Math.random()*1+2;

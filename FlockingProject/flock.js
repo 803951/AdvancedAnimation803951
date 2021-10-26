@@ -16,6 +16,36 @@ function Flock(speed,color,cohStrength,sepStrength,alignRange,sepDist,numBoids,b
 
 Flock.prototype.cohesion = function(){
   for(var i = 0;i<this.boids.length;i++){
+    let dist = undefined;
+    let closestBoid = undefined;
+    for(var k = 0;k<this.boids.length;k++){
+      if(i==k) continue;
+      if(this.boids[i].pos.distance(this.boids[k].pos)<dist||dist==undefined){
+        closestBoid = this.boids[k];
+      }
+    }
+    //if(count>0) avgPos.divide(count);
+    let force = JSVector.subGetNew(closestBoid.pos,this.boids[i].pos);
+    force.setMagnitude(this.cohStrength)
+    let mag = this.boids[i].vel.getMagnitude();
+    this.boids[i].vel.add(force);
+    this.boids[i].vel.setMagnitude(mag);
+  }
+}
+
+Flock.prototype.seperation = function(){
+  for(var i = 0;i<this.boids.length;i++){
+    for(var k = 0;k<this.boids.length;k++){
+      if(i==k) continue;
+      if(this.boids[i].pos.distance(this.boids[k].pos)<=this.sepDist){
+        this.boids[i].interact(this.boids[k],this.sepStrength,-1);
+      }
+    }
+  }
+}
+
+Flock.prototype.align = function(){
+  for(var i = 0;i<this.boids.length;i++){
     let count = 0;
     let avgPos = new JSVector(0,0);
     for(var k = 0;k<this.boids.length;k++){
@@ -32,25 +62,7 @@ Flock.prototype.cohesion = function(){
     let mag = this.boids[i].vel.getMagnitude();
     this.boids[i].vel.add(force);
     this.boids[i].vel.setMagnitude(mag);
-    let rotation = avgPos.getDirection()-this.boids[i].vel.getDirection();
-    let rotationScale = 0.01;
-    this.boids[i].vel.rotate(rotation*rotationScale);
   }
-}
-
-Flock.prototype.seperation = function(){
-  for(var i = 0;i<this.boids.length;i++){
-    for(var k = 0;k<this.boids.length;k++){
-      if(i==k) continue;
-      if(this.boids[i].pos.distance(this.boids[k].pos)<=this.sepDist){
-        this.boids[i].interact(this.boids[k],this.sepStrength,-1);
-      }
-    }
-  }
-}
-
-Flock.prototype.align = function(){
-
 }
 
 Flock.prototype.display = function(){
