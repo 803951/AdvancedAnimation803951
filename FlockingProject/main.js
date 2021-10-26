@@ -1,10 +1,27 @@
 window.addEventListener("load",init);
 
-var cnv,ctx; //define global variables for context, canvas, and snakes array
+var cnv,ctx,flocks; //define global variables for context, canvas, and snakes array
 
 function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
+  flocks = [];
+
+
+  let n = 3;
+  let cohStrength = 0.1;
+  let sepStrength = 0.15;
+  let alignRange = 100;
+  let sepDist = 20;
+  let numBoids = 30;
+  let boidScale = 15;
+
+  for(var i = 0;i<n;i++){
+    let speed = Math.random()*1+2;
+    let color = Color.generateRandomColor(1,1,1,false);
+    let flock = new Flock(speed,color,cohStrength,sepStrength,alignRange,sepDist,numBoids,boidScale)
+    flocks.push(flock);
+  }
 
   animate();
 }
@@ -18,5 +35,10 @@ function animate(){
 }
 
 function update(){
-
+  for(var i = 0;i<flocks.length;i++){
+    flocks[i].cohesion();
+    flocks[i].seperation();
+    flocks[i].align();
+    flocks[i].display();
+  }
 }

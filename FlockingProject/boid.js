@@ -5,28 +5,37 @@ function Boid(pos,vel,length,color){
   this.color = color;
 }
 
-Boid.prototype.attract(other,strength){
+Boid.prototype.interact = function(other,strength,sign){
   let force = JSVector.subGetNew(other.pos,this.pos);
   force.setMagnitude(strength);
+  force.multiply(sign);
   let mag = this.vel.getMagnitude();
   this.vel.add(force);
   this.vel.setMagnitude(mag);
 }
 
-Boid.prototype.repel(other,strength){
-
+Boid.prototype.update = function(){
+  this.pos.add(this.vel);
+  this.checkEdges();
+  this.draw();
 }
 
-Boid.prototype.interact(other,strength,sign){
-  let force = JSVector.subGetNew(other.pos,this.pos);
-  force.setMagnitude(strength);
-  let mag = this.vel.getMagnitude();
-  this.vel.add(force);
-  this.vel.setMagnitude(mag);
+Boid.prototype.checkEdges = function(){
+  if(this.pos.x<0){
+    this.pos.x = cnv.width;
+  }
+  else if(this.pos.x>cnv.width){
+    this.pos.x = 0;
+  }
+  if(this.pos.y<0){
+    this.pos.y = cnv.height;
+  }
+  if(this.pos.y>cnv.height){
+    this.pos.y = 0;
+  }
 }
 
-Boid.prototype.draw(){
-
+Boid.prototype.draw = function(){
   ctx.beginPath();
   ctx.lineWidth = 5;
   ctx.strokeStyle =  this.color.toString();
