@@ -26,12 +26,15 @@ Flock.prototype.cohesion = function(){
         count++;
       }
     }
-    if(count>0) avgPos.divide(count);
+    //if(count>0) avgPos.divide(count);
     let force = JSVector.subGetNew(avgPos,this.boids[i].pos);
     force.setMagnitude(this.cohStrength)
     let mag = this.boids[i].vel.getMagnitude();
     this.boids[i].vel.add(force);
     this.boids[i].vel.setMagnitude(mag);
+    let rotation = avgPos.getDirection()-this.boids[i].vel.getDirection();
+    let rotationScale = 0.01;
+    this.boids[i].vel.rotate(rotation*rotationScale);
   }
 }
 

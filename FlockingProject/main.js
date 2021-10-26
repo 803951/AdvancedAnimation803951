@@ -8,12 +8,12 @@ function init(){
   flocks = [];
 
 
-  let n = 3;
-  let cohStrength = 0.1;
-  let sepStrength = 0.15;
+  let n = 5;
+  let cohStrength = 0.2;
+  let sepStrength = 0.3;
   let alignRange = 100;
   let sepDist = 20;
-  let numBoids = 30;
+  let numBoids = 10;
   let boidScale = 15;
 
   for(var i = 0;i<n;i++){
