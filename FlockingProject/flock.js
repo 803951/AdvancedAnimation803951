@@ -24,7 +24,6 @@ Flock.prototype.cohesion = function(){
         closestBoid = this.boids[k];
       }
     }
-    //if(count>0) avgPos.divide(count);
     let force = JSVector.subGetNew(closestBoid.pos,this.boids[i].pos);
     force.setMagnitude(this.cohStrength)
     let mag = this.boids[i].vel.getMagnitude();
@@ -56,7 +55,7 @@ Flock.prototype.align = function(){
         count++;
       }
     }
-    //if(count>0) avgPos.divide(count);
+    if(count>0) avgPos.divide(count);
     let force = JSVector.subGetNew(avgPos,this.boids[i].pos);
     force.setMagnitude(this.cohStrength)
     let mag = this.boids[i].vel.getMagnitude();
