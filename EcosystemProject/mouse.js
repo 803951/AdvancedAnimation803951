@@ -17,12 +17,12 @@ Mouse.prototype.draw = function(){ //draws mouse as a circle
 
   let dir = this.vel.getDirection();
   let tailSegments = 3;
-  let tailLength = this.radius*0.9
+  let tailLength = this.radius*0.9;
   let scale = (this.currentFrame<this.growthTime)? this.currentFrame/this.growthTime:1;
   tailLength*=scale;
   let x = this.pos.x-Math.cos(dir)*tailLength*1.5;
   let y = this.pos.y-Math.sin(dir)*tailLength*1.5;
-  let tailAngle = Math.PI/12; //angle of tail zigZags
+  let tailAngle = Math.PI/24*Math.sin(Date.now()/30); //angle of tail zigZags
   let tailColor = new Color(150,150,150,1);
 
   //body
@@ -49,7 +49,7 @@ Mouse.prototype.draw = function(){ //draws mouse as a circle
     ctx.lineWidth = 5-3*i/tailSegments;
     ctx.stroke();
     ctx.closePath();
-    tailAngle*=0.9;
+    tailAngle*=1.2;
   }
 
 }
