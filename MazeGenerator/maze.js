@@ -3,6 +3,20 @@ function Maze(x,y,w,h,gridIncrement,color){
   this.scale = new JSVector(w,h);
   this.gridIncrement = gridIncrement;
   this.color = color;
+  this.gridBoxes = [];
+  for(var i = 0;i<=this.scale.x;i+=this.gridIncrement){
+    for(var j = 0;j<=this.scale.y;j+=this.gridIncrement){
+      let left = i==0;
+      let right = true;
+      let top = j==0;
+      let bottom = true;
+      let x = this.pos.x+i;
+      let y = this.pos.y+j;
+      let gridBox = new GridBox(left,right,top,bottom,x,y,this.gridIncrement);
+      this.gridBoxes.push(gridBox);
+    }
+  }
+  console.log(this.gridBoxes);
 }
 
 Maze.prototype.draw = function(){
@@ -10,22 +24,7 @@ Maze.prototype.draw = function(){
 }
 
 Maze.prototype.displayGrid = function(){
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = this.color.toString();
-  //columns
-  for(var x = this.pos.x;x<=this.scale.x+this.pos.x;x+=this.gridIncrement){
-    ctx.beginPath();
-    ctx.moveTo(x,this.pos.y);
-    ctx.lineTo(x,this.pos.y+this.scale.y);
-    ctx.stroke();
-    ctx.closePath();
-  }
-  //rows
-  for(var y = this.pos.y;y<=this.scale.y+this.pos.y;y+=this.gridIncrement){
-    ctx.beginPath();
-    ctx.moveTo(this.pos.x,y);
-    ctx.lineTo(this.pos.x+this.scale.x,y);
-    ctx.stroke();
-    ctx.closePath();
+  for(var i = 0;i<this.gridBoxes.length;i++){
+    this.gridBoxes[i].draw(this.color.toString());
   }
 }
