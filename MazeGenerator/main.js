@@ -8,7 +8,7 @@ function init(){
   ctx = cnv.getContext("2d");
 
   let lineColor = new Color(0,0,0,1);
-  let gridIncrement = 30;
+  let gridIncrement = 50;
   maze = new Maze(0,0,cnv.width,cnv.height,gridIncrement,lineColor);
   animate();      // kick off the animation
 }
