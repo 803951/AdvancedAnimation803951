@@ -1,5 +1,4 @@
 window.addEventListener("load",init);
-window.addEventListener("click", generateParticleSystem);
 
 var cnv,ctx,emitters,currentEmitterType;
 var particleRateSlider,rateOutput,squareRadioButton,circleRadioButton,triangleRadioButton;
@@ -24,24 +23,22 @@ function init(){
 
   ctx.fillStyle = "black";
   ctx.fillRect(0,0,cnv.width,cnv.height);
-  animate();
-}
 
-function generateParticleSystem(event){
-  if(event.clientX-cnv.width*3/4>cnv.width||event.clientX-cnv.width*3/4<0) return;
-  if(event.clientY*3/4>cnv.height||event.clientY*3/4<0) return;
-  let pos = new JSVector(event.clientX-cnv.width*3/4,event.clientY*3/4);
-  let minSpeed = 2;
-  let maxSpeed = 4;
-  let lifeTime = 80;
-  let minSize = 5;
-  let maxSize = 10;
-  let rScale = 1.2;
-  let gScale = 1.2;
-  let bScale = 255;
-  let spawnRate = 1;
-  let emitter = new ParticleEmitter(currentEmitterType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
-  emitters.push(emitter);
+  cnv.addEventListener("click", function(event){
+    let pos = new JSVector(event.clientX,event.clientY);
+    let minSpeed = 2;
+    let maxSpeed = 4;
+    let lifeTime = 80;
+    let minSize = 5;
+    let maxSize = 10;
+    let rScale = 1.2;
+    let gScale = 1.2;
+    let bScale = 255;
+    let spawnRate = 1;
+    let emitter = new ParticleEmitter(currentEmitterType,pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,rScale,gScale,bScale,false,spawnRate);
+    emitters.push(emitter);
+  });
+  animate();
 }
 
 function animate(){
