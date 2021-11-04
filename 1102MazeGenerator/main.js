@@ -1,29 +1,47 @@
 window.addEventListener("load", init);
 
-var ctx1,ctx2,cnv1,cnv2,maze,cnvPos;
+var ctx1,ctx2,cnv1,cnv2,maze,cnvPos,worldW,worldH,controls,canvasMover;
 
 window.addEventListener("keydown", function(event){
-  let speed = 5;
   if(event.code==="KeyW"){
-    cnvPos.y-=speed;
+    controls.up = true;
+    controls.down = false;
   }
   else if(event.code==="KeyS"){
-    cnvPos.y+=speed;
+    controls.down = true;
+    controls.up = false;
   }
   if(event.code==="KeyA"){
-    cnvPos.x-=speed;
+    controls.left = true;
+    controls.right = false;
   }
   else if(event.code==="KeyD"){
-    cnvPos.x+=speed;
+    controls.right = true;
+    controls.left = false;
+  }
+});
+window.addEventListener("keyup", function(event){
+  if(event.code==="KeyW"){
+    controls.up = false;
+  }
+  else if(event.code==="KeyS"){
+    controls.down = false;
+  }
+  if(event.code==="KeyA"){
+    controls.left = false;
+  }
+  else if(event.code==="KeyD"){
+    controls.right = false;
   }
 });
 
 function init(){
 
   cnv1 = document.getElementById("cnv1");
-  let worldW = 1000;
-  let worldH = 1000;
-  //
+  worldW = 3000;
+  worldH = 3000;
+  controls = {left:false,right:false,up:false,down:false};
+  canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
   cnvPos = new JSVector(-worldW/2+cnv1.width/2,-worldH/2+cnv1.height/2);
   ctx1 = cnv1.getContext("2d");
 
@@ -41,6 +59,40 @@ function animate() {
 }
 // move the circle to a new location
 function update(){
+  if(controls.up){
+    canvasMover.vel.y+=canvasMover.acc;
+  }
+  else if(controls.down){
+    canvasMover.vel.y-=canvasMover.acc;
+  }
+  else if(canvasMover.vel.y!=0){
+    let sign = Math.abs(canvasMover.vel.y)/canvasMover.vel.y;
+    canvasMover.vel.y-=sign*canvasMover.acc;
+    if (sign!=Math.abs(canvasMover.vel.y)/canvasMover.vel.y){
+      canvasMover.vel.y = 0;
+    }
+  }
+  if(controls.left){
+    canvasMover.vel.x+=canvasMover.acc;
+  }
+  else if(controls.right){
+    canvasMover.vel.x-=canvasMover.acc;
+  }
+  else if(canvasMover.vel.x!=0){
+    let sign = Math.abs(canvasMover.vel.x)/canvasMover.vel.x;
+    canvasMover.vel.x-=sign*canvasMover.acc;
+    if (sign!=Math.abs(canvasMover.vel.x)/canvasMover.vel.x){
+      canvasMover.vel.x = 0;
+    }
+  }
+
+  if(canvasMover.vel.getMagnitude()>canvasMover.maxSpeed){
+    canvasMover.vel.setMagnitude(canvasMover.maxSpeed);
+  }
+
+  cnvPos.x+=canvasMover.vel.x;
+  cnvPos.y+=canvasMover.vel.y;
+
   let xOffset = cnvPos.x;
   let yOffset = cnvPos.y;
   maze.draw(xOffset,yOffset);
