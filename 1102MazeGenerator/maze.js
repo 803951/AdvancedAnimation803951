@@ -25,6 +25,14 @@ Maze.prototype.draw = function(xOffset,yOffset){
   for(var i = 0;i<this.gridBoxes.length;i++){
     this.gridBoxes[i].draw(xOffset,yOffset,this.color.toString());
   }
+  ctx1.lineWidth = 10;
+  ctx1.strokeStyle = "red";
+  ctx1.beginPath();
+  ctx1.moveTo((this.pos.x+this.scale.x)/2+xOffset,yOffset);
+  ctx1.lineTo((this.pos.x+this.scale.x)/2+xOffset,this.pos.y+this.scale.y+yOffset+this.gridIncrement);
+  ctx1.moveTo(this.pos.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
+  ctx1.lineTo(this.pos.x+this.scale.x+xOffset+this.gridIncrement,(this.pos.y+this.scale.y)/2+yOffset);
+  ctx1.stroke();
 }
 
 Maze.prototype.generateNewMaze = function(){
