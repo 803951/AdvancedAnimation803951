@@ -8,22 +8,24 @@ function GridBox(leftWall,rightWall,topWall,bottomWall,x,y,scale){
   this.visited = false; //checks if maze generator has visited this cell yet
 }
 
-GridBox.prototype.draw = function(color){
+GridBox.prototype.draw = function(xOffset,yOffset,color){
+  let x = this.pos.x+xOffset;
+  let y = this.pos.y+yOffset;
   if(this.leftWall){
-    this.drawWall(this.pos.x,this.pos.y,this.pos.x,this.pos.y+this.scale,color);
+    this.drawWall(x,y,x,y+this.scale,color);
   }
   if(this.rightWall){
-    this.drawWall(this.pos.x+this.scale,this.pos.y,this.pos.x+this.scale,this.pos.y+this.scale,color);
+    this.drawWall(x+this.scale,y,x+this.scale,y+this.scale,color);
   }
   if(this.topWall){
-    this.drawWall(this.pos.x,this.pos.y,this.pos.x+this.scale,this.pos.y,color);
+    this.drawWall(x,y,x+this.scale,y,color);
   }
   if(this.bottomWall){
-    this.drawWall(this.pos.x,this.pos.y+this.scale,this.pos.x+this.scale,this.pos.y+this.scale,color);
+    this.drawWall(x,y+this.scale,x+this.scale,y+this.scale,color);
   }
 
   if(this.visited){
-    this.fill(color);
+    this.fill(xOffset,yOffset,color);
   }
 }
 
@@ -36,7 +38,9 @@ GridBox.prototype.drawWall = function(startX,startY,endX,endY,color){
   ctx.stroke();
 }
 
-GridBox.prototype.fill = function(color){
+GridBox.prototype.fill = function(xOffset,yOffset,color){
   ctx.fillStyle = color;
-  ctx.fillRect(this.pos.x,this.pos.y,this.scale,this.scale);
+  let x = this.pos.x+xOffset;
+  let y = this.pos.y+yOffset;
+  ctx.fillRect(x,y,this.scale,this.scale);
 }

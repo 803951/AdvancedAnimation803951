@@ -21,13 +21,9 @@ function Maze(x,y,w,h,gridIncrement,color){
   this.generateNewMaze();
 }
 
-Maze.prototype.draw = function(){
-  this.displayGrid();
-}
-
-Maze.prototype.displayGrid = function(){
+Maze.prototype.draw = function(xOffset,yOffset){
   for(var i = 0;i<this.gridBoxes.length;i++){
-    this.gridBoxes[i].draw(this.color.toString());
+    this.gridBoxes[i].draw(xOffset,yOffset,this.color.toString());
   }
 }
 
