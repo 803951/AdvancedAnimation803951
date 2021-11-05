@@ -36,14 +36,43 @@ window.addEventListener("keyup", function(event){
 });
 
 function init(){
-
   cnv1 = document.getElementById("cnv1");
-  worldW = 3000;
-  worldH = 3000;
+  ctx1 = cnv1.getContext("2d");
+  let runSimulation = false;
+  if(runSimulation){
+    cnv1.width = window.innerWidth*0.9;
+    cnv1.height = window.innerHeight*0.9;
+    let totalStudents = 30;
+    let trials = 1000;
+    let results = [];
+    for(var i = 0;i<=totalStudents;i++){
+      results.push(0);
+    }
+    for(var i = 0;i<trials;i++){
+      let counter = 0;
+      for(var j = 0;j<totalStudents;j++){
+        if(Math.random()<1/6) counter++;
+      }
+      results[counter]++;
+    }
+
+    for(var i = 0;i<results.length;i++){
+      let width = cnv1.width*0.9/results.length;
+      let height = (results[i]/(trials/2))*cnv1.height;
+      let x = i*width;
+      let y = cnv1.height - height;
+      ctx1.fillStyle = "black";
+      ctx1.fillRect(x,y-10,width,height);
+      ctx1.fillText(i,x+width/2,cnv1.height);
+    }
+    return;
+  }
+
+  worldW = 1000;
+  worldH = 1000;
   controls = {left:false,right:false,up:false,down:false};
   canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
   cnvPos = new JSVector(-worldW/2+cnv1.width/2,-worldH/2+cnv1.height/2);
-  ctx1 = cnv1.getContext("2d");
 
   let lineColor = new Color(0,0,0,1);
   let gridIncrement = 100;
