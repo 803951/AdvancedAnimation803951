@@ -13,7 +13,7 @@ function Maze(x,y,w,h,gridIncrement,color){
       let x = this.pos.x+i;
       let y = this.pos.y+j;
       let gridBox = new GridBox(left,right,top,bottom,x,y,this.gridIncrement);
-      if(this.gridBoxes.length%2==0) gridBox.visited = true;
+      if((this.gridBoxes.length+1)%4==0) gridBox.visited = true;
       this.gridBoxes.push(gridBox);
     }
   }

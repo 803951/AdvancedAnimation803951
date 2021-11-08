@@ -40,35 +40,6 @@ function init(){
   ctx1 = cnv1.getContext("2d");
   cnv2 = document.getElementById("cnv2");
   ctx2 = cnv2.getContext("2d");
-  let runSimulation = false;
-  if(runSimulation){
-    cnv1.width = window.innerWidth*0.9;
-    cnv1.height = window.innerHeight*0.9;
-    let totalStudents = 30;
-    let trials = 1000;
-    let results = [];
-    for(var i = 0;i<=totalStudents;i++){
-      results.push(0);
-    }
-    for(var i = 0;i<trials;i++){
-      let counter = 0;
-      for(var j = 0;j<totalStudents;j++){
-        if(Math.random()<1/6) counter++;
-      }
-      results[counter]++;
-    }
-
-    for(var i = 0;i<results.length;i++){
-      let width = cnv1.width*0.9/results.length;
-      let height = (results[i]/(trials/2))*cnv1.height;
-      let x = i*width;
-      let y = cnv1.height - height;
-      ctx1.fillStyle = "black";
-      ctx1.fillRect(x,y-10,width,height);
-      ctx1.fillText(i,x+width/2,cnv1.height);
-    }
-    return;
-  }
 
   worldW = 2000;
   worldH = 2000;
@@ -122,9 +93,6 @@ function update(){
     canvasMover.vel.setMagnitude(canvasMover.maxSpeed);
   }
 
-
-
-
   if(cnvPos.x+canvasMover.vel.x>=-worldW-gridIncrement*2+cnv1.width&&cnvPos.x+canvasMover.vel.x<=gridIncrement){
     cnvPos.x+=canvasMover.vel.x;
   }
@@ -137,7 +105,6 @@ function update(){
   else{
     canvasMover.vel.y = 0;
   }
-  let xOffset = cnvPos.x;
-  let yOffset = cnvPos.y;
-  maze.draw(xOffset,yOffset);
+  
+  maze.draw(cnvPos.x,cnvPos.y);
 }
