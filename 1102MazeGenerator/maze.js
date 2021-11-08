@@ -25,7 +25,7 @@ Maze.prototype.draw = function(xOffset,yOffset){
   for(var i = 0;i<this.gridBoxes.length;i++){
     this.gridBoxes[i].draw(xOffset,yOffset,this.color.toString());
   }
-  ctx1.lineWidth = 10;
+  ctx1.lineWidth = 5;
   ctx1.strokeStyle = "red";
   ctx1.beginPath();
   ctx1.moveTo((this.pos.x+this.scale.x)/2+xOffset,yOffset);
@@ -33,6 +33,18 @@ Maze.prototype.draw = function(xOffset,yOffset){
   ctx1.moveTo(this.pos.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
   ctx1.lineTo(this.pos.x+this.scale.x+xOffset+this.gridIncrement,(this.pos.y+this.scale.y)/2+yOffset);
   ctx1.stroke();
+
+  ctx2.lineWidth = 5;
+  ctx2.strokeStyle = "red";
+  ctx2.beginPath();
+  ctx2.moveTo((this.pos.x+this.scale.x)/2*cnv2.width/worldW,0);
+  ctx2.lineTo((this.pos.x+this.scale.x)/2*cnv2.width/worldW,(this.pos.y+this.scale.y+this.gridIncrement)*cnv2.height/worldH);
+  ctx2.moveTo(this.pos.x*cnv2.width/worldW,(this.pos.y+this.scale.y)/2*cnv2.height/worldH);
+  ctx2.lineTo((this.pos.x+this.scale.x+this.gridIncrement)*cnv2.width/worldW,(this.pos.y+this.scale.y)/2*cnv2.height/worldH);
+  ctx2.stroke();
+
+  ctx2.strokeStyle = "blue";
+  ctx2.strokeRect((this.pos.x-xOffset)*cnv2.width/worldW,-yOffset*cnv2.height/worldH,cnv1.width/worldW*cnv2.width,cnv1.height/worldH*cnv2.height);
 }
 
 Maze.prototype.generateNewMaze = function(){

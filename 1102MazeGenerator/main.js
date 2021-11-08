@@ -38,6 +38,8 @@ window.addEventListener("keyup", function(event){
 function init(){
   cnv1 = document.getElementById("cnv1");
   ctx1 = cnv1.getContext("2d");
+  cnv2 = document.getElementById("cnv2");
+  ctx2 = cnv2.getContext("2d");
   let runSimulation = false;
   if(runSimulation){
     cnv1.width = window.innerWidth*0.9;
@@ -68,8 +70,8 @@ function init(){
     return;
   }
 
-  worldW = 1000;
-  worldH = 1000;
+  worldW = 2000;
+  worldH = 2000;
   controls = {left:false,right:false,up:false,down:false};
   canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
   cnvPos = new JSVector(-worldW/2+cnv1.width/2,-worldH/2+cnv1.height/2);
@@ -83,6 +85,7 @@ function init(){
 function animate() {
   // erase the HTMLCanvasElement
   ctx1.clearRect(0,0,cnv1.width,cnv1.height);
+  ctx2.clearRect(0,0,cnv2.width,cnv2.height);
   update();   // update location   // render
   requestAnimationFrame(animate); // next cycle
 }
