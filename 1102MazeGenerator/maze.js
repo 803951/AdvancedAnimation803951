@@ -26,14 +26,19 @@ Maze.prototype.draw = function(xOffset,yOffset){
   for(var i = 0;i<this.gridBoxes.length;i++){
     this.gridBoxes[i].draw(xOffset,yOffset,this.color.toString());
   }
+
   ctx1.lineWidth = 5;
   ctx1.strokeStyle = "red";
+  ctx1.save();
+  ctx1.translate(xOffset,yOffset);
+
   ctx1.beginPath();
-  ctx1.moveTo((this.pos.x+this.scale.x)/2+xOffset,yOffset);
-  ctx1.lineTo((this.pos.x+this.scale.x)/2+xOffset,this.pos.y+this.scale.y+yOffset);
-  ctx1.moveTo(this.pos.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
-  ctx1.lineTo(this.pos.x+this.scale.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
+  ctx1.moveTo((this.pos.x+this.scale.x)/2,0);
+  ctx1.lineTo((this.pos.x+this.scale.x)/2,this.pos.y+this.scale.y);
+  ctx1.moveTo(this.pos.x,(this.pos.y+this.scale.y)/2);
+  ctx1.lineTo(this.pos.x+this.scale.x,(this.pos.y+this.scale.y)/2);
   ctx1.stroke();
+  ctx1.restore();
 
   ctx2.lineWidth = 5;
   ctx2.strokeStyle = "red";

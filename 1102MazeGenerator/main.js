@@ -62,9 +62,8 @@ function init(){
   maze = new Maze(0,0,worldW,worldH,gridIncrement,lineColor);
 
   cnv2.addEventListener("click",function(event){
-    let rect = cnv2.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    let x = event.offsetX;
+    let y = event.offsetY;
     let targetX = (x-maze.miniBoxScale.x/2)*(-worldW/cnv2.width);
     let targetY = (y-maze.miniBoxScale.y/2)*(-worldH/cnv2.height);
     targetPos.x = targetX;
