@@ -41,8 +41,14 @@ function init(){
   cnv2 = document.getElementById("cnv2");
   ctx2 = cnv2.getContext("2d");
 
-  worldW = 2000;
-  worldH = 2000;
+  //select even numbers
+  worldW = 2400;
+  worldH = 2400;
+  gridIncrement = 200;
+  //ensure grid has odd dimensions
+  if(worldW/gridIncrement%2==0) worldW += gridIncrement;
+  if(worldH/gridIncrement%2==0) worldH += gridIncrement;
+
   controls = {left:false,right:false,up:false,down:false};
   isControlled = false;
   canvasMover = {vel:new JSVector(0,0),acc:0.5,maxSpeed:10};
@@ -52,11 +58,6 @@ function init(){
   targetPos = new JSVector(x,y); //set target position to current canvas position
 
   let lineColor = new Color(0,0,0,1);
-  gridIncrement = 200;
-
-  //ensure grid has odd dimensions
-  if(worldW/gridIncrement%2==0) worldW += gridIncrement;
-  if(worldH/gridIncrement%2==0) worldH += gridIncrement;
 
   maze = new Maze(0,0,worldW,worldH,gridIncrement,lineColor);
 
