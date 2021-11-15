@@ -45,8 +45,10 @@ function init(){
   worldH = 2000;
   controls = {left:false,right:false,up:false,down:false};
   canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
-  cnvPos = new JSVector(-worldW/2+cnv1.width/2,-worldH/2+cnv1.height/2);
-  targetPos = new JSVector(0,0);
+  let x = -worldW/2+cnv1.width/2;
+  let y = -worldH/2+cnv1.height/2;
+  cnvPos = new JSVector(x,y);
+  targetPos = new JSVector(x,y); //set target position to current canvas position
 
   cnv2.addEventListener("click",function(event){
     let rect = cnv2.getBoundingClientRect();
@@ -54,9 +56,8 @@ function init(){
     let y = event.clientY - rect.top;
     let targetX = x*(-worldW/cnv2.width);
     let targetY = y*(-worldH/cnv2.height);
-    cnvPos.x = targetX;
-    cnvPos.y = targetY;
-    targetPos = new JSVector(targetX,targetY)
+    targetPos.x = targetX;
+    targetPos.y = targetY;
   });
 
   let lineColor = new Color(0,0,0,1);
@@ -74,6 +75,23 @@ function animate() {
 }
 // move the circle to a new location
 function update(){
+
+  updateOffset();
+  lerpPosition(0.18);
+
+  maze.draw(cnvPos.x,cnvPos.y);
+}
+
+//set speedScale to number between 0 and 1 exclusive
+//speedScale is fractional amount of distance traveled between each interpolation
+function lerpPosition(speedScale){
+  let diff = JSVector.subGetNew(targetPos,cnvPos);
+  let mag = diff.getMagnitude();
+  diff.setMagnitude(mag*speedScale);
+  cnvPos.add(diff);
+}
+
+function updateOffset(){
   if(controls.up){
     canvasMover.vel.y+=canvasMover.acc;
   }
@@ -117,6 +135,4 @@ function update(){
   else{
     canvasMover.vel.y = 0;
   }
-
-  maze.draw(cnvPos.x,cnvPos.y);
 }
