@@ -51,19 +51,19 @@ function init(){
   cnvPos = new JSVector(x,y);
   targetPos = new JSVector(x,y); //set target position to current canvas position
 
+  let lineColor = new Color(0,0,0,1);
+  gridIncrement = 100;
+  maze = new Maze(0,0,worldW,worldH,gridIncrement,lineColor);
+
   cnv2.addEventListener("click",function(event){
     let rect = cnv2.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
-    let targetX = x*(-worldW/cnv2.width);
-    let targetY = y*(-worldH/cnv2.height);
+    let targetX = (x-maze.miniBoxScale.x/2)*(-worldW/cnv2.width);
+    let targetY = (y-maze.miniBoxScale.y/2)*(-worldH/cnv2.height);
     targetPos.x = targetX;
     targetPos.y = targetY;
   });
-
-  let lineColor = new Color(0,0,0,1);
-  gridIncrement = 100;
-  maze = new Maze(0,0,worldW,worldH,gridIncrement,lineColor);
   animate();      // kick off the animation
 }
 
@@ -77,7 +77,6 @@ function animate() {
 // move the circle to a new location
 function update(){
 
-  updateOffset();
   if(!isControlled){
     lerpPosition(0.18);
   }
@@ -85,6 +84,7 @@ function update(){
     targetPos.x = cnvPos.x;
     targetPos.y = cnvPos.y;
   }
+  updateOffset();
 
   maze.draw(cnvPos.x,cnvPos.y);
 }
@@ -131,18 +131,34 @@ function updateOffset(){
     canvasMover.vel.setMagnitude(canvasMover.maxSpeed);
   }
 
-  if(cnvPos.x+canvasMover.vel.x>=-worldW-gridIncrement*2+cnv1.width&&cnvPos.x+canvasMover.vel.x<=gridIncrement){
-    cnvPos.x+=canvasMover.vel.x;
-  }
-  else{
+  cnvPos.x+=canvasMover.vel.x;
+  cnvPos.y+=canvasMover.vel.y;
+
+  let xShift = maze.miniBoxScale.x*cnv1.width/cnv2.width;
+  let yShift = maze.miniBoxScale.y*cnv1.height/cnv2.height;
+
+  let xBounds = {min:-worldW-gridIncrement-xShift+cnv1.width,max:xShift};
+  let yBounds = {min:-worldH-gridIncrement-yShift+cnv1.height,max:yShift}
+
+  if(checkBounds(cnvPos.x,xBounds.min,xBounds.max)){
+    cnvPos.x = clamp(cnvPos.x,xBounds.min,xBounds.max);
+    targetPos.x = cnvPos.x;
     canvasMover.vel.x = 0;
   }
-  if(cnvPos.y+canvasMover.vel.y>=-worldH-gridIncrement*2+cnv1.height&&cnvPos.y+canvasMover.vel.y<=gridIncrement){
-    cnvPos.y+=canvasMover.vel.y;
-  }
-  else{
+  if(checkBounds(cnvPos.y,yBounds.min,yBounds.max)){
+    cnvPos.y = clamp(cnvPos.y,yBounds.min,yBounds.max);
+    targetPos.x = cnvPos.x;
     canvasMover.vel.y = 0;
   }
 
   isControlled = canvasMover.vel.getMagnitude() > 0;
+}
+
+function clamp(val,min,max){
+  return val>max?max:(val<min?min:val);
+}
+
+function checkBounds(val,min,max){
+
+  return (val<min||val>max);
 }

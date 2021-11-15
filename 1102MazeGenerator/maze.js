@@ -1,6 +1,7 @@
 function Maze(x,y,w,h,gridIncrement,color){
   this.pos = new JSVector(x,y);
   this.scale = new JSVector(w,h);
+  this.miniBoxScale = new JSVector(cnv1.width/worldW*cnv2.width,cnv1.height/worldH*cnv2.height);
   this.gridIncrement = gridIncrement;
   this.color = color;
   this.gridBoxes = [];
@@ -44,7 +45,7 @@ Maze.prototype.draw = function(xOffset,yOffset){
   ctx2.stroke();
 
   ctx2.strokeStyle = "blue";
-  ctx2.strokeRect((this.pos.x-xOffset)*cnv2.width/worldW,-yOffset*cnv2.height/worldH,cnv1.width/worldW*cnv2.width,cnv1.height/worldH*cnv2.height);
+  ctx2.strokeRect((this.pos.x-xOffset)*cnv2.width/worldW,-yOffset*cnv2.height/worldH,this.miniBoxScale.x,this.miniBoxScale.y);
 }
 
 Maze.prototype.generateNewMaze = function(){
