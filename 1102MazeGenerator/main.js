@@ -1,6 +1,6 @@
 window.addEventListener("load", init);
 
-var ctx1,ctx2,cnv1,cnv2,maze,cnvPos,worldW,worldH,controls,canvasMover,gridIncrement,targetPos;
+var ctx1,ctx2,cnv1,cnv2,maze,cnvPos,worldW,worldH,controls,canvasMover,gridIncrement,targetPos,isControlled;
 
 window.addEventListener("keydown", function(event){
   if(event.code==="KeyW"){
@@ -44,6 +44,7 @@ function init(){
   worldW = 2000;
   worldH = 2000;
   controls = {left:false,right:false,up:false,down:false};
+  isControlled = false;
   canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
   let x = -worldW/2+cnv1.width/2;
   let y = -worldH/2+cnv1.height/2;
@@ -77,7 +78,13 @@ function animate() {
 function update(){
 
   updateOffset();
-  lerpPosition(0.18);
+  if(!isControlled){
+    lerpPosition(0.18);
+  }
+  else{
+    targetPos.x = cnvPos.x;
+    targetPos.y = cnvPos.y;
+  }
 
   maze.draw(cnvPos.x,cnvPos.y);
 }
@@ -92,6 +99,12 @@ function lerpPosition(speedScale){
 }
 
 function updateOffset(){
+  if(!(controls.up||controls.down||controls.left||controls.right)){
+    isControlled = false;
+  }
+  else{
+    isControlled = true;
+  }
   if(controls.up){
     canvasMover.vel.y+=canvasMover.acc;
   }
