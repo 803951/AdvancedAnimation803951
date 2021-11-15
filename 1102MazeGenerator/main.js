@@ -1,6 +1,6 @@
 window.addEventListener("load", init);
 
-var ctx1,ctx2,cnv1,cnv2,maze,cnvPos,worldW,worldH,controls,canvasMover,gridIncrement;
+var ctx1,ctx2,cnv1,cnv2,maze,cnvPos,worldW,worldH,controls,canvasMover,gridIncrement,targetPos;
 
 window.addEventListener("keydown", function(event){
   if(event.code==="KeyW"){
@@ -46,6 +46,18 @@ function init(){
   controls = {left:false,right:false,up:false,down:false};
   canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
   cnvPos = new JSVector(-worldW/2+cnv1.width/2,-worldH/2+cnv1.height/2);
+  targetPos = new JSVector(0,0);
+
+  cnv2.addEventListener("click",function(event){
+    let rect = cnv2.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    let targetX = x*(-worldW/cnv2.width);
+    let targetY = y*(-worldH/cnv2.height);
+    cnvPos.x = targetX;
+    cnvPos.y = targetY;
+    targetPos = new JSVector(targetX,targetY)
+  });
 
   let lineColor = new Color(0,0,0,1);
   gridIncrement = 100;
@@ -105,6 +117,6 @@ function update(){
   else{
     canvasMover.vel.y = 0;
   }
-  
+
   maze.draw(cnvPos.x,cnvPos.y);
 }
