@@ -99,12 +99,7 @@ function lerpPosition(speedScale){
 }
 
 function updateOffset(){
-  if(!(controls.up||controls.down||controls.left||controls.right)){
-    isControlled = false;
-  }
-  else{
-    isControlled = true;
-  }
+
   if(controls.up){
     canvasMover.vel.y+=canvasMover.acc;
   }
@@ -148,4 +143,6 @@ function updateOffset(){
   else{
     canvasMover.vel.y = 0;
   }
+
+  isControlled = canvasMover.vel.getMagnitude() > 0;
 }
