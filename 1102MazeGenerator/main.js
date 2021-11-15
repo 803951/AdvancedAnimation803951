@@ -45,14 +45,19 @@ function init(){
   worldH = 2000;
   controls = {left:false,right:false,up:false,down:false};
   isControlled = false;
-  canvasMover = {vel:new JSVector(0,0),acc:0.2,maxSpeed:5};
+  canvasMover = {vel:new JSVector(0,0),acc:0.5,maxSpeed:10};
   let x = -worldW/2+cnv1.width/2;
   let y = -worldH/2+cnv1.height/2;
   cnvPos = new JSVector(x,y);
   targetPos = new JSVector(x,y); //set target position to current canvas position
 
   let lineColor = new Color(0,0,0,1);
-  gridIncrement = 100;
+  gridIncrement = 200;
+
+  //ensure grid has odd dimensions
+  if(worldW/gridIncrement%2==0) worldW += gridIncrement;
+  if(worldH/gridIncrement%2==0) worldH += gridIncrement;
+
   maze = new Maze(0,0,worldW,worldH,gridIncrement,lineColor);
 
   cnv2.addEventListener("click",function(event){
@@ -137,8 +142,8 @@ function updateOffset(){
   let xShift = maze.miniBoxScale.x*cnv1.width/cnv2.width;
   let yShift = maze.miniBoxScale.y*cnv1.height/cnv2.height;
 
-  let xBounds = {min:-worldW-gridIncrement-xShift+cnv1.width,max:xShift};
-  let yBounds = {min:-worldH-gridIncrement-yShift+cnv1.height,max:yShift}
+  let xBounds = {min:-worldW-xShift+cnv1.width,max:xShift};
+  let yBounds = {min:-worldH-yShift+cnv1.height,max:yShift}
 
   if(checkBounds(cnvPos.x,xBounds.min,xBounds.max)){
     cnvPos.x = clamp(cnvPos.x,xBounds.min,xBounds.max);

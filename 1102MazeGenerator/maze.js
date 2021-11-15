@@ -5,8 +5,8 @@ function Maze(x,y,w,h,gridIncrement,color){
   this.gridIncrement = gridIncrement;
   this.color = color;
   this.gridBoxes = [];
-  for(var i = 0;i<=this.scale.x;i+=this.gridIncrement){
-    for(var j = 0;j<=this.scale.y;j+=this.gridIncrement){
+  for(var i = 0;i<this.scale.x;i+=this.gridIncrement){
+    for(var j = 0;j<this.scale.y;j+=this.gridIncrement){
       let left = i==0;
       let right = true;
       let top = j==0;
@@ -14,7 +14,7 @@ function Maze(x,y,w,h,gridIncrement,color){
       let x = this.pos.x+i;
       let y = this.pos.y+j;
       let gridBox = new GridBox(left,right,top,bottom,x,y,this.gridIncrement);
-      if((this.gridBoxes.length+1)%4==0) gridBox.visited = true;
+      if(this.gridBoxes.length%2==0) gridBox.visited = true;
       this.gridBoxes.push(gridBox);
     }
   }
@@ -30,9 +30,9 @@ Maze.prototype.draw = function(xOffset,yOffset){
   ctx1.strokeStyle = "red";
   ctx1.beginPath();
   ctx1.moveTo((this.pos.x+this.scale.x)/2+xOffset,yOffset);
-  ctx1.lineTo((this.pos.x+this.scale.x)/2+xOffset,this.pos.y+this.scale.y+yOffset+this.gridIncrement);
+  ctx1.lineTo((this.pos.x+this.scale.x)/2+xOffset,this.pos.y+this.scale.y+yOffset);
   ctx1.moveTo(this.pos.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
-  ctx1.lineTo(this.pos.x+this.scale.x+xOffset+this.gridIncrement,(this.pos.y+this.scale.y)/2+yOffset);
+  ctx1.lineTo(this.pos.x+this.scale.x+xOffset,(this.pos.y+this.scale.y)/2+yOffset);
   ctx1.stroke();
 
   ctx2.lineWidth = 5;
