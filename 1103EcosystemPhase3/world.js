@@ -22,21 +22,41 @@ function World(w,h){
     targetPos.y = targetY;
   });
 
+  let ctxArr = [this.ctx1,this.ctx2];
   //generation of species
 
   //*****SNAKES*****//
-  snakes = [];
-  let n = 25; //number of snakes
+  this.snakes = [];
+  let n = 30; //number of snakes
   let r = 10; //radius of snake segments
-  let dist = 15; //distance between each segment in snakes
-  let ctxArr = [this.ctx1,this.ctx2];
+  let dist = 25; //distance between each segment in snakes
   for(var i = 0;i<n;i++){
     let length = Math.random()*150+100; //random length in pixels of snake
     let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
     let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
-    snakes.push(snake); //adds new snake to snake array
+    this.snakes.push(snake); //adds new snake to snake array
   }
   //***************//
+
+  //generation of flocks
+
+  //*****FLOCKS*****//
+  this.flocks = [];
+  n = 5;
+  let cohStrength = 0.08;
+  let sepStrength = 0.1;
+  let alignRange = 200;
+  let sepDist = 20;
+  let numBoids = 30;
+  let boidScale = 5;
+
+  for(var i = 0;i<n;i++){
+    let speed = Math.random()*1+2;
+    let color = Color.generateRandomColor(1,0.5,0.5,false);
+    let flock = new Flock(speed,color,cohStrength,sepStrength,alignRange,sepDist,numBoids,boidScale,this.dimensions.x,this.dimensions.y,ctxArr);
+    this.flocks.push(flock);
+  }
+  //****************//
 }
 
 World.prototype.update = function(){
@@ -60,18 +80,26 @@ World.prototype.updateSpecies = function(){
   this.ctx2.scale(xScale,yScale);
   this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
 
-  for(var i = 0;i<snakes.length;i++){ //runs through snake array
-    snakes[i].move(); //move function to update all segment positions
-    for(var k = 0;k<snakes.length;k++){ //snakes interact with eachother
+  //SNAKES
+  for(var i = 0;i<this.snakes.length;i++){ //runs through snake array
+    this.snakes[i].move(); //move function to update all segment positions
+    for(var k = 0;k<this.snakes.length;k++){ //snakes interact with eachother
       if(i==k) continue;
       if(i%4!=k%4){ //each snake is attracted to 75% of other snakes with a smaller attracting force than the repelling force
-        snakes[i].attract(snakes[k]);
+        this.snakes[i].attract(this.snakes[k]);
       }
       else{ //each snake is repelled by 25% of other snakes with a larger repelling force than the attracting force
-        snakes[i].repel(snakes[k]);
+        this.snakes[i].repel(this.snakes[k]);
       }
     }
-    snakes[i].draw();
+    this.snakes[i].draw();
+  }
+  //flocks
+  for(var i = 0;i<this.flocks.length;i++){
+    this.flocks[i].cohesion();
+    this.flocks[i].seperation();
+    this.flocks[i].align();
+    this.flocks[i].display();
   }
 
   this.ctx1.restore();
