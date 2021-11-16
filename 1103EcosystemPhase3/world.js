@@ -27,7 +27,7 @@ function World(w,h){
 
   //*****SNAKES*****//
   this.snakes = [];
-  let n = 15; //number of snakes
+  let n = 10; //number of snakes
   let r = 7; //radius of snake segments
   let dist = 10; //distance between each segment in snakes
   for(var i = 0;i<n;i++){
@@ -47,7 +47,7 @@ function World(w,h){
   let sepStrength = 0.1;
   let alignRange = 200;
   let sepDist = 20;
-  let numBoids = 30;
+  let numBoids = 20;
   let boidScale = 5;
 
   for(var i = 0;i<n;i++){
@@ -62,11 +62,11 @@ function World(w,h){
 
   //****ORBITALS****//
   this.planets = [];
-  /*n = 15;
+  n = 5;
   for(var i = 0;i<n;i++){
-    planet = Planet.generateRandomPlanet(25,50);
+    planet = Planet.generateRandomPlanet(25,50,this.dimensions.x,this.dimensions.y,ctxArr);
     this.planets.push(planet);
-  }*/
+  }
   //****************//
 }
 
