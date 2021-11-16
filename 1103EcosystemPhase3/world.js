@@ -21,17 +21,64 @@ function World(w,h){
     targetPos.x = targetX;
     targetPos.y = targetY;
   });
+
+  //generation of species
+
+  //*****SNAKES*****//
+  snakes = [];
+  let n = 50; //number of snakes
+  let r = 10; //radius of snake segments
+  let dist = 15; //distance between each segment in snakes
+  let ctxArr = [this.ctx1,this.ctx2];
+  for(var i = 0;i<n;i++){
+    let length = Math.random()*150+50; //random length in pixels of snake
+    let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
+    let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
+    snakes.push(snake); //adds new snake to snake array
+  }
+  //***************//
 }
 
 World.prototype.update = function(){
 
+  this.processInput();
   this.updatePosition();
   this.lerpPosition(0.18)
   this.draw();
+  this.updateSpecies();
 
 }
 
-World.prototype.updatePosition = function(){
+World.prototype.updateSpecies = function(){
+  this.ctx1.save();
+  this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
+  this.ctx2.save();
+
+  let xScale = this.cnv2.width/this.dimensions.x;
+  let yScale = this.cnv2.height/this.dimensions.y;
+
+  this.ctx2.scale(xScale,yScale);
+  this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
+
+  for(var i = 0;i<snakes.length;i++){ //runs through snake array
+    snakes[i].move(); //move function to update all segment positions
+    for(var k = 0;k<snakes.length;k++){ //snakes interact with eachother
+      if(i==k) continue;
+      if(i%4!=k%4){ //each snake is attracted to 75% of other snakes with a smaller attracting force than the repelling force
+        snakes[i].attract(snakes[k]);
+      }
+      else{ //each snake is repelled by 25% of other snakes with a larger repelling force than the attracting force
+        snakes[i].repel(snakes[k]);
+      }
+    }
+    snakes[i].draw();
+  }
+
+  this.ctx1.restore();
+  this.ctx2.restore();
+}
+
+World.prototype.processInput = function(){
 
   let delta = new JSVector(0,0);
   if(controls.up){
@@ -46,8 +93,12 @@ World.prototype.updatePosition = function(){
   else if(controls.right){
     delta.x += this.movementSpeed;
   }
+
   if(delta.getMagnitude()>0) delta.setMagnitude(this.movementSpeed);
   targetPos.add(delta);
+}
+
+World.prototype.updatePosition = function(){
 
   targetPos.x = this.clamp(targetPos.x,-this.cnv2.width/2,this.cnv2.width/2);
   targetPos.y = this.clamp(targetPos.y,-this.cnv2.height/2,this.cnv2.height/2);
