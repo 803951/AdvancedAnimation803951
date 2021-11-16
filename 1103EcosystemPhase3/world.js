@@ -26,12 +26,12 @@ function World(w,h){
 
   //*****SNAKES*****//
   snakes = [];
-  let n = 50; //number of snakes
+  let n = 25; //number of snakes
   let r = 10; //radius of snake segments
   let dist = 15; //distance between each segment in snakes
   let ctxArr = [this.ctx1,this.ctx2];
   for(var i = 0;i<n;i++){
-    let length = Math.random()*150+50; //random length in pixels of snake
+    let length = Math.random()*150+100; //random length in pixels of snake
     let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
     let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
     snakes.push(snake); //adds new snake to snake array
