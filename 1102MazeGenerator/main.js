@@ -164,6 +164,5 @@ function clamp(val,min,max){
 }
 
 function checkBounds(val,min,max){
-
   return (val<min||val>max);
 }
