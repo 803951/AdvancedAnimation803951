@@ -27,11 +27,11 @@ function World(w,h){
 
   //*****SNAKES*****//
   this.snakes = [];
-  let n = 30; //number of snakes
-  let r = 10; //radius of snake segments
-  let dist = 25; //distance between each segment in snakes
+  let n = 15; //number of snakes
+  let r = 7; //radius of snake segments
+  let dist = 10; //distance between each segment in snakes
   for(var i = 0;i<n;i++){
-    let length = Math.random()*150+100; //random length in pixels of snake
+    let length = Math.random()*100+50; //random length in pixels of snake
     let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
     let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
     this.snakes.push(snake); //adds new snake to snake array
@@ -56,6 +56,17 @@ function World(w,h){
     let flock = new Flock(speed,color,cohStrength,sepStrength,alignRange,sepDist,numBoids,boidScale,this.dimensions.x,this.dimensions.y,ctxArr);
     this.flocks.push(flock);
   }
+  //****************//
+
+  //generation of orbitals
+
+  //****ORBITALS****//
+  this.planets = [];
+  /*n = 15;
+  for(var i = 0;i<n;i++){
+    planet = Planet.generateRandomPlanet(25,50);
+    this.planets.push(planet);
+  }*/
   //****************//
 }
 
@@ -100,6 +111,11 @@ World.prototype.updateSpecies = function(){
     this.flocks[i].seperation();
     this.flocks[i].align();
     this.flocks[i].display();
+  }
+
+  //orbitals
+  for(var i = 0;i<this.planets.length;i++){
+    this.planets[i].update();
   }
 
   this.ctx1.restore();
