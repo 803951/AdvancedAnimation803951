@@ -7,6 +7,19 @@ function Planet(x,y,dx,dy,radius,color,orbitDist,worldW,worldH,ctxArr){
   this.ctxArr = ctxArr;
   this.orbiters = Orbiter.generateRandomOrbiters(this.pos,radius,14,28,ctxArr);
   this.orbitDist = 70;
+
+  let minSpeed = 5;
+  let maxSpeed = 7;
+  let lifeTime = 30;
+  let minSize = 12;
+  let maxSize = 18;
+  let scaleR = 255;
+  let scaleG = 1;
+  let scaleB = 1;
+  let isMonochrome = false;
+  let spawnRate = 1;
+  let angleSpray = Math.PI*2;
+  this.emitter = new ParticleEmitter(particleTypes.CIRCLE,this.pos,minSpeed,maxSpeed,lifeTime,minSize,maxSize,scaleR,scaleG,scaleB,isMonochrome,spawnRate,angleSpray);
 }
 
 Planet.generateRandomPlanet = function(rMin,rMax,worldW,worldH,ctxArr){
@@ -36,6 +49,12 @@ Planet.prototype.checkEdges = function(){
   }
 }
 
+Planet.prototype.particleSpray = function(){
+  this.emitter.pos = this.pos;
+  this.emitter.generateNewParticles(0,this.ctxArr[0]);
+  this.emitter.updateParticles();
+}
+
 Planet.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];
@@ -54,6 +73,6 @@ Planet.prototype.update = function(){
     this.orbiters[i].orbit(this,this.orbitDist);
     this.orbiters[i].draw();
   }
-
+  this.particleSpray();
   this.draw();
 }

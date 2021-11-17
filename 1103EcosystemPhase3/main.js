@@ -2,6 +2,12 @@ window.addEventListener("load", init);
 
 var world,controls;
 
+const particleTypes = {
+  SQUARE: "square",
+  CIRCLE: "circle",
+  TRIANGLE: "triangle"
+}
+
 window.addEventListener("keydown", function(event){
   if(event.code==="KeyW"){
     controls.up = true;
