@@ -61,7 +61,7 @@ SnakeSegment.prototype.follow = function(other,dist){
 
 SnakeSegment.prototype.repel = function(other){
   let force = JSVector.subGetNew(this.pos,other.pos); //finds vectors between two segments
-  if(force.getMagnitude()>100) return; // checks if within 100 unit radius
+  if(force.getMagnitude()>300) return; // checks if within 100 unit radius
   force.setMagnitude(0.3);
   let tempVel = this.vel.getMagnitude();
   this.vel.add(force); //adds force to velocity
@@ -70,7 +70,7 @@ SnakeSegment.prototype.repel = function(other){
 
 SnakeSegment.prototype.attract = function(other){
   let force = JSVector.subGetNew(other.pos,this.pos); //finds vector between two segments
-  if(force.getMagnitude()>100) return; // checks if within 100 unit radius
+  if(force.getMagnitude()>300) return; // checks if within 100 unit radius
   force.setMagnitude(0.1);
   let tempVel = this.vel.getMagnitude();
   this.vel.add(force); //adds force to velocity

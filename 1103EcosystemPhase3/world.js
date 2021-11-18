@@ -32,7 +32,7 @@ function World(w,h){
   let r = 7; //radius of snake segments
   let dist = 10; //distance between each segment in snakes
   for(var i = 0;i<n;i++){
-    let length = Math.random()*100+50; //random length in pixels of snake
+    let length = Math.random()*150+100; //random length in pixels of snake
     let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
     let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
     this.snakes.push(snake); //adds new snake to snake array
