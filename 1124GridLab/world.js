@@ -5,7 +5,6 @@ function World(w,h,cellSize){
   this.dimensions = new JSVector(w,h);
   this.cnv1 = document.getElementById("cnv1");
   this.ctx1 = cnv1.getContext("2d");
-  this.zoomScale = new JSVector(1,1);
   this.cnv2 = document.getElementById("cnv2");
   this.ctx2 = cnv2.getContext("2d");
 
@@ -71,7 +70,6 @@ World.prototype.update = function(){
 World.prototype.updateGrid = function(){
   this.ctx1.save();
   this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
-  this.ctx1.scale(this.zoomScale.x,this.zoomScale.y);
   this.ctx2.save();
 
   let xScale = this.cnv2.width/this.dimensions.x;
@@ -104,15 +102,6 @@ World.prototype.processInput = function(){
   }
   else if(controls.right){
     delta.x += this.movementSpeed;
-  }
-  let zoomDelta = 0.01;
-  if(controls.zoomIn){
-    this.zoomScale.x*=1.01;
-    this.zoomScale.y*=1.01;
-  }
-  if(controls.zoomOut){
-    this.zoomScale.x/=1.01;
-    this.zoomScale.y/=1.01;
   }
 
   if(delta.getMagnitude()>0) delta.setMagnitude(this.movementSpeed);
@@ -147,7 +136,6 @@ World.prototype.draw = function(){
   this.ctx1.strokeStyle = lineColor.toString();
   this.ctx1.save();
   this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
-  this.ctx1.scale(this.zoomScale.x,this.zoomScale.y);
 
   this.ctx1.beginPath();
   this.ctx1.moveTo(0,this.dimensions.y/2);
@@ -173,7 +161,7 @@ World.prototype.draw = function(){
   this.ctx2.lineTo(-this.dimensions.x/2,0);
   this.ctx2.stroke();
   this.ctx2.strokeStyle = lineColor.toString();
-  this.ctx2.strokeRect(this.ctx1Pos.x/this.zoomScale.x, this.ctx1Pos.y/this.zoomScale.y, this.cnv1.width/this.zoomScale.x, this.cnv1.height/this.zoomScale.x);
+  this.ctx2.strokeRect(this.ctx1Pos.x, this.ctx1Pos.y, this.cnv1.width, this.cnv1.height);
   this.ctx2.restore();
 
 }

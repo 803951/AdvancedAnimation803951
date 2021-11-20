@@ -19,14 +19,6 @@ window.addEventListener("keydown", function(event){
     controls.right = true;
     controls.left = false;
   }
-  if(event.code==="ArrowUp"){
-    controls.zoomIn = true;
-    controls.zoomOut = false;
-  }
-  else if(event.code==="ArrowDown"){
-    controls.zoomOut = true;
-    controls.zoomIn = false;
-  }
 });
 window.addEventListener("keyup", function(event){
   if(event.code==="KeyW"){
@@ -41,15 +33,9 @@ window.addEventListener("keyup", function(event){
   else if(event.code==="KeyD"){
     controls.right = false;
   }
-  if(event.code==="ArrowUp"){
-    controls.zoomIn = false;
-  }
-  else if(event.code==="ArrowDown"){
-    controls.zoomOut = false;
-  }
 });
 function init(){
-  controls = {left:false,right:false,up:false,down:false,zoomIn:false,zoomOut:false};
+  controls = {left:false,right:false,up:false,down:false};
   world = new World(2100,2100,75);
   animate();
 }
