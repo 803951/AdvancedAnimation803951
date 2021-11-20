@@ -14,6 +14,20 @@ function World(w,h,cellSize){
   targetPos = new JSVector(0,0);
   this.movementSpeed = 1;
 
+  let ctxArr = [this.ctx1,this.ctx2];
+  this.cellSize = cellSize;
+  this.cells = this.generateNewGrid(this.cellSize,ctxArr);
+
+  this.cnv1.addEventListener("click",function(event){
+    let x = event.offsetX+world.ctx1Pos.x+world.dimensions.x/2;
+    let y = event.offsetY+world.ctx1Pos.y+world.dimensions.y/2;
+    if(x>world.dimensions.x||y>world.dimensions.y||x<0||y<0) return;
+    let r = Math.floor(y/world.cellSize);
+    let c = Math.floor(x/world.cellSize);
+    let index = Math.round(c + r*world.dimensions.x/world.cellSize);
+    world.cells[index].isSelected = !world.cells[index].isSelected;
+  });
+
   this.cnv2.addEventListener("click",function(event){
     let x = event.offsetX;
     let y = event.offsetY;
@@ -22,21 +36,22 @@ function World(w,h,cellSize){
     targetPos.x = targetX;
     targetPos.y = targetY;
   });
-
-  let ctxArr = [this.ctx1,this.ctx2];
-
-  this.cells = this.generateNewGrid(cellSize,ctxArr);
 }
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){
   let cells = [];
   let color1 = new Color(188,238,236,93); //selected cell
   let color2 = new Color(90,184,179,72); //unselected cell
-  for(var i = -this.dimensions.x/2;i<this.dimensions.x/2;i+=cellSize){
-    for(var j = -this.dimensions.y/2;j<this.dimensions.y/2;j+=cellSize){
+  for(var j = -this.dimensions.x/2;j<this.dimensions.x/2;j+=cellSize){
+    for(var i = -this.dimensions.y/2;i<this.dimensions.y/2;i+=cellSize){
       let selected = Math.random()<0.1; //10% chance of selection
       let cell = new Cell(i,j,cellSize,color1,color2,selected,ctxArr);
       cells.push(cell);
+      let x = i + this.dimensions.x/2;
+      let y = j + this.dimensions.y/2;
+      let r = Math.floor(y/this.cellSize);
+      let c = Math.floor(x/this.cellSize);
+      let index = Math.round(c + r*this.dimensions.x/this.cellSize);
     }
   }
   return cells;
