@@ -50,7 +50,7 @@ window.addEventListener("keyup", function(event){
 });
 function init(){
   controls = {left:false,right:false,up:false,down:false,zoomIn:false,zoomOut:false};
-  world = new World(2000,2000);
+  world = new World(2100,2100,75);
   animate();
 }
 

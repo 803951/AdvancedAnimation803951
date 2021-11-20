@@ -1,6 +1,6 @@
 var targetPos;
 
-function World(w,h){
+function World(w,h,cellSize){
 
   this.dimensions = new JSVector(w,h);
   this.cnv1 = document.getElementById("cnv1");
@@ -24,15 +24,32 @@ function World(w,h){
   });
 
   let ctxArr = [this.ctx1,this.ctx2];
+
+  this.cells = this.generateNewGrid(cellSize,ctxArr);
+}
+
+World.prototype.generateNewGrid = function(cellSize,ctxArr){
+  let cells = [];
+  let color1 = new Color(188,238,236,93); //selected cell
+  let color2 = new Color(90,184,179,72); //unselected cell
+  for(var i = -this.dimensions.x/2;i<this.dimensions.x/2;i+=cellSize){
+    for(var j = -this.dimensions.y/2;j<this.dimensions.y/2;j+=cellSize){
+      let selected = Math.random()<0.1; //10% chance of selection
+      let cell = new Cell(i,j,cellSize,color1,color2,selected,ctxArr);
+      cells.push(cell);
+    }
+  }
+  return cells;
 }
 
 World.prototype.update = function(){
-
+  this.ctx1.clearRect(0,0,this.dimensions.x,this.dimensions.y);
+  this.ctx2.clearRect(0,0,this.dimensions.x,this.dimensions.y);
   this.processInput();
   this.updatePosition();
   this.lerpPosition(0.18)
-  this.draw();
   this.updateGrid();
+  this.draw();
 
 }
 
@@ -49,6 +66,10 @@ World.prototype.updateGrid = function(){
   this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
 
   //Cell update and drawing methods
+  for(var i = 0;i<this.cells.length;i++){
+    this.cells[i].update();
+    this.cells[i].draw();
+  }
 
   this.ctx1.restore();
   this.ctx2.restore();
@@ -106,11 +127,9 @@ World.prototype.lerpPosition = function(scale){
 
 World.prototype.draw = function(){
 
-  this.ctx1.clearRect(0,0,this.dimensions.x,this.dimensions.y);
-  this.ctx2.clearRect(0,0,this.dimensions.x,this.dimensions.y);
-
+  let lineColor = new Color(0,0,0,1);
   this.ctx1.lineWidth = 4;
-  this.ctx1.strokeStyle = "black";
+  this.ctx1.strokeStyle = lineColor.toString();
   this.ctx1.save();
   this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
   this.ctx1.scale(this.zoomScale.x,this.zoomScale.y);
@@ -131,14 +150,14 @@ World.prototype.draw = function(){
   this.ctx2.scale(xScale,yScale);
   this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
   this.ctx2.lineWidth = 5;
-  this.ctx2.strokeStyle = "black";
+  this.ctx2.strokeStyle = lineColor.toString();
   this.ctx2.beginPath();
   this.ctx2.moveTo(0,this.dimensions.y/2);
   this.ctx2.lineTo(0,-this.dimensions.y/2);
   this.ctx2.moveTo(this.dimensions.x/2,0);
   this.ctx2.lineTo(-this.dimensions.x/2,0);
   this.ctx2.stroke();
-  this.ctx2.strokeStyle = "red";
+  this.ctx2.strokeStyle = lineColor.toString();
   this.ctx2.strokeRect(this.ctx1Pos.x/this.zoomScale.x, this.ctx1Pos.y/this.zoomScale.y, this.cnv1.width/this.zoomScale.x, this.cnv1.height/this.zoomScale.x);
   this.ctx2.restore();
 
