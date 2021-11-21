@@ -39,7 +39,7 @@ window.addEventListener("keyup", function(event){
   }
 });
 function init(){
-  controls = {left:false,right:false,up:false,down:false,performance:false};
+  controls = {left:false,right:false,up:false,down:false,performance:true};
   world = new World(5000,5000,50);
   animate();
 }
