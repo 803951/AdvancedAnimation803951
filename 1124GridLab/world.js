@@ -11,7 +11,7 @@ function World(w,h,cellSize){
   this.ctx1Pos = new JSVector(-this.cnv1.width/2,-this.cnv1.height/2);
   this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
   targetPos = new JSVector(0,0);
-  this.movementSpeed = 1;
+  this.movementSpeed = 15*this.cnv2.width/this.dimensions.x;
 
   let ctxArr = [this.ctx1];
   this.cellSize = cellSize;
@@ -91,7 +91,7 @@ World.prototype.updateGrid = function(){
     let minY = this.ctx1Pos.y;
     if(controls.performance){
       if(cell.pos.x<minX-this.cellSize||cell.pos.x>minX+this.cnv1.width) continue;
-      if(cell.pos.y<minY-this.cellSize||cell.pos.y>minY+this.cnv1.height) continue;  
+      if(cell.pos.y<minY-this.cellSize||cell.pos.y>minY+this.cnv1.height) continue;
     }
     cell.update();
     cell.draw();
