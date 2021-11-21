@@ -13,7 +13,7 @@ function World(w,h,cellSize){
   targetPos = new JSVector(0,0);
   this.movementSpeed = 1;
 
-  let ctxArr = [this.ctx1,this.ctx2];
+  let ctxArr = [this.ctx1];
   this.cellSize = cellSize;
   this.cells = this.generateNewGrid(this.cellSize,ctxArr);
 
@@ -64,7 +64,13 @@ World.prototype.update = function(){
   this.lerpPosition(0.18)
   this.updateGrid();
   this.draw();
+  this.displayFPS();
+}
 
+World.prototype.displayFPS = function(){
+  this.ctx1.fillStyle = "black";
+  this.ctx1.font = "30px serif";
+  this.ctx1.fillText("FPS: "+Math.round(fps),10,30);
 }
 
 World.prototype.updateGrid = function(){
@@ -80,8 +86,15 @@ World.prototype.updateGrid = function(){
 
   //Cell update and drawing methods
   for(var i = 0;i<this.cells.length;i++){
-    this.cells[i].update();
-    this.cells[i].draw();
+    let cell = this.cells[i];
+    let minX = this.ctx1Pos.x;
+    let minY = this.ctx1Pos.y;
+    if(controls.performance){
+      if(cell.pos.x<minX-this.cellSize||cell.pos.x>minX+this.cnv1.width) continue;
+      if(cell.pos.y<minY-this.cellSize||cell.pos.y>minY+this.cnv1.height) continue;  
+    }
+    cell.update();
+    cell.draw();
   }
 
   this.ctx1.restore();

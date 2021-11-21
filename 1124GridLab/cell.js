@@ -38,9 +38,10 @@ Cell.prototype.draw = function(){
     let r = (this.pos.y+world.dimensions.y/2)/this.scale;
     let c = (this.pos.x+world.dimensions.x/2)/this.scale;
     let index = c + r*world.dimensions.x/this.scale;
-    let x = this.pos.x + this.scale/4;
+    let x = this.pos.x + this.scale/6;
     let y = this.pos.y + this.scale*2/5;
     ctx.fillStyle = "black";
+    ctx.font = "10px serif";
     ctx.fillText("Row: " + r,x,y);
     ctx.fillText("Col: " + c,x,y+this.scale/5);
   }
