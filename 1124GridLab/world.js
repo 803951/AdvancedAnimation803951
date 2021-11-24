@@ -7,6 +7,9 @@ function World(w,h,cellSize){
   this.ctx1 = cnv1.getContext("2d");
   this.cnv2 = document.getElementById("cnv2");
   this.ctx2 = cnv2.getContext("2d");
+  this.pathSetter = document.getElementById("pathSetter");
+  this.start = null;
+  this.end = null;
 
   this.ctx1Pos = new JSVector(-this.cnv1.width/2,-this.cnv1.height/2);
   this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
@@ -24,7 +27,21 @@ function World(w,h,cellSize){
     let r = Math.floor(y/world.cellSize);
     let c = Math.floor(x/world.cellSize);
     let index = Math.round(c + r*world.dimensions.x/world.cellSize);
-    world.cells[index].isSelected = !world.cells[index].isSelected;
+    switch(world.pathSetter.value){
+      case "obstacle":
+        world.cells[index].isSelected = !world.cells[index].isSelected;
+        break;
+      case "start":
+        if(this.start!=null)this.start.isStart = false;
+        this.start = world.cells[index];
+        this.start.isStart = true;
+        break;
+      case "end":
+        if(this.end!=null)this.end.isEnd = false;
+        this.end = world.cells[index];
+        this.end.isEnd = true;
+        break;
+    }
   });
 
   this.cnv2.addEventListener("click",function(event){
@@ -39,12 +56,15 @@ function World(w,h,cellSize){
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){
   let cells = [];
-  let color1 = new Color(188,238,236,93); //selected cell
-  let color2 = new Color(90,184,179,72); //unselected cell
+  let color1 = new Color(188,238,236,0.93); //selected cell
+  let color2 = new Color(90,184,179,0.72); //unselected cell
+  let colorStart = new Color(240,47,27,0.94); //red start color
+  let colorEnd = new Color(97,240,145,0.94); //green end color
+  let pathColor = new Color(235,203,135,0.92)
   for(var j = -this.dimensions.x/2;j<this.dimensions.x/2;j+=cellSize){
     for(var i = -this.dimensions.y/2;i<this.dimensions.y/2;i+=cellSize){
       let selected = Math.random()<0.1; //10% chance of selection
-      let cell = new Cell(i,j,cellSize,color1,color2,selected,ctxArr);
+      let cell = new Cell(i,j,cellSize,color1,color2,colorStart,colorEnd,pathColor,selected,ctxArr);
       cells.push(cell);
       let x = i + this.dimensions.x/2;
       let y = j + this.dimensions.y/2;
@@ -63,8 +83,13 @@ World.prototype.update = function(){
   this.updatePosition();
   this.lerpPosition(0.18)
   this.updateGrid();
+  this.generatePath();
   this.draw();
   this.displayFPS();
+}
+
+World.prototype.generatePath = function(){
+  if(this.start==null||this.end==null) return;
 }
 
 World.prototype.displayFPS = function(){

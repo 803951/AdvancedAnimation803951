@@ -1,11 +1,16 @@
-function Cell(x,y,scale,color1,color2,isSelected,ctxArr){
+function Cell(x,y,scale,color1,color2,colorStart,colorEnd,pathColor,isSelected,ctxArr){
   this.pos = new JSVector(x,y);
   this.scale = scale;
   this.isSelected = isSelected;
   this.color1 = color1;
   this.color2 = color2;
-  this.color = this.isSelected?this.color1:this.color2;
+  this.colorStart = colorStart;
+  this.colorEnd = colorEnd;
+  this.pathColor = pathColor;
   this.ctxArr = ctxArr;
+  this.isStart = false;
+  this.isEnd = false;
+  this.isPath = false;
   this.neighbors = {
     n:null,
     ne:null,
@@ -17,14 +22,58 @@ function Cell(x,y,scale,color1,color2,isSelected,ctxArr){
     w:null
   };
 }
+
 Cell.prototype.loadNeighbors = function(){
   let r = (this.pos.y+world.dimensions.y/2)/this.scale;
   let c = (this.pos.x+world.dimensions.x/2)/this.scale;
-  let index = c + r*world.dimensions.x/this.scale;
+  let rowSize = world.dimensions.x/this.scale;
+  let index = c + r*rowSize;
+
+  let top = index<rowSize //check if in top row
+  let bottom = index>=world.cells.length-rowSize //check if in bottom row
+  let left = index%rowSize == 0 //checks if in first column
+  let right = (index+1)%rowSize == 0 //checks if in last column
+
+  if(!top){
+    this.neighbors.n = world.cells[index-rowSize];
+    if(!right){
+      this.neighbors.ne = world.cells[index-rowSize+1];
+    }
+    if(!left){
+      this.neighbors.nw = world.cells[index-rowSize-1];
+    }
+  }
+  if(!bottom){
+    this.neighbors.s = world.cells[index+rowSize];
+    if(!right){
+      this.neighbors.se = world.cells[index+rowSize+1];
+    }
+    if(!left){
+      this.neighbors.sw = world.cells[index+rowSize-1];
+    }
+  }
+  if(!right){
+    this.neighbors.e = world.cells[index+1];
+  }
+  if(!left){
+    this.neighbors.w = world.cells[index-1];
+  }
 }
 
 Cell.prototype.update = function(){
-  this.color = this.isSelected?this.color1:this.color2;
+  this.loadNeighbors();
+  if(this.isStart){
+    this.color = this.colorStart;
+  }
+  else if(this.isEnd){
+    this.color = this.colorEnd;
+  }
+  else if(this.isPath){
+    this.color = this.pathColor;
+  }
+  else{
+    this.color = this.isSelected?this.color1:this.color2;
+  }
 }
 
 Cell.prototype.draw = function(){
