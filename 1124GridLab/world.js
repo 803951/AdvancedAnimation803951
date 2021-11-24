@@ -8,8 +8,6 @@ function World(w,h,cellSize){
   this.cnv2 = document.getElementById("cnv2");
   this.ctx2 = cnv2.getContext("2d");
   this.pathSetter = document.getElementById("pathSetter");
-  this.start = null;
-  this.end = null;
 
   this.ctx1Pos = new JSVector(-this.cnv1.width/2,-this.cnv1.height/2);
   this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
@@ -19,6 +17,7 @@ function World(w,h,cellSize){
   let ctxArr = [this.ctx1];
   this.cellSize = cellSize;
   this.cells = this.generateNewGrid(this.cellSize,ctxArr);
+  this.pathFinder = new PathFinder(this.cells);
 
   this.cnv1.addEventListener("click",function(event){
     let x = event.offsetX+world.ctx1Pos.x+world.dimensions.x/2;
@@ -32,16 +31,17 @@ function World(w,h,cellSize){
         world.cells[index].isSelected = !world.cells[index].isSelected;
         break;
       case "start":
-        if(this.start!=null)this.start.isStart = false;
-        this.start = world.cells[index];
-        this.start.isStart = true;
+        if(world.pathFinder.start!=null)world.pathFinder.start.isStart = false;
+        world.pathFinder.start = world.cells[index];
+        world.pathFinder.start.isStart = true;
         break;
       case "end":
-        if(this.end!=null)this.end.isEnd = false;
-        this.end = world.cells[index];
-        this.end.isEnd = true;
+        if(world.pathFinder.end!=null)world.pathFinder.end.isEnd = false;
+        world.pathFinder.end = world.cells[index];
+        world.pathFinder.end.isEnd = true;
         break;
     }
+    world.pathFinder.calculateNewPath();
   });
 
   this.cnv2.addEventListener("click",function(event){
@@ -83,13 +83,8 @@ World.prototype.update = function(){
   this.updatePosition();
   this.lerpPosition(0.18)
   this.updateGrid();
-  this.generatePath();
   this.draw();
   this.displayFPS();
-}
-
-World.prototype.generatePath = function(){
-  if(this.start==null||this.end==null) return;
 }
 
 World.prototype.displayFPS = function(){
