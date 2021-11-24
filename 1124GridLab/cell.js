@@ -11,7 +11,6 @@ function Cell(x,y,scale,color1,color2,colorStart,colorEnd,pathColor,isSelected,c
   this.isStart = false;
   this.isEnd = false;
   this.isPath = false;
-  this.isExplored = false;
   this.connectedTo = null;
   this.neighbors = {
     n:null,

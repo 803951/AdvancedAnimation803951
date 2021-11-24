@@ -32,7 +32,6 @@ PathFinder.prototype.breadthFirstSearch = function(cell){
   while(this.frontier.length > 0 && isRunning){
     this.current = this.frontier[0];
     this.frontier.splice(0,1);
-    this.current.isExplored = true;
     this.exploreNeighbors();
     if(this.current.pos == this.end.pos){
       isRunning = false;
@@ -82,7 +81,6 @@ PathFinder.prototype.buildPath = function(){
 
 PathFinder.prototype.resetGrid = function(){
   for(var i = 0;i<this.grid.length;i++){
-    this.grid[i].isExplored = false;
     this.grid[i].isPath = false;
     this.grid[i].connectedTo = null;
   }
