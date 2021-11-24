@@ -20,6 +20,10 @@ function World(w,h,cellSize){
   this.pathFinder = new PathFinder(this.cells);
 
   this.cnv1.addEventListener("click",function(event){
+    world.pathFinder.current = null;
+    world.pathFinder.grid = world.cells;
+    world.pathFinder.reached = [];
+    world.pathFinder.frontier = [];
     let x = event.offsetX+world.ctx1Pos.x+world.dimensions.x/2;
     let y = event.offsetY+world.ctx1Pos.y+world.dimensions.y/2;
     if(x>world.dimensions.x||y>world.dimensions.y||x<0||y<0) return;

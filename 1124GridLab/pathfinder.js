@@ -84,5 +84,6 @@ PathFinder.prototype.resetGrid = function(){
   for(var i = 0;i<this.grid.length;i++){
     this.grid[i].isExplored = false;
     this.grid[i].isPath = false;
+    this.grid[i].connectedTo = null;
   }
 }
