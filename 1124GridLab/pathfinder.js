@@ -43,13 +43,13 @@ PathFinder.prototype.exploreNeighbors = function(){
   let neighbors = this.current.neighbors;
   let neighborArr = [
     neighbors.n,
-    neighbors.ne,
-    neighbors.nw,
     neighbors.s,
-    neighbors.se,
-    neighbors.sw,
     neighbors.e,
     neighbors.w,
+    neighbors.ne,
+    neighbors.nw,
+    neighbors.se,
+    neighbors.sw
   ];
 
   for(var i = 0;i<neighborArr.length;i++){
