@@ -46,10 +46,10 @@ PathFinder.prototype.exploreNeighbors = function(){
     neighbors.s,
     neighbors.e,
     neighbors.w,
-    neighbors.ne,
-    neighbors.nw,
-    neighbors.se,
-    neighbors.sw
+    //neighbors.ne,
+    //neighbors.nw,
+    //neighbors.se,
+    //neighbors.sw
   ];
 
   for(var i = 0;i<neighborArr.length;i++){
