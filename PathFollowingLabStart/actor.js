@@ -26,19 +26,25 @@ class Actor {
     update(){
       // move this actor along the path until it reaches the end of
       // the path and dies
-      if(this.currentCell == this.lastCell) return;
-      let speed = 3;
+      let speed = 7.5;
       this.nextCell = game.path[this.pathIndex+this.nextCellIndex];
       let force = JSVector.subGetNew(this.target,this.loc);
-      if(force.getMagnitude()<speed){
-        this.nextCellIndex++;
-        this.currentCell = this.nextCell;
-        this.nextCell = game.path[this.pathIndex+this.nextCellIndex];
-        this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2,this.nextCell.loc.y + this.nextCell.height/2);
-        let force = JSVector.subGetNew(this.target,this.loc);
+      if(this.pathIndex+this.nextCellIndex<game.path.length){
+        if(force.getMagnitude()<speed){
+          if(this.pathIndex+this.nextCellIndex<game.path.length-1){
+            this.nextCellIndex++;
+            this.currentCell = this.nextCell;
+            this.nextCell = game.path[this.pathIndex+this.nextCellIndex];
+            this.target = new JSVector(this.nextCell.loc.x + this.nextCell.width/2,this.nextCell.loc.y + this.nextCell.height/2);
+            force = JSVector.subGetNew(this.target,this.loc);
+          }
+          else{
+            force = new JSVector(0,0);
+          }
+        }
       }
 
-      force.setMagnitude(speed);
+      if(force.getMagnitude()>0) force.setMagnitude(speed);
       this.vel = force;
       this.loc.add(this.vel);
     }
