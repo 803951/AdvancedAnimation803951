@@ -1,7 +1,6 @@
 window.addEventListener("load", init);
 
 var world,controls;
-var fps,lastCalledTime;
 
 window.addEventListener("keydown", function(event){
   if(event.code==="KeyW"){
@@ -40,23 +39,11 @@ window.addEventListener("keyup", function(event){
 });
 function init(){
   controls = {left:false,right:false,up:false,down:false,performance:true};
-  world = new World(5000,5000,50);
+  world = new World(2500,2500,50);
   animate();
-}
-
-function updateFPS(){
-  if(!lastCalledTime) {
-    lastCalledTime = performance.now();
-    fps = 0;
-    return;
-  }
-  delta = (performance.now() - lastCalledTime)/1000;
-  lastCalledTime = performance.now();
-  fps = 1/delta;
 }
 
 function animate(){
     world.update();
-    updateFPS();
     requestAnimationFrame(animate);
 }

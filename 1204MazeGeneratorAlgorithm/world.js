@@ -13,7 +13,7 @@ function World(w,h,cellSize){
   targetPos = new JSVector(0,0);
   this.movementSpeed = 15*this.cnv2.width/this.dimensions.x;
 
-  let ctxArr = [this.ctx1];
+  let ctxArr = [this.ctx1,this.ctx2];
   this.cellSize = cellSize;
   this.cells = this.generateNewGrid(this.cellSize,ctxArr);
 
@@ -29,15 +29,11 @@ function World(w,h,cellSize){
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){
   let cells = [];
-  let color1 = new Color(188,238,236,0.93); //selected cell
-  let color2 = new Color(90,184,179,0.72); //unselected cell
-  let colorStart = new Color(240,47,27,0.94); //red start color
-  let colorEnd = new Color(97,240,145,0.94); //green end color
-  let pathColor = new Color(235,203,135,0.92)
+  let color = new Color(255,255,255,1);
   for(var j = -this.dimensions.x/2;j<this.dimensions.x/2;j+=cellSize){
     for(var i = -this.dimensions.y/2;i<this.dimensions.y/2;i+=cellSize){
       let selected = Math.random()<0.1; //10% chance of selection
-      let cell = new Cell(i,j,cellSize,color1,color2,colorStart,colorEnd,pathColor,selected,ctxArr);
+      let cell = new Cell(i,j,cellSize,color,ctxArr);
       cells.push(cell);
       let x = i + this.dimensions.x/2;
       let y = j + this.dimensions.y/2;
@@ -56,14 +52,6 @@ World.prototype.update = function(){
   this.updatePosition();
   this.lerpPosition(0.18)
   this.updateGrid();
-  this.draw();
-  this.displayFPS();
-}
-
-World.prototype.displayFPS = function(){
-  this.ctx1.fillStyle = "black";
-  this.ctx1.font = "30px serif";
-  this.ctx1.fillText("FPS: "+Math.round(fps),10,30);
 }
 
 World.prototype.updateGrid = function(){
@@ -127,51 +115,12 @@ World.prototype.updatePosition = function(){
 }
 
 World.prototype.lerpPosition = function(scale){
-
   let diff = JSVector.subGetNew(this.ctx1TargetPos,this.ctx1Pos);
   let mag = diff.getMagnitude();
   diff.setMagnitude(mag*scale);
   this.ctx1Pos.add(diff);
 
 }
-
-World.prototype.draw = function(){
-
-  let lineColor = new Color(0,0,0,1);
-  this.ctx1.lineWidth = 4;
-  this.ctx1.strokeStyle = lineColor.toString();
-  this.ctx1.save();
-  this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
-
-  this.ctx1.beginPath();
-  this.ctx1.moveTo(0,this.dimensions.y/2);
-  this.ctx1.lineTo(0,-this.dimensions.y/2);
-  this.ctx1.moveTo(this.dimensions.x/2,0);
-  this.ctx1.lineTo(-this.dimensions.x/2,0);
-  this.ctx1.stroke();
-  this.ctx1.strokeRect(-this.dimensions.x/2,-this.dimensions.y/2,this.dimensions.x,this.dimensions.y);
-  this.ctx1.restore();
-
-  let xScale = this.cnv2.width/this.dimensions.x;
-  let yScale = this.cnv2.height/this.dimensions.y;
-
-  this.ctx2.save();
-  this.ctx2.scale(xScale,yScale);
-  this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
-  this.ctx2.lineWidth = 5;
-  this.ctx2.strokeStyle = lineColor.toString();
-  this.ctx2.beginPath();
-  this.ctx2.moveTo(0,this.dimensions.y/2);
-  this.ctx2.lineTo(0,-this.dimensions.y/2);
-  this.ctx2.moveTo(this.dimensions.x/2,0);
-  this.ctx2.lineTo(-this.dimensions.x/2,0);
-  this.ctx2.stroke();
-  this.ctx2.strokeStyle = lineColor.toString();
-  this.ctx2.strokeRect(this.ctx1Pos.x, this.ctx1Pos.y, this.cnv1.width, this.cnv1.height);
-  this.ctx2.restore();
-
-}
-
 World.prototype.clamp = function clamp(val,min,max){
   return val>max?max:(val<min?min:val);
 }

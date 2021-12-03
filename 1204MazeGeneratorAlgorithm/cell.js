@@ -1,17 +1,10 @@
-function Cell(x,y,scale,color1,color2,colorStart,colorEnd,pathColor,isSelected,ctxArr){
+function Cell(x,y,scale,color,ctxArr){
   this.pos = new JSVector(x,y);
   this.scale = scale;
-  this.isSelected = isSelected;
-  this.color1 = color1;
-  this.color2 = color2;
-  this.colorStart = colorStart;
-  this.colorEnd = colorEnd;
-  this.pathColor = pathColor;
+  this.color = color;
   this.ctxArr = ctxArr;
-  this.isStart = false;
-  this.isEnd = false;
-  this.isPath = false;
   this.connectedTo = null;
+  this.visited = false;
   this.neighbors = {
     n:null,
     ne:null,
@@ -22,6 +15,12 @@ function Cell(x,y,scale,color1,color2,colorStart,colorEnd,pathColor,isSelected,c
     e:null,
     w:null
   };
+  this.walls = {
+    n:true,
+    s:true,
+    w:true,
+    e:true
+  }
 }
 
 Cell.prototype.loadNeighbors = function(){
@@ -63,36 +62,38 @@ Cell.prototype.loadNeighbors = function(){
 
 Cell.prototype.update = function(){
   this.loadNeighbors();
-  if(this.isStart){
-    this.color = this.colorStart;
-  }
-  else if(this.isEnd){
-    this.color = this.colorEnd;
-  }
-  else if(this.isPath){
-    this.color = this.pathColor;
-  }
-  else{
-    this.color = this.isSelected?this.color1:this.color2;
-  }
 }
 
 Cell.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];
     ctx.fillStyle = this.color.toString();
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.fillRect(this.pos.x,this.pos.y,this.scale,this.scale);
-    ctx.strokeRect(this.pos.x,this.pos.y,this.scale,this.scale);
-    let r = (this.pos.y+world.dimensions.y/2)/this.scale;
-    let c = (this.pos.x+world.dimensions.x/2)/this.scale;
-    let index = c + r*world.dimensions.x/this.scale;
-    let x = this.pos.x + this.scale/6;
-    let y = this.pos.y + this.scale*2/5;
-    ctx.fillStyle = "black";
-    ctx.font = "10px serif";
-    ctx.fillText("Row: " + r,x,y);
-    ctx.fillText("Col: " + c,x,y+this.scale/5);
+    if(this.walls.n){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x,this.pos.y);
+      ctx.lineTo(this.pos.x+this.scale,this.pos.y);
+      ctx.stroke();
+    }
+    if(this.walls.s){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x,this.pos.y+this.scale);
+      ctx.lineTo(this.pos.x+this.scale,this.pos.y+this.scale);
+      ctx.stroke();
+    }
+    if(this.walls.w){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x,this.pos.y);
+      ctx.lineTo(this.pos.x,this.pos.y+this.scale);
+      ctx.stroke();
+    }
+    if(this.walls.e){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x+this.scale,this.pos.y);
+      ctx.lineTo(this.pos.x+this.scale,this.pos.y+this.scale);
+      ctx.stroke();
+    }
   }
 }
