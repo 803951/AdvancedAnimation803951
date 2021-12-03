@@ -48,7 +48,7 @@ Cell.prototype.loadNeighbors = function(world){
 Cell.prototype.buildMaze = function(world,backtracks){
   this.visited = true;
   //FIX BACKTRACK CODE
-  if(backtracks>world.cells.length) return; //maze complete when backtrack through entire maze
+  if(backtracks>world.cells.length*4) return; //maze complete when backtrack through entire maze
   //FIX BACKTRACK CODE
   this.loadNeighbors(world);
   let neighborArr = [
@@ -68,7 +68,7 @@ Cell.prototype.buildMaze = function(world,backtracks){
     neighborArr[randIndex] = neighborArr[neighborArr.length-i-1];
     neighborArr[neighborArr.length-i-1] = temp;
   }
-  if(neighbor==null){
+  if(neighbor==null||neighbor.visited){
     if(this.connectedTo!=null){
       this.connectedTo.buildMaze(world,backtracks+1);
     }
