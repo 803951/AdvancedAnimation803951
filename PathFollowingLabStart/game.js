@@ -58,7 +58,14 @@ Game.prototype.run = function(){
 
     // run all the actors
     for(let i = 0; i < this.actors.length; i++){
+        /*if(this.actors[i].vel.getMagnitude() == 0){
+          this.actors.splice(i,1);
+          i--;
+          continue;
+        }*/
         this.actors[i].run();
     }
-
+    if(Date.now()%13==0){
+      this.actors.push(new Actor(this));
+    }
 }
