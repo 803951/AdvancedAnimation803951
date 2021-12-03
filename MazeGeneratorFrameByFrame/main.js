@@ -39,7 +39,7 @@ window.addEventListener("keyup", function(event){
 });
 function init(){
   controls = {left:false,right:false,up:false,down:false,performance:true};
-  world = new World(600,600,25);
+  world = new World(600,600,20);
   animate();
 }
 

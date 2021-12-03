@@ -2,6 +2,7 @@ function Cell(x,y,scale,color,ctxArr){
   this.pos = new JSVector(x,y);
   this.scale = scale;
   this.color = color;
+  this.isCurrentCell = false;
   this.ctxArr = ctxArr;
   this.connectedTo = null;
   this.visited = false;
@@ -68,7 +69,9 @@ Cell.prototype.buildMaze = function(world,backtracks){
   }
   if(neighbor==null||neighbor.visited){
     if(this.connectedTo!=null){
-      this.connectedTo.buildMaze(world,backtracks+1);
+      currentCell = this.connectedTo;
+      backtracks++;
+      //this.connectedTo.buildMaze(world,backtracks+1);
     }
     return;
   }
@@ -89,12 +92,15 @@ Cell.prototype.buildMaze = function(world,backtracks){
     this.neighbors.e.walls.w = false;
   }
   neighbor.connectedTo = this;
-  neighbor.buildMaze(world,backtracks+1);
+  currentCell = neighbor;
+  backtracks++;
+  //neighbor.buildMaze(world,backtracks+1);
 }
 Cell.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];
     ctx.fillStyle = this.color.toString();
+    if(this.isCurrentCell) ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.fillRect(this.pos.x,this.pos.y,this.scale,this.scale);
