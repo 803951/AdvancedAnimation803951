@@ -10,10 +10,6 @@ function Cell(x,y,scale,color,ctxArr){
     ne:null,
     nw:null,
     s:null,
-    se:null,
-    sw:null,
-    e:null,
-    w:null
   };
   this.walls = {
     n:true,
@@ -23,7 +19,9 @@ function Cell(x,y,scale,color,ctxArr){
   }
 }
 
-Cell.prototype.loadNeighbors = function(){
+
+
+Cell.prototype.loadNeighbors = function(world){
   let r = (this.pos.y+world.dimensions.y/2)/this.scale;
   let c = (this.pos.x+world.dimensions.x/2)/this.scale;
   let rowSize = world.dimensions.x/this.scale;
@@ -36,21 +34,9 @@ Cell.prototype.loadNeighbors = function(){
 
   if(!top){
     this.neighbors.n = world.cells[index-rowSize];
-    if(!right){
-      this.neighbors.ne = world.cells[index-rowSize+1];
-    }
-    if(!left){
-      this.neighbors.nw = world.cells[index-rowSize-1];
-    }
   }
   if(!bottom){
     this.neighbors.s = world.cells[index+rowSize];
-    if(!right){
-      this.neighbors.se = world.cells[index+rowSize+1];
-    }
-    if(!left){
-      this.neighbors.sw = world.cells[index+rowSize-1];
-    }
   }
   if(!right){
     this.neighbors.e = world.cells[index+1];
@@ -59,11 +45,54 @@ Cell.prototype.loadNeighbors = function(){
     this.neighbors.w = world.cells[index-1];
   }
 }
+Cell.prototype.buildMaze = function(world,backtracks){
+  this.visited = true;
+  //FIX BACKTRACK CODE
+  if(backtracks>world.cells.length) return; //maze complete when backtrack through entire maze
+  //FIX BACKTRACK CODE
+  this.loadNeighbors(world);
+  let neighborArr = [
+    this.neighbors.n,
+    this.neighbors.s,
+    this.neighbors.e,
+    this.neighbors.w,
+  ];
+  var neighbor;
+  for(i = 0;i<neighborArr.length;i++){//selects random defined neighbor
+    let randIndex = Math.floor(Math.random()*(neighborArr.length-i));
+    neighbor = neighborArr[randIndex];
 
-Cell.prototype.update = function(){
-  this.loadNeighbors();
+    if(neighbor!=null&&!neighbor.visited) break; //check if currently randomly selected neighbor is defined
+
+    let temp = neighborArr[randIndex];
+    neighborArr[randIndex] = neighborArr[neighborArr.length-i-1];
+    neighborArr[neighborArr.length-i-1] = temp;
+  }
+  if(neighbor==null){
+    if(this.connectedTo!=null){
+      this.connectedTo.buildMaze(world,backtracks+1);
+    }
+    return;
+  }
+  if(neighbor == this.neighbors.n){
+    this.walls.n = false;
+    this.neighbors.n.walls.s = false;
+  }
+  if(neighbor == this.neighbors.s){
+    this.walls.s = false;
+    this.neighbors.s.walls.n = false;
+  }
+  if(neighbor == this.neighbors.w){
+    this.walls.w = false;
+    this.neighbors.w.walls.e = false;
+  }
+  if(neighbor == this.neighbors.e){
+    this.walls.e = false;
+    this.neighbors.e.walls.w = false;
+  }
+  neighbor.connectedTo = this;
+  neighbor.buildMaze(world,backtracks+1);
 }
-
 Cell.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];

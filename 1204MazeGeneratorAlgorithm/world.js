@@ -25,6 +25,7 @@ function World(w,h,cellSize){
     targetPos.x = targetX;
     targetPos.y = targetY;
   });
+  this.cells[0].buildMaze(this,null,0); //call recursive maze building function
 }
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){
@@ -74,7 +75,6 @@ World.prototype.updateGrid = function(){
       if(cell.pos.x<minX-this.cellSize||cell.pos.x>minX+this.cnv1.width) continue;
       if(cell.pos.y<minY-this.cellSize||cell.pos.y>minY+this.cnv1.height) continue;
     }
-    cell.update();
     cell.draw();
   }
 
