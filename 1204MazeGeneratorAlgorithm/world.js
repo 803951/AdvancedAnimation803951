@@ -25,7 +25,7 @@ function World(w,h,cellSize){
     targetPos.x = targetX;
     targetPos.y = targetY;
   });
-  this.cells[0].buildMaze(this,null,0); //call recursive maze building function
+  this.cells[0].buildMaze(this,0); //call recursive maze building function
 }
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){
@@ -36,11 +36,6 @@ World.prototype.generateNewGrid = function(cellSize,ctxArr){
       let selected = Math.random()<0.1; //10% chance of selection
       let cell = new Cell(i,j,cellSize,color,ctxArr);
       cells.push(cell);
-      let x = i + this.dimensions.x/2;
-      let y = j + this.dimensions.y/2;
-      let r = Math.floor(y/this.cellSize);
-      let c = Math.floor(x/this.cellSize);
-      let index = Math.round(c + r*this.dimensions.x/this.cellSize);
     }
   }
   return cells;
