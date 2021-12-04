@@ -1,4 +1,4 @@
-var targetPos;
+var targetPos,playerSize;
 
 function World(w,h,cellSize){
 
@@ -7,10 +7,10 @@ function World(w,h,cellSize){
   this.ctx1 = cnv1.getContext("2d");
   this.cnv2 = document.getElementById("cnv2");
   this.ctx2 = cnv2.getContext("2d");
-
-  this.ctx1Pos = new JSVector(-this.cnv1.width/2,-this.cnv1.height/2);
+  playerSize = 30;
+  this.ctx1Pos = new JSVector(-this.cnv1.width/2-this.dimensions.x/2+cellSize/2,-this.cnv1.height/2-this.dimensions.y/2+cellSize/2);
   this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
-  targetPos = new JSVector(0,0);
+  targetPos = new JSVector(-this.dimensions.x/2+playerSize,-this.dimensions.y/2+cellSize/2);
   this.movementSpeed = 15*this.cnv2.width/this.dimensions.x;
 
   let ctxArr = [this.ctx1,this.ctx2];
@@ -48,6 +48,7 @@ World.prototype.update = function(){
   this.updatePosition();
   this.lerpPosition(0.18)
   this.updateGrid();
+  this.draw();
 }
 
 World.prototype.updateGrid = function(){
@@ -102,8 +103,8 @@ World.prototype.updatePosition = function(){
   targetPos.x = this.clamp(targetPos.x,-this.cnv2.width/2,this.cnv2.width/2);
   targetPos.y = this.clamp(targetPos.y,-this.cnv2.height/2,this.cnv2.height/2);
 
-  let x = targetPos.x*this.dimensions.x/this.cnv2.width-this.cnv1.width/2;
-  let y = targetPos.y*this.dimensions.y/this.cnv2.height-this.cnv1.height/2;
+  let x = targetPos.x*this.dimensions.x/this.cnv2.width-this.cnv1.width/2+this.cellSize/2;
+  let y = targetPos.y*this.dimensions.y/this.cnv2.height-this.cnv1.height/2+this.cellSize/2;
 
   this.ctx1TargetPos.x = x;
   this.ctx1TargetPos.y = y;
@@ -118,4 +119,31 @@ World.prototype.lerpPosition = function(scale){
 }
 World.prototype.clamp = function clamp(val,min,max){
   return val>max?max:(val<min?min:val);
+}
+World.prototype.draw = function(){
+  this.ctx1.lineWidth = 4;
+  this.ctx1.strokeStyle = "black";
+  this.ctx1.save();
+  this.ctx1.translate(-this.ctx1Pos.x,-this.ctx1Pos.y);
+  this.ctx1.strokeRect(-this.dimensions.x/2,-this.dimensions.y/2,this.dimensions.x,this.dimensions.y);
+  this.ctx1.restore();
+  this.ctx1.beginPath();
+  this.ctx1.arc(this.cnv1.width/2,this.cnv1.height/2,playerSize,0,2*Math.PI);
+  this.ctx1.fillStyle = "red";
+  this.ctx1.fill();
+
+  let xScale = this.cnv2.width/this.dimensions.x;
+  let yScale = this.cnv2.height/this.dimensions.y;
+
+  this.ctx2.save();
+  this.ctx2.scale(xScale,yScale);
+  this.ctx2.translate(this.dimensions.x/2,this.dimensions.y/2);
+  this.ctx2.strokeStyle = "black";
+  this.ctx2.lineWidth = 5;
+  this.ctx2.strokeRect(this.ctx1Pos.x, this.ctx1Pos.y, this.cnv1.width, this.cnv1.height);
+  this.ctx2.beginPath();
+  this.ctx2.arc(this.ctx1Pos.x+this.cnv1.width/2,this.ctx1Pos.y+this.cnv1.height/2,playerSize,0,2*Math.PI);
+  this.ctx2.fillStyle = "red";
+  this.ctx2.fill();
+  this.ctx2.restore();
 }

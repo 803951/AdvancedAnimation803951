@@ -38,8 +38,8 @@ window.addEventListener("keyup", function(event){
   }
 });
 function init(){
-  controls = {left:false,right:false,up:false,down:false,performance:true};
-  world = new World(600,600,30);
+  controls = {left:false,right:false,up:false,down:false,performance:false};
+  world = new World(4000,4000,200);
   animate();
 }
 
