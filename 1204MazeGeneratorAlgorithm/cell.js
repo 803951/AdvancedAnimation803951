@@ -47,7 +47,6 @@ Cell.prototype.loadNeighbors = function(world){
 }
 Cell.prototype.buildMaze = function(world,backtracks){
   this.visited = true;
-  if(backtracks>world.cells.length*4) return; //maze complete when backtrack through entire maze
   this.loadNeighbors(world);
   let neighborArr = [
     this.neighbors.n,
