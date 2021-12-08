@@ -8,8 +8,8 @@ function Cell(x,y,scale,color,ctxArr){
   this.visited = false;
   this.neighbors = {
     n:null,
-    ne:null,
-    nw:null,
+    e:null,
+    w:null,
     s:null,
   };
   this.walls = {
