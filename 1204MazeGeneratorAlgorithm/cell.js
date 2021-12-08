@@ -2,6 +2,7 @@ function Cell(x,y,scale,color,ctxArr){
   this.pos = new JSVector(x,y);
   this.scale = scale;
   this.color = color;
+  this.isPath = false;
   this.ctxArr = ctxArr;
   this.connectedTo = null;
   this.visited = false;
@@ -18,9 +19,6 @@ function Cell(x,y,scale,color,ctxArr){
     e:true
   }
 }
-
-
-
 Cell.prototype.loadNeighbors = function(world){
   let r = (this.pos.y+world.dimensions.y/2)/this.scale;
   let c = (this.pos.x+world.dimensions.x/2)/this.scale;
@@ -47,6 +45,7 @@ Cell.prototype.loadNeighbors = function(world){
 }
 Cell.prototype.buildMaze = function(world,backtracks){
   this.visited = true;
+  this.isPath = false;
   this.loadNeighbors(world);
   let neighborArr = [
     this.neighbors.n,
@@ -93,7 +92,8 @@ Cell.prototype.buildMaze = function(world,backtracks){
 Cell.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];
-    ctx.fillStyle = this.color.toString();
+    let pathColor = new Color(235,203,135,0.92);
+    ctx.fillStyle = this.isPath?pathColor.toString():this.color.toString();
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.fillRect(this.pos.x,this.pos.y,this.scale,this.scale);

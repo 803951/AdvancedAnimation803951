@@ -21,7 +21,6 @@ function World(w,h,cellSize){
   let ctxArr = [this.ctx1,this.ctx2];
   this.cellSize = cellSize;
   this.cells = this.generateNewGrid(this.cellSize,ctxArr);
-
   this.cnv2.addEventListener("click",function(event){
     let x = event.offsetX;
     let y = event.offsetY;
@@ -31,6 +30,8 @@ function World(w,h,cellSize){
     targetPos.y = targetY;
   });
   this.cells[0].buildMaze(this,0); //call recursive maze building function
+  this.pathFinder = new PathFinder(this.cells);
+  this.pathFinder.findPath(0,this.cells.length-1);
 }
 
 World.prototype.generateNewGrid = function(cellSize,ctxArr){

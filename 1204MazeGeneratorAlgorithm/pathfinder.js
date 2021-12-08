@@ -7,6 +7,13 @@ function PathFinder(grid){
   this.reached = [];
 }
 
+PathFinder.prototype.findPath = function(start,end){
+  this.grid[end].isPath = true; //temporary code before actually writing algorithm
+  if(this.grid[end].connectedTo != null&&this.grid[end]!=this.grid[start]){
+    this.findPath(start,this.grid.indexOf(this.grid[end].connectedTo));
+  }
+}
+
 PathFinder.prototype.calculateNewPath = function(){
   if(this.start==null||this.end==null) return;
 
