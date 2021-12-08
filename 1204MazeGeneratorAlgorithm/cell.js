@@ -121,5 +121,21 @@ Cell.prototype.draw = function(){
       ctx.lineTo(this.pos.x+this.scale,this.pos.y+this.scale);
       ctx.stroke();
     }
+
+    let margin = 0.2*this.scale;
+    if(this.connectedTo == this.neighbors.n || this.connectedTo == this.neighbors.s){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x+this.scale/2,this.pos.y+margin);
+      ctx.lineTo(this.pos.x+this.scale/2,this.pos.y+this.scale-margin);
+      ctx.strokeStyle = "red";
+      ctx.stroke();
+    }
+    else if(this.connectedTo == this.neighbors.e || this.connectedTo == this.neighbors.w){
+      ctx.beginPath();
+      ctx.moveTo(this.pos.x+margin,this.pos.y+this.scale/2);
+      ctx.lineTo(this.pos.x+this.scale-margin,this.pos.y+this.scale/2);
+      ctx.strokeStyle = "red";
+      ctx.stroke();
+    }
   }
 }

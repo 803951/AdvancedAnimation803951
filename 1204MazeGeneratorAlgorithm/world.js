@@ -8,9 +8,14 @@ function World(w,h,cellSize){
   this.cnv2 = document.getElementById("cnv2");
   this.ctx2 = cnv2.getContext("2d");
   playerSize = 30;
-  this.ctx1Pos = new JSVector(-this.cnv1.width/2-this.dimensions.x/2+cellSize/2,-this.cnv1.height/2-this.dimensions.y/2+cellSize/2);
+  /*this.ctx1Pos = new JSVector(-this.cnv1.width/2-this.dimensions.x/2+cellSize/2,-this.cnv1.height/2-this.dimensions.y/2+cellSize/2);
   this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
-  targetPos = new JSVector(-this.dimensions.x/2+playerSize,-this.dimensions.y/2+cellSize/2);
+  targetPos = new JSVector(-this.dimensions.x/2+playerSize,-this.dimensions.y/2+cellSize/2);*/
+
+  this.ctx1Pos = new JSVector(-this.cnv1.width/2,-this.cnv1.height/2);
+  this.ctx1TargetPos = new JSVector(this.ctx1Pos.x,this.ctx1Pos.y);
+  targetPos = new JSVector(0,0);
+
   this.movementSpeed = 15*this.cnv2.width/this.dimensions.x;
 
   let ctxArr = [this.ctx1,this.ctx2];
@@ -103,8 +108,8 @@ World.prototype.updatePosition = function(){
   targetPos.x = this.clamp(targetPos.x,-this.cnv2.width/2,this.cnv2.width/2);
   targetPos.y = this.clamp(targetPos.y,-this.cnv2.height/2,this.cnv2.height/2);
 
-  let x = targetPos.x*this.dimensions.x/this.cnv2.width-this.cnv1.width/2+this.cellSize/2;
-  let y = targetPos.y*this.dimensions.y/this.cnv2.height-this.cnv1.height/2+this.cellSize/2;
+  let x = targetPos.x*this.dimensions.x/this.cnv2.width-this.cnv1.width/2;//+this.cellSize/2;
+  let y = targetPos.y*this.dimensions.y/this.cnv2.height-this.cnv1.height/2;//+this.cellSize/2;
 
   this.ctx1TargetPos.x = x;
   this.ctx1TargetPos.y = y;
@@ -128,9 +133,9 @@ World.prototype.draw = function(){
   this.ctx1.strokeRect(-this.dimensions.x/2,-this.dimensions.y/2,this.dimensions.x,this.dimensions.y);
   this.ctx1.restore();
   this.ctx1.beginPath();
-  this.ctx1.arc(this.cnv1.width/2,this.cnv1.height/2,playerSize,0,2*Math.PI);
-  this.ctx1.fillStyle = "red";
-  this.ctx1.fill();
+  //this.ctx1.arc(this.cnv1.width/2,this.cnv1.height/2,playerSize,0,2*Math.PI);
+  //this.ctx1.fillStyle = "red";
+  //this.ctx1.fill();
 
   let xScale = this.cnv2.width/this.dimensions.x;
   let yScale = this.cnv2.height/this.dimensions.y;
@@ -142,8 +147,8 @@ World.prototype.draw = function(){
   this.ctx2.lineWidth = 5;
   this.ctx2.strokeRect(this.ctx1Pos.x, this.ctx1Pos.y, this.cnv1.width, this.cnv1.height);
   this.ctx2.beginPath();
-  this.ctx2.arc(this.ctx1Pos.x+this.cnv1.width/2,this.ctx1Pos.y+this.cnv1.height/2,playerSize,0,2*Math.PI);
-  this.ctx2.fillStyle = "red";
-  this.ctx2.fill();
+  //this.ctx2.arc(this.ctx1Pos.x+this.cnv1.width/2,this.ctx1Pos.y+this.cnv1.height/2,playerSize,0,2*Math.PI);
+  //this.ctx2.fillStyle = "red";
+  //this.ctx2.fill();
   this.ctx2.restore();
 }
