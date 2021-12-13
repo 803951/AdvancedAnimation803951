@@ -65,8 +65,19 @@ function World(w,h){
   this.planets = [];
   n = 5;
   for(var i = 0;i<n;i++){
-    planet = Planet.generateRandomPlanet(25,50,this.dimensions.x,this.dimensions.y,ctxArr);
+    let planet = Planet.generateRandomPlanet(25,50,this.dimensions.x,this.dimensions.y,ctxArr);
     this.planets.push(planet);
+  }
+  //****************//
+
+  //generation of food(orbs)
+
+  //****ORBS********//
+  this.orbs = [];
+  n = 10;
+  for(var i = 0;i<n;i++){
+    let orb = Orb.generateRandomOrb(10,this.dimensions.x,this.dimensions.y,ctxArr);
+    this.orbs.push(orb);
   }
   //****************//
 }
