@@ -74,9 +74,10 @@ function World(w,h){
 
   //****ORBS********//
   this.orbs = [];
-  n = 10;
+  n = 20;
   for(var i = 0;i<n;i++){
-    let orb = Orb.generateRandomOrb(10,this.dimensions.x,this.dimensions.y,ctxArr);
+    let radius = Math.random()*10+5;
+    let orb = Orb.generateRandomOrb(radius,this.dimensions.x,this.dimensions.y,ctxArr);
     this.orbs.push(orb);
   }
   //****************//
@@ -129,6 +130,27 @@ World.prototype.updateSpecies = function(){
   //orbitals
   for(var i = 0;i<this.planets.length;i++){
     this.planets[i].update();
+  }
+
+  //orbs
+  let minDist = 300;
+  for(var i = 0;i<this.orbs.length;i++){
+    for(var k = 0;k<this.orbs.length;k++){
+      if(i==k) continue;
+      if(this.orbs[i].radius>this.orbs[k].radius){
+        let success = this.orbs[i].attract(this.orbs[k],minDist);
+        this.orbs[k].repel(this.orbs[i],minDist);
+        if(success){
+          if(this.orbs[i].pos.distance(this.orbs[k].pos)<=this.orbs[i].radius+this.orbs[k].radius){
+            this.orbs[i].radius = Math.sqrt(this.orbs[i].radius*this.orbs[i].radius+this.orbs[k].radius*this.orbs[k].radius);
+            let radius = Math.random()*10+5;
+            this.orbs[k] = Orb.generateRandomOrb(radius,this.dimensions.x,this.dimensions.y,this.orbs[k].ctxArr);
+          }
+          break;
+        }
+      }
+    }
+    this.orbs[i].update();
   }
 
   this.ctx1.restore();

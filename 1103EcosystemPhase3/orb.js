@@ -19,19 +19,44 @@ Orb.generateRandomOrb = function(radius,worldW,worldH,ctxArr){
 
 Orb.prototype.update = function(){
   this.pos.add(this.vel);
+  if(this.vel.getMagnitude()>10) this.vel.multiply(0.9);
+  this.checkEdges();
   this.draw();
 }
 Orb.prototype.repel = function(predator,minDist){
-  if(this.pos.distance(predator.pos)>minDist) return;
+  if(this.pos.distance(predator.pos)>minDist) return false;
   let force = JSVector.subGetNew(this.pos,predator.pos);
-  force.setMagnitude(0.1);
+  force.setMagnitude(0.01);
   this.vel.add(force);
+  return true;
+}
+Orb.prototype.attract = function(prey,minDist){
+  if(this.pos.distance(prey.pos)>minDist) return false;
+  let force = JSVector.subGetNew(prey.pos,this.pos);
+  force.setMagnitude(0.05);
+  this.vel.add(force);
+  return true;
 }
 Orb.prototype.draw = function(){
   for(var i = 0;i<this.ctxArr.length;i++){
     let ctx = this.ctxArr[i];
+    ctx.beginPath();
     ctx.fillStyle = this.color.toString();
     ctx.arc(this.pos.x,this.pos.y,this.radius,0,Math.PI*2);
     ctx.fill();
+  }
+}
+Orb.prototype.checkEdges = function(){
+  if(this.pos.x<=-world.dimensions.x/2+this.radius){
+    this.vel.x*=-1;
+  }
+  if(this.pos.x>=world.dimensions.x/2-this.radius){
+    this.vel.x*=-1;
+  }
+  if(this.pos.y<=-world.dimensions.y/2+this.radius){
+    this.vel.y*=-1;
+  }
+  if(this.pos.y>=world.dimensions.y/2-this.radius){
+    this.vel.y*=-1;
   }
 }
