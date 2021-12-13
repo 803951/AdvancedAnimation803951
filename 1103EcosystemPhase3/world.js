@@ -74,7 +74,7 @@ function World(w,h){
 
   //****ORBS********//
   this.orbs = [];
-  n = 20;
+  n = 50;
   for(var i = 0;i<n;i++){
     let radius = Math.random()*10+5;
     let orb = Orb.generateRandomOrb(radius,this.dimensions.x,this.dimensions.y,ctxArr);
@@ -135,6 +135,9 @@ World.prototype.updateSpecies = function(){
   //orbs
   let minDist = 300;
   for(var i = 0;i<this.orbs.length;i++){
+    if(this.orbs[i].radius>minDist/4){
+      this.orbs[i].radius*=0.5;
+    }
     for(var k = 0;k<this.orbs.length;k++){
       if(i==k) continue;
       if(this.orbs[i].radius>this.orbs[k].radius){
