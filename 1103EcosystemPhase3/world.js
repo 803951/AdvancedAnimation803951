@@ -28,11 +28,11 @@ function World(w,h){
 
   //*****SNAKES*****//
   this.snakes = [];
-  let n = 10; //number of snakes
+  let n = 5; //number of snakes
   let r = 7; //radius of snake segments
   let dist = 10; //distance between each segment in snakes
   for(var i = 0;i<n;i++){
-    let length = Math.random()*150+100; //random length in pixels of snake
+    let length = Math.random()*150+300; //random length in pixels of snake
     let segments = length/dist; //sets segments of snake to the length divided by the distance between each segment
     let snake = Snake.generateRandomSnake(r,segments,length,ctxArr,this.dimensions.x,this.dimensions.y);
     this.snakes.push(snake); //adds new snake to snake array
@@ -117,6 +117,17 @@ World.prototype.updateSpecies = function(){
         this.snakes[i].repel(this.snakes[k]);
       }
     }
+
+    let split = Math.random()>0.99;
+    let splitIndex = Math.floor(Math.random()*3+10);
+    if(split){
+      let newSnake = this.snakes[i].split(splitIndex);
+      if(newSnake!=undefined){
+        this.snakes.push(newSnake);
+        break;
+      }
+    }
+
     this.snakes[i].draw();
   }
   //flocks
