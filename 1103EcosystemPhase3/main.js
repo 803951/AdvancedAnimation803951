@@ -1,5 +1,5 @@
 window.addEventListener("load", init);
-
+//I like cheese!
 var world,controls;
 
 const particleTypes = {
