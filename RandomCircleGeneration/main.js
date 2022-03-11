@@ -9,7 +9,7 @@ function init(){
 
   circles = [];
 
-  partition(0,0,cnv.width,cnv.height,0,10);
+  partition(0,0,cnv.width,cnv.height,0,5);
   update();
   //animate();
 }
