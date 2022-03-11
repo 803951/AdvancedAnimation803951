@@ -9,7 +9,7 @@ function init(){
 
   circles = [];
 
-  partition(0,0,cnv.width,cnv.height,0,5);
+  partition(0,0,cnv.width,cnv.height,0,7);
   update();
   //animate();
 }
@@ -36,6 +36,14 @@ function partition(cornerX,cornerY,boundW,boundH,num,max){
 
   let centerX = cornerX + boundW/2;
   let centerY = cornerY + boundH/2;
+
+  /*let side = (boundW<boundH)? boundW:boundH
+  let rad = (Math.sqrt(Math.pow(side,2)*2)-circle.rad*2)/4;
+  let x = (circle.pos.x<centerX)?circle.pos.x+circle.rad-rad:circle.pos.x-circle.rad+rad;
+  let y = (circle.pos.y<centerY)?circle.pos.y+circle.rad-rad:circle.pos.y-circle.rad+rad;
+  let clr = Color.generateRandomColor(0.1,0.1,2,false);
+  let tangCircle = new Circle(x,y,rad,clr,ctx);
+  circles.push(tangCircle);*/
 
   //horizontal
   let cornerX1 = (circle.pos.x<centerX)?cornerX+2*circle.rad:cornerX;
