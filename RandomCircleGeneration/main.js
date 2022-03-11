@@ -13,7 +13,7 @@ function init(){
   img.onload = () => {
     update();
   }
-  let pic = 0;
+  let pic = 1;
   switch(pic){
     case 0:
       //harvey
@@ -31,8 +31,8 @@ function init(){
   circles = [];
   let iteration = 2;
 
-  let cols = 20;
-  let rows = 20;
+  let cols = 75;
+  let rows = 75;
 
   let w = cnv.width/cols;
   let h = cnv.height/rows;
@@ -97,13 +97,11 @@ function partition(cornerX,cornerY,boundW,boundH,num,max){
   let boundW1 = circle.pos.x-cornerX-circle.rad;
   let boundH1 = circle.pos.y-cornerY-circle.rad;
 
-
   //top middle
   let cornerX2 = cornerX1+boundW1;
   let cornerY2 = cornerY1;
   let boundW2 = circle.rad*2;
   let boundH2 = boundH1;
-
 
   //top right
   let cornerX3 = cornerX2+boundW2;
@@ -111,13 +109,11 @@ function partition(cornerX,cornerY,boundW,boundH,num,max){
   let boundW3 = boundW-boundW2-boundW1;
   let boundH3 = boundH1;
 
-
   //bottom left
   let cornerX4 = cornerX1;
   let cornerY4 = cornerY1+boundH1+circle.rad*2;
   let boundW4 = boundW1;
   let boundH4 = cornerY+boundH-circle.pos.y-circle.rad;
-
 
   //bottom middle
   let cornerX5 = cornerX4+boundW4;
@@ -125,20 +121,17 @@ function partition(cornerX,cornerY,boundW,boundH,num,max){
   let boundW5 = circle.rad*2;
   let boundH5 = boundH4;
 
-
   //bottom right
   let cornerX6 = cornerX5+boundW5;
   let cornerY6 = cornerY4;
   let boundW6 = boundW-boundW5-boundW4;
   let boundH6 = boundH4;
 
-
   //middle left
   let cornerX7 = cornerX1;
   let cornerY7 = cornerY1+boundH1;
   let boundW7 = boundW1;
   let boundH7 = circle.rad*2;
-
 
   //middle right
   let cornerX8 = cornerX7+boundW7+circle.rad*2;
