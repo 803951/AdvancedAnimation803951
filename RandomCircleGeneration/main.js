@@ -8,8 +8,20 @@ function init(){
   ctx = cnv.getContext("2d");
 
   circles = [];
+  let iteration = 3;
 
-  partition(0,0,cnv.width,cnv.height,0,7);
+  let cols = 15;
+  let rows = 15;
+
+  let w = cnv.width/cols;
+  let h = cnv.height/rows;
+
+  for(var i = 0;i<cols;i++){
+    for(var j = 0;j<rows;j++){
+      partition(i*w,j*h,w,h,0,iteration);
+    }
+  }
+
   update();
   //animate();
 }
