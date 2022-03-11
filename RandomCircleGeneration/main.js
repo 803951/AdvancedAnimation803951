@@ -1,13 +1,20 @@
 window.addEventListener("load",init);
 
 var cnv,ctx;
-var circle;
+var circles;
 
 function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
 
-  circle = Circle.generateRandomCircle(0,0,cnv.width,cnv.height,ctx);
+  circles = [];
+
+  let n = 100;
+  for(var i = 0;i<n;i++){
+    let circle = Circle.generateRandomCircle(0,0,cnv.width,cnv.height,ctx);
+    circles.push(circle);
+  }
+
 
   animate();
 }
@@ -20,5 +27,7 @@ function animate(){
 }
 
 function update(){
-  circle.draw();
+  for(var i = 0;i<circles.length;i++){
+    circles[i].draw();
+  }
 }
