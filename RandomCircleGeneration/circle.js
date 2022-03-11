@@ -7,13 +7,15 @@ function Circle(x,y,rad,clr,ctx){
 
 Circle.generateRandomCircle = function(cornerX,cornerY,boundW,boundH,ctx){//assigns circle to random corner of bound box
 
-  let scaleFactor = 16;
+  let scaleFactor = 8;
   let minR = (boundW<boundH)? boundW/scaleFactor:boundH/scaleFactor;
   let maxR = minR*(1+scaleFactor/4);
   let rad = minR + Math.random()*(maxR-minR);
 
-  let x = cornerX + boundW/2 + Math.sign(Math.random()-0.5)*(boundW/2-rad); //random left or right corner
-  let y = cornerY + boundH/2 + Math.sign(Math.random()-0.5)*(boundH/2-rad); //random top or bottom corner
+  //let x = cornerX + boundW/2 + Math.sign(Math.random()-0.5)*(boundW/2-rad); //random left or right corner
+  //let y = cornerY + boundH/2 + Math.sign(Math.random()-0.5)*(boundH/2-rad); //random top or bottom corner
+  let x = cornerX + rad + Math.random()*(boundW-2*rad);
+  let y = cornerY + rad + Math.random()*(boundH-2*rad);
 
   let clr = Color.generateRandomColor(0.1,0.1,2,false);
 
@@ -21,8 +23,8 @@ Circle.generateRandomCircle = function(cornerX,cornerY,boundW,boundH,ctx){//assi
 }
 
 Circle.prototype.draw = function(){
-  this.ctx.strokeStyle = this.clr.toString();
+  this.ctx.fillStyle = this.clr.toString();
   this.ctx.beginPath();
   this.ctx.arc(this.pos.x,this.pos.y,this.rad,0,Math.PI*2);
-  this.ctx.stroke();
+  this.ctx.fill();
 }
