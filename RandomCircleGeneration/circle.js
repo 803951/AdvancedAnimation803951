@@ -7,9 +7,9 @@ function Circle(x,y,rad,clr,ctx){
 
 Circle.generateRandomCircle = function(cornerX,cornerY,boundW,boundH,ctx){//assigns circle to random corner of bound box
 
-  let scaleFactor = 8;
+  let scaleFactor = 1.5;
   let minR = (boundW<boundH)? boundW/scaleFactor:boundH/scaleFactor;
-  let maxR = minR*(1+scaleFactor/4);
+  let maxR = minR*1.5;
   let rad = minR + Math.random()*(maxR-minR);
 
   //let x = cornerX + boundW/2 + Math.sign(Math.random()-0.5)*(boundW/2-rad); //random left or right corner
