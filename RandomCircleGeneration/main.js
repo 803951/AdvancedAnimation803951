@@ -3,21 +3,32 @@ window.addEventListener("load",init);
 var cnv,ctx;
 var circles;
 var img;
+var isLoaded;
+var quality;
 
 function init(){
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
+  isLoaded = false;
+  quality = 10;
 
   img = new Image();
   img.crossOrigin = "Anonymous";
   img.onload = () => {
+    isLoaded = true;
+    animate();
+  }
+  assignSource(6);
+  //animate();
+}
+function animate(){
+  if(isLoaded){
     ctx.drawImage(img,0,0,cnv.width,cnv.height);
 
-    let quality = 10;
-    let iteration = 3;
+    let iteration = 10;
     calculateCircles(quality,iteration,false);
   }
-  assignSource(3);
+  //requestAnimationFrame(animate);
 }
 function assignSource(pic){
   switch(pic){

@@ -27,4 +27,5 @@ Circle.prototype.draw = function(){
   this.ctx.beginPath();
   this.ctx.arc(this.pos.x,this.pos.y,this.rad,0,Math.PI*2);
   this.ctx.fill();
+  //this.ctx.fillRect(this.pos.x-this.rad,this.pos.y-this.rad,this.rad*2,this.rad*2);
 }
