@@ -13,11 +13,11 @@ function init(){
   img.onload = () => {
     ctx.drawImage(img,0,0,cnv.width,cnv.height);
 
-    let quality = 100;
-    let iteration = 10;
+    let quality = 10;
+    let iteration = 3;
     calculateCircles(quality,iteration,false);
   }
-  assignSource(5);
+  assignSource(3);
 }
 function assignSource(pic){
   switch(pic){
