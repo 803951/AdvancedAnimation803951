@@ -13,7 +13,7 @@ function init(){
   ctx = cnv.getContext("2d");
   label = document.getElementById("label");
   label_t = document.getElementById("total");
-  cellSize = 1;
+  cellSize = 50;
   success = 0;
   total = 0;
 
@@ -28,7 +28,7 @@ function animate(){
 }
 
 function update(){
-  generateSticks(500,cellSize);
+  generateSticks(1,cellSize);
   let pi = 2.0/(success/total);
   label.innerHTML = "Pi Estimate: "+pi;
   label_t.innerHTML = "Total Simulations:" +total;
