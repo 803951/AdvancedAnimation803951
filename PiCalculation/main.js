@@ -2,6 +2,7 @@ window.addEventListener("load",init);
 
 var cnv,ctx;
 var label;
+var label_t;
 var grid,sticks;
 var cellSize;
 var success,total;
@@ -10,8 +11,9 @@ function init(){
 
   cnv = document.getElementById("cnv");
   ctx = cnv.getContext("2d");
-  label = document.getElementById('label');
-  cellSize = 50;
+  label = document.getElementById("label");
+  label_t = document.getElementById("total");
+  cellSize = 4;
   success = 0;
   total = 0;
 
@@ -26,9 +28,10 @@ function animate(){
 }
 
 function update(){
-  generateSticks(5,cellSize);
+  generateSticks(1000,cellSize);
   let pi = 2.0/(success/total);
-  label.innerHTML = "Pi estimate: "+pi;
+  label.innerHTML = "Pi Estimate: "+pi;
+  label_t.innerHTML = "Total Simulations:" +total;
 }
 
 function resetGrid(cellSize){
@@ -39,11 +42,11 @@ function resetGrid(cellSize){
   let clr = new Color(0,0,0,1);
 
   for(var j = 0;j<=r;j++){
-    let x = 0;
+    let x = -cellSize;
     let y = j*cellSize;
     let angle = 0;
 
-    let border = new Wall(ctx,x,y,angle,cnv.width,clr)
+    let border = new Wall(ctx,x,y,angle,cnv.width+cellSize,clr)
     grid.push(border);
   }
 
@@ -63,8 +66,7 @@ function generateSticks(n,cellSize){
     let stick = new Wall(ctx,x,y,angle,cellSize,clr)
 
     for(var k = 0;k<this.grid.length;k++){
-      let rad = Math.abs(Math.sin(stick.angle)*stick.length/2);
-      if(this.grid[k].isColliding(new JSVector(stick.pos.x,stick.pos.y+rad*Math.sin(stick.angle)),rad)){
+      if(this.grid[k].isColliding(stick)){
         stick.clr = new Color(255,0,0,1);
         success++;
         break;
